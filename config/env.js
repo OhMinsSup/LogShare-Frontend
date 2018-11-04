@@ -77,17 +77,15 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
+        APP_ENV: process.env.APP_ENV || 'browser',
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {
-    'process.env': Object.keys(raw).reduce(
-      (env, key) => {
-        env[key] = JSON.stringify(raw[key]);
-        return env;
-      },
-      {}
-    ),
+    'process.env': Object.keys(raw).reduce((env, key) => {
+      env[key] = JSON.stringify(raw[key]);
+      return env;
+    }, {}),
   };
 
   return { raw, stringified };

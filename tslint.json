@@ -6,5 +6,32 @@
       "node_modules/**/*.ts",
       "coverage/lcov-report/*.js"
     ]
+  },
+  "rulesDirectory": ["tslint-plugin-prettier"],
+  "rules": {
+    "import-name": false,
+    "interface-name": false,
+    "semicolon": false,
+    "arrow-parens": false,
+    "variable-name": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "interface-over-type-literal": false,
+    "no-unused-variable": false,
+    "no-var-requires": false,
+    "jsx-boolean-value": false,
+    "object-literal-shorthand": false,
+    "no-trailing-whitespace":false,
+    "triple-equals":false,
+    "no-console":false,
+    "no-empty": false,
+    "no-shadowed-variable": false,
+    "jsx-no-lambda": false,
+    "prefer-const":false,
+    "only-arrow-functions": false,
+    "curly": false,
+    "eofline": false,
+    "max-line-length": false,
+    "max-classes-per-file": [true, 8, "exclude-class-expressions"]
   }
 }

@@ -1,0 +1,52 @@
+@import 'utils';
+
+.auth-form {
+    .logo {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 600;
+        font-family: "Inconsolata";
+        box-sizing: border-box;
+    }
+
+    .title {
+        margin-top: 28.75px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .social-wrapper {
+        margin-top: 18px;
+        .social-button {
+            display: flex;
+            flex-direction: column;
+            margin-top: 8px;
+        }
+    }
+
+    .login-divider {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        .line {
+            position: relative;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background-color: #ced0da;
+        }
+
+        .text {
+            width: 54px;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #f5f5f5;
+            text-align: center;
+            color: #90929e;
+        }
+    }
+}

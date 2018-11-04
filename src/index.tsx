@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import Root from './Root';
 import registerServiceWorker from './registerServiceWorker';
+import './styles/main.scss';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
-);
+const render = (window as any).__REDUX_STATE__
+  ? ReactDOM.hydrate
+  : ReactDOM.render;
+
+render(<Root />, document.getElementById('root') as HTMLElement);
 registerServiceWorker();

@@ -1,0 +1,21 @@
+@import 'utils';
+
+.landing-template {
+    display: flex;
+    flex-direction: column;
+    background-color: #F5F5F5;
+    min-height: 100vh;
+    .form-box {
+        flex-grow: 1;
+        box-sizing: border-box;
+        padding-bottom: 190px;
+        padding-top: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 340px;
+
+        @include media("<=medium") {
+            width: 327px;
+        }
+    }
+}
