@@ -1,0 +1,40 @@
+@import 'utils';
+
+.register-form {
+    .logo {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 600;
+        font-family: "Inconsolata";
+        box-sizing: border-box;
+    }
+
+    .title {
+        margin-top: 28.75px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+    }
+
+    .register-wrapper {
+        display: flex;
+        align-items: center;
+        margin-top: 24px;
+        box-sizing: border-box;
+        .auth-link {
+            flex: 1;
+            margin-top: 30px;
+            span {
+                font-weight: 300;
+                font-family: "Inconsolata";
+            }
+            .link {
+                cursor: pointer;
+                color: #609ae9;
+                text-decoration: none;
+                background-color: transparent;
+                margin-left: 8px;
+            }
+        }
+    }
+}

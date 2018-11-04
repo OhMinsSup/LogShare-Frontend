@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaGoogle } from 'react-icons/fa';
+import { FaFacebookF, FaGoogle } from 'react-icons/fa';
 
 const styles = require('./SocialLoginButton.scss');
 const cx = classNames.bind(styles);

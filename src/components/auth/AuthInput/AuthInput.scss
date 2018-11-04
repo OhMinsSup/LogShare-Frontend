@@ -1,0 +1,32 @@
+@import 'utils';
+
+.input-wrapper {
+    box-sizing: border-box;
+    margin-top: 12px;
+    
+    .auth-input {
+        padding: .53125rem .75rem;
+        font-size: 1rem;
+        line-height: 1.714286;
+        border-radius: .3rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        color: #313338;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced0da;
+        display: block;
+        width: 100%;
+        overflow: visible;
+        margin: 0;
+        font-family: inherit;
+        cursor: text;
+        letter-spacing: normal;
+        word-spacing: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        text-rendering: auto;
+        text-align: start;
+        font: 400 13.3333px Arial;
+    }
+}

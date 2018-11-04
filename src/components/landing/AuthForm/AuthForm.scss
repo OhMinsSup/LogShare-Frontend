@@ -49,4 +49,27 @@
             color: #90929e;
         }
     }
+
+    .auth-link {
+        text-align: center;
+        margin-top: 30px;
+        span {
+            font-weight: 300;
+            font-family: "Inconsolata";
+        }
+        .link {
+            cursor: pointer;
+            color: #609ae9;
+            text-decoration: none;
+            background-color: transparent;
+            margin-left: 8px;
+        }
+        .tour {
+            cursor: pointer;
+            color: #609ae9;
+            text-decoration: none;
+            background-color: transparent;
+            margin-left: 8px;
+        }
+    }
 }
