@@ -5,12 +5,14 @@ import AuthInput from 'src/components/auth/AuthInput';
 import AuthButton from 'src/components/auth/AuthButton';
 import { Link } from 'react-router-dom';
 
-const styles = require('./AuthForm.scss');
+const styles = require('./LoginForm.scss');
 const cx = classNames.bind(styles);
 
-const AuthForm: React.StatelessComponent = () => (
-  <div className={cx('auth-form')}>
-    <div className={cx('logo')}>LogShare</div>
+const LoginForm: React.StatelessComponent = () => (
+  <div className={cx('login-form')}>
+    <div className={cx('logo')}>
+      <Link to="/">LogShare</Link>
+    </div>
     <div className={cx('title')}>
       <span>하나의 아이디로 LogShare 서버스를 이용하세요.</span>
     </div>
@@ -32,27 +34,26 @@ const AuthForm: React.StatelessComponent = () => (
         <span>또는</span>
       </div>
     </div>
-    <AuthInput
-      placeholder="이메일"
-      value=""
-      onChange={() => console.log('dss')}
-    />
-    <AuthInput
-      placeholder="비밀번호"
-      value=""
-      onChange={() => console.log('dss')}
-    />
+    <React.Fragment>
+      <AuthInput
+        placeholder="이메일"
+        value=""
+        onChange={() => console.log('dss')}
+      />
+      <AuthInput
+        placeholder="비밀번호"
+        value=""
+        onChange={() => console.log('dss')}
+      />
+    </React.Fragment>
     <AuthButton type="로그인" register={false} />
     <div className={cx('auth-link')}>
       <span>계정이 없으신가요?</span>
-      <Link className={cx('link')} to="/auth-register">
+      <Link className={cx('link')} to="/auth/register">
         <span>회원가입</span>
-      </Link>
-      <Link className={cx('tour')} to="/">
-        <span>둘러보기</span>
       </Link>
     </div>
   </div>
 );
 
-export default AuthForm;
+export default LoginForm;

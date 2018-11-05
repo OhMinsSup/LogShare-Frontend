@@ -1,12 +1,29 @@
 import * as React from 'react';
 import LandingTemplate from 'src/components/landing/LandingTemplate';
-import AuthFormContainer from './AuthFormContainer';
+import HeaderContainer from '../base/HeaderContainer';
+import SidebarContainer from '../base/SidebarContainer';
+import PrimarySidebarContainer from '../base/PrimarySidebarContainer';
+import { match } from 'react-router';
 
-type Props = {};
+type OwnProps = {
+  match: match<string>;
+};
+type Props = OwnProps;
 
 class LandingTemplateContainer extends React.Component<Props> {
   public render() {
-    return <LandingTemplate form={<AuthFormContainer />} />;
+    const {
+      match: { url },
+    } = this.props;
+    return (
+      <LandingTemplate
+        mainHead={<HeaderContainer />}
+        mainSidebar={<SidebarContainer url={url} />}
+        primarySidebar={<PrimarySidebarContainer />}
+      >
+        칠드런
+      </LandingTemplate>
+    );
   }
 }
 

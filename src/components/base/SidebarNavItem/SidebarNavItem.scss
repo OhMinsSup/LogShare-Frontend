@@ -1,0 +1,44 @@
+@import 'utils';
+
+.nav-item {
+    color: $oc-gray-7;
+    cursor: pointer;
+    a {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      font-size: 1.125rem;
+      padding-left: 1.75rem;
+      display: flex;
+      align-items: center;
+      svg {
+        font-size: 1.5rem;
+      }
+      .text {
+        font-weight: 400;
+        margin-left: 1rem;
+        margin-bottom: 0.25rem;
+      }
+    }
+  
+    &:hover {
+        border-right: 3px solid $oc-blue-4;
+        svg {
+            color: $oc-blue-7;
+        }
+        .text {
+            color: $oc-blue-7;
+            font-weight: 500;
+        }
+    }
+  
+    &.active {
+        border-right: 3px solid $oc-blue-4;
+        svg {
+            color: $oc-blue-7;
+        }
+        .text {
+          font-weight: 700;
+          color: $oc-blue-7;
+        }
+    }
+}

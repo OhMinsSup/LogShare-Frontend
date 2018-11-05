@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Home, Register } from './pages';
+import { Home, Auth } from './pages';
 
 const App = () => (
   <React.Fragment>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/auth-register" component={Register} />
+      <Route exact path="/(recent|trending)" component={Home} />
+      <Route exact path="/auth/(register|login)" component={Auth} />
     </Switch>
   </React.Fragment>
 );
