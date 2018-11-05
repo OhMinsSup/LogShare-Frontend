@@ -21,14 +21,7 @@
     }
   
     &:hover {
-        border-right: 3px solid $oc-blue-4;
-        svg {
-            color: $oc-blue-7;
-        }
-        .text {
-            color: $oc-blue-7;
-            font-weight: 500;
-        }
+        background-color: $oc-gray-2;
     }
   
     &.active {

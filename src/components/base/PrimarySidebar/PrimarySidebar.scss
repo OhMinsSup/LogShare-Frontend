@@ -1,0 +1,52 @@
+@import 'utils';
+
+.primary-sidebar {
+    padding: 24px 16px;
+    background: white;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    display: block;
+    .header {
+        margin-bottom: 0.5rem;
+        margin-left: 0.5rem;
+        position: relative;
+        box-sizing: border-box;
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            svg {
+                font-size: 1.5rem;
+                color: $oc-blue-6;
+            }
+            span {
+                margin-top: 0.2rem;
+                margin-left: 0.5rem;
+                font-weight: 600;
+                color: $oc-gray-7;
+            }
+        }
+    }
+
+    .contents {
+        .tag-item {
+            display: inline-flex;
+            padding: 0.5rem 1rem;
+            margin: 0.375rem;
+            background: white;
+            border: 1px solid $oc-gray-4;
+            color: $oc-gray-8;
+            align-items: center;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            .name {
+              font-size: 0.875rem;
+              font-weight: 500;
+            }
+            .counts {
+              margin-left: 0.5rem;
+              color: $oc-gray-7;
+              font-size: 0.625rem;
+            }
+        }
+    }
+}

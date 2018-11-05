@@ -1,8 +1,9 @@
 import * as React from 'react';
+import PrimarySidebar from 'src/components/base/PrimarySidebar';
 
 class PrimarySidebarContainer extends React.Component<{}> {
   public render() {
-    return <div>서브 사이드바</div>;
+    return <PrimarySidebar />;
   }
 }
 

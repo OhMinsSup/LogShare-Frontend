@@ -19,6 +19,12 @@
                     color: $oc-gray-7;
                     font-size: 2rem;
                 }
+
+                @include media("<=large") {
+                    span {
+                        margin-left: 0;
+                    }
+                }
             }
         }
 

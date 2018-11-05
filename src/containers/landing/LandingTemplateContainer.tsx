@@ -3,7 +3,7 @@ import LandingTemplate from 'src/components/landing/LandingTemplate';
 import HeaderContainer from '../base/HeaderContainer';
 import SidebarContainer from '../base/SidebarContainer';
 import PrimarySidebarContainer from '../base/PrimarySidebarContainer';
-import { match } from 'react-router';
+import { match, Switch, Route } from 'react-router';
 
 type OwnProps = {
   match: match<string>;
@@ -21,10 +21,18 @@ class LandingTemplateContainer extends React.Component<Props> {
         mainSidebar={<SidebarContainer url={url} />}
         primarySidebar={<PrimarySidebarContainer />}
       >
-        칠드런
+        <Switch>
+          <Route exact path="/recent" component={Recent} />
+          <Route exact path="/trending" component={Trending} />
+          <Route exact path="/seris" component={Series} />
+        </Switch>
       </LandingTemplate>
     );
   }
 }
+
+const Recent = () => <div>Recent</div>;
+const Trending = () => <div>Trending</div>;
+const Series = () => <div>Series</div>;
 
 export default LandingTemplateContainer;

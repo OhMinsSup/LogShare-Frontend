@@ -1,0 +1,112 @@
+@import 'utils';
+
+.header {
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex: auto;
+    .left-items {
+        box-sizing: border-box;
+        .write {
+            flex: 0 1 auto;
+            transition: .1s ease-in-out;
+            font-weight: 600;
+            margin-right: 10px;
+            cursor: pointer;
+            position: relative;
+            background: #2979ff;
+            border-color: #2979ff;
+            border-radius: 1000px;
+            color: white;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 3rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+        .menu {
+            align-items: center !important;
+            cursor: pointer;
+            margin-left: 10px;
+            margin-right: 10px;
+            position: relative;
+            padding: 5px;
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 100%;
+            color: #7e818d;
+            background: rgba(255,255,255,0.58);
+            border: 1px solid #d6d8df;
+            top: 0.25rem;
+            svg {
+                font-weight: 600;
+                font-size: 1.6rem;
+            }
+        }
+        
+
+        .search {
+            align-items: center !important;
+            cursor: pointer;
+            margin-right: 10px;
+            position: relative;
+            padding: 10px;
+            border-radius: 100%;
+            color: #7e818d;
+            background: rgba(255,255,255,0.58);
+            border: 1px solid #d6d8df;
+            svg {
+                position: relative;
+                top: 0.4rem;
+                font-size: 1.6rem;
+            }
+        }
+
+        .notice {
+            position: relative;
+            padding: 10px;
+            border-radius: 100%;
+            color: #7e818d;
+            background: rgba(255,255,255,0.58);
+            border: 1px solid #d6d8df;
+            cursor: pointer;
+            svg {
+                position: relative;
+                top: 0.4rem;
+                font-size: 1.6rem;
+            }
+        }
+    }
+    
+    .right-items {
+        display: flex !important;
+        flex-direction: row !important;
+        float: right;
+        align-items: center !important;
+        .users {
+            .thumbnail {
+                height: 25px;
+                width: 25px;
+                border-radius: 50%;
+            }
+            .username {
+                padding-left: 0.2rem;
+                padding-top: 0.25rem;
+            }
+            @include media ("<=545px") {
+                position: relative;
+                display: flex;
+                top: 0.1rem;
+            }
+        }
+    }
+}

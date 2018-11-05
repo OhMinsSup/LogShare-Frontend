@@ -6,7 +6,7 @@ const App = () => (
   <React.Fragment>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/(recent|trending)" component={Home} />
+      <Route exact path="/(recent|trending|seris)" component={Home} />
       <Route exact path="/auth/(register|login)" component={Auth} />
     </Switch>
   </React.Fragment>

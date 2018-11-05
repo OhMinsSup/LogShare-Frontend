@@ -1,10 +1,11 @@
 import * as React from 'react';
+import Header from 'src/components/base/Header';
 
 type Props = {};
 
 class HeaderContainer extends React.Component<Props> {
   public render() {
-    return <div>헤더</div>;
+    return <Header />;
   }
 }
 
