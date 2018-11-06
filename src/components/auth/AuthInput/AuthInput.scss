@@ -28,5 +28,32 @@
         text-rendering: auto;
         text-align: start;
         font: 400 13.3333px Arial;
+
+        &.disabled {
+            width: calc(100% - 3rem);
+        }
+    }
+
+    .lock-wrapper {
+        position: relative;
+        cursor: not-allowed;
+    }
+    .lock {
+        padding: 0.25rem;
+        padding-right: 0.5rem;
+        background: white;
+        position: absolute;
+        right: 0.1rem;
+        top: -1.9rem;
+        color: $oc-gray-6;
+    }
+    & + & {
+        margin-top: 2rem;
+    }
+    &.disabled {
+        input {
+            cursor: not-allowed;
+            color: $oc-gray-9;
+        }
     }
 }
