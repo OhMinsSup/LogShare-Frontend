@@ -24,7 +24,7 @@ const Header: React.StatelessComponent<{
       <Link to="/search" className={cx('search')}>
         <MdSearch />
       </Link>
-      <Link to={user ? '/notice' : '/auth/login'} className={cx('notice')}>
+      <Link to={user ? `/notice/@${user.profile.username}` : '/auth/login'} className={cx('notice')}>
         <MdNotificationsNone />
       </Link>
     </div>

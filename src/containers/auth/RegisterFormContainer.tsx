@@ -17,6 +17,7 @@ class RegisterFormContainer extends React.Component<Props> {
         this.setError('잘못된 이메일 형식 입니다.');
         return false;
       }
+      this.setError(null);
       return true;
     },
     username: (value: string) => {
@@ -26,6 +27,7 @@ class RegisterFormContainer extends React.Component<Props> {
         );
         return false;
       }
+      this.setError(null);
       return true;
     },
     password: (value: string) => {
@@ -44,6 +46,12 @@ class RegisterFormContainer extends React.Component<Props> {
       this.setError(null);
       return true;
     },
+  };
+
+  public onCheckExists = (key: string, value: string) => {
+    const { AuthActions } = this.props;
+
+    AuthActions.checkExists({ key, value });
   };
 
   public setError = (message: string | null) => {
@@ -67,6 +75,9 @@ class RegisterFormContainer extends React.Component<Props> {
 
     const validation = this.onValidate[name](value);
     if (name.indexOf('password') > -1 || !validation) return;
+
+    const check = name === 'email' ? this.onCheckExists : this.onCheckExists;
+    check(name, value);
   };
 
   public render() {
