@@ -2,27 +2,32 @@ import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
 import { GenericResponseAction } from 'src/lib/common';
 
-export enum AsyncAuthType {
-  CHECK_EXISTS = 'auth/CHECK_EXISTS',
+export enum AuthActionType {
+  CHECK_EXISTS_REQUEST = 'auth/CHECK_EXISTS_REQUEST',
   CHECK_EXISTS_SUCCESS = 'auth/CHECK_EXISTS_SUCCESS',
   CHECK_EXISTS_ERROR = 'auth/CHECK_EXISTS_ERROR',
-}
 
-const CHANGE_INPUT = 'auth/CHANGE_INPUT';
-const SET_ERROR = 'auth/SET_ERROR';
+  INITIAL_EXISTS = 'auth/INITIAL_EXISTS',
+  CHANGE_INPUT = 'auth/CHANGE_INPUT',
+  SET_ERROR = 'auth/SET_ERROR',
+}
 
 type ChangeInputPayload = { form: string; name: string; value: string };
 type ErrorPayload = { form: string; name: string; message: string | null };
 type CheckExistsPayload = { key: string; value: string };
 
 export const authCreators = {
+  initialExists: createAction(AuthActionType.INITIAL_EXISTS),
   changeInput: createAction(
-    CHANGE_INPUT,
+    AuthActionType.CHANGE_INPUT,
     (payload: ChangeInputPayload) => payload
   ),
-  setError: createAction(SET_ERROR, (payload: ErrorPayload) => payload),
+  setError: createAction(
+    AuthActionType.SET_ERROR,
+    (payload: ErrorPayload) => payload
+  ),
   checkExists: createAction(
-    AsyncAuthType.CHECK_EXISTS,
+    AuthActionType.CHECK_EXISTS_REQUEST,
     (payload: CheckExistsPayload) => payload
   ),
 };
@@ -80,20 +85,30 @@ const initialState: AuthState = {
 
 export default handleActions<AuthState, any>(
   {
-    [CHANGE_INPUT]: (state, action: ChangeInputAction) => {
+    [AuthActionType.INITIAL_EXISTS]: state => {
+      return produce(state, draft => {
+        draft.register_form.error = null;
+        draft.exists = {
+          email: false,
+          username: false,
+          password: false,
+        };
+      });
+    },
+    [AuthActionType.CHANGE_INPUT]: (state, action: ChangeInputAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft[action.payload.form][action.payload.name] = action.payload.value;
       });
     },
-    [SET_ERROR]: (state, action: SetErrorAction) => {
+    [AuthActionType.SET_ERROR]: (state, action: SetErrorAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft[action.payload.form][action.payload.name] =
           action.payload.message;
       });
     },
-    [AsyncAuthType.CHECK_EXISTS_SUCCESS]: (
+    [AuthActionType.CHECK_EXISTS_SUCCESS]: (
       state,
       action: checkExistsAction
     ) => {
@@ -102,7 +117,7 @@ export default handleActions<AuthState, any>(
         draft.exists[action.payload.key] = action.payload.exists;
       });
     },
-    [AsyncAuthType.CHECK_EXISTS_ERROR]: state => {
+    [AuthActionType.CHECK_EXISTS_ERROR]: state => {
       return produce(state, draft => {
         draft.exists = {
           email: false,

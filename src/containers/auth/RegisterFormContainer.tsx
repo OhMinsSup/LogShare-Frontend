@@ -76,8 +76,11 @@ class RegisterFormContainer extends React.Component<Props> {
     const validation = this.onValidate[name](value);
     if (name.indexOf('password') > -1 || !validation) return;
 
-    const check = name === 'email' ? this.onCheckExists : this.onCheckExists;
-    check(name, value);
+    if (name === 'username') {
+      this.onCheckExists(name, value);
+    } else if (name === 'email') {
+      this.onCheckExists(name, value);
+    }
   };
 
   public render() {
@@ -101,6 +104,7 @@ class RegisterFormContainer extends React.Component<Props> {
 
 const mapStateToProps = ({ auth }: StoreState) => ({
   registerForm: auth.register_form,
+  exists: auth.exists,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
