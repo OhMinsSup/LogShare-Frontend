@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 const styles = require('./LoginForm.scss');
 const cx = classNames.bind(styles);
 
-const LoginForm: React.StatelessComponent = () => (
+const LoginForm: React.StatelessComponent<{}> = ({}) => (
   <div className={cx('login-form')}>
     <div className={cx('logo')}>
       <Link to="/">LogShare</Link>
@@ -48,7 +48,11 @@ const LoginForm: React.StatelessComponent = () => (
         onChange={() => console.log('dss')}
       />
     </React.Fragment>
-    <AuthButton type="로그인" register={false} />
+    <AuthButton
+      type="로그인"
+      onClick={() => console.log('gkgk')}
+      register={false}
+    />
     <div className={cx('auth-link')}>
       <span>계정이 없으신가요?</span>
       <Link className={cx('link')} to="/auth/register">

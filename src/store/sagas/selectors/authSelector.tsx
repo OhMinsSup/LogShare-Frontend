@@ -15,3 +15,8 @@ export const authLoginFormSelector = createSelector(
   (state: StoreState) => state.auth.login_form,
   login_form => login_form
 );
+
+export const authResultSelector = createSelector(
+  (state: StoreState) => state.auth.authResult,
+  authResult => authResult
+);

@@ -3,21 +3,31 @@ import produce from 'immer';
 import { GenericResponseAction } from 'src/lib/common';
 
 export enum AuthActionType {
+  LOCAL_REGISTER_REQUEST = 'auth/LOCAL_REGISTER_REQUEST',
+  LOCAL_REGISTER_SUCCESS = 'auth/LOCAL_REGISTER_SUCCESS',
+  LOCAL_REGISTER_ERROR = 'auth/LOCAL_REGISTER_ERROR',
+
   CHECK_EXISTS_REQUEST = 'auth/CHECK_EXISTS_REQUEST',
   CHECK_EXISTS_SUCCESS = 'auth/CHECK_EXISTS_SUCCESS',
   CHECK_EXISTS_ERROR = 'auth/CHECK_EXISTS_ERROR',
 
-  INITIAL_EXISTS = 'auth/INITIAL_EXISTS',
-  CHANGE_INPUT = 'auth/CHANGE_INPUT',
-  SET_ERROR = 'auth/SET_ERROR',
+  SET_ERROR = 'auth/SET_ERROR_REQUEST',
+  CHANGE_INPUT = 'auth/CHANGE_INPUT_REQUEST',
+
+  INITIAL = 'auth/INITIAL',
 }
 
+type LocalRegisterPayload = {
+  email: string;
+  username: string;
+  password: string;
+};
 type ChangeInputPayload = { form: string; name: string; value: string };
 type ErrorPayload = { form: string; name: string; message: string | null };
 type CheckExistsPayload = { key: string; value: string };
 
 export const authCreators = {
-  initialExists: createAction(AuthActionType.INITIAL_EXISTS),
+  initial: createAction(AuthActionType.INITIAL),
   changeInput: createAction(
     AuthActionType.CHANGE_INPUT,
     (payload: ChangeInputPayload) => payload
@@ -30,12 +40,30 @@ export const authCreators = {
     AuthActionType.CHECK_EXISTS_REQUEST,
     (payload: CheckExistsPayload) => payload
   ),
+  localRegister: createAction(
+    AuthActionType.LOCAL_REGISTER_REQUEST,
+    (payload: LocalRegisterPayload) => payload
+  ),
 };
 
 type ChangeInputAction = ReturnType<typeof authCreators.changeInput>;
 type SetErrorAction = ReturnType<typeof authCreators.setError>;
-type checkExistsAction = GenericResponseAction<
+type CheckExistsAction = GenericResponseAction<
   { exists: boolean; key: string },
+  string
+>;
+type LocalRegisterAction = GenericResponseAction<
+  {
+    user: {
+      _id: string;
+      email: string;
+      profile: {
+        username: string;
+        thumbnail: string;
+        shortBio: string;
+      };
+    };
+  },
   string
 >;
 
@@ -58,10 +86,19 @@ export interface RegisterFormState {
   error: string | null;
 }
 
+export interface AuthResultState {
+  _id: string;
+  username: string;
+  thumbnail: string;
+  shortBio: string;
+  email: string;
+}
+
 export interface AuthState {
   login_form: LoginFormState;
   register_form: RegisterFormState;
   exists: ExistsState;
+  authResult: AuthResultState;
 }
 
 const initialState: AuthState = {
@@ -81,17 +118,41 @@ const initialState: AuthState = {
     username: false,
     password: false,
   },
+  authResult: {
+    _id: '',
+    username: '',
+    thumbnail: '',
+    shortBio: '',
+    email: '',
+  },
 };
 
 export default handleActions<AuthState, any>(
   {
-    [AuthActionType.INITIAL_EXISTS]: state => {
+    [AuthActionType.INITIAL]: state => {
       return produce(state, draft => {
-        draft.register_form.error = null;
+        draft.login_form = {
+          email: '',
+          password: '',
+        };
+        draft.register_form = {
+          username: '',
+          email: '',
+          password: '',
+          passwordConfirm: '',
+          error: '',
+        };
         draft.exists = {
           email: false,
           username: false,
           password: false,
+        };
+        draft.authResult = {
+          _id: '',
+          username: '',
+          thumbnail: '',
+          shortBio: '',
+          email: '',
         };
       });
     },
@@ -110,7 +171,7 @@ export default handleActions<AuthState, any>(
     },
     [AuthActionType.CHECK_EXISTS_SUCCESS]: (
       state,
-      action: checkExistsAction
+      action: CheckExistsAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -123,6 +184,35 @@ export default handleActions<AuthState, any>(
           email: false,
           username: false,
           password: false,
+        };
+      });
+    },
+    [AuthActionType.LOCAL_REGISTER_SUCCESS]: (
+      state,
+      action: LocalRegisterAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        const {
+          payload: { user },
+        } = action;
+        draft.authResult = {
+          _id: user._id,
+          email: user.email,
+          username: user.profile.username,
+          thumbnail: user.profile.thumbnail,
+          shortBio: user.profile.shortBio,
+        };
+      });
+    },
+    [AuthActionType.LOCAL_REGISTER_ERROR]: state => {
+      return produce(state, draft => {
+        draft.authResult = {
+          _id: '',
+          username: '',
+          thumbnail: '',
+          shortBio: '',
+          email: '',
         };
       });
     },

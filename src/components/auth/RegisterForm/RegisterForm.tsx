@@ -14,8 +14,17 @@ const RegisterForm: React.StatelessComponent<{
   password: string;
   passwordConfirm: string;
   error: string | null;
+  onRegister(): void;
   onChange(e: React.ChangeEvent<HTMLInputElement>): void;
-}> = ({ username, email, password, passwordConfirm, onChange, error }) => (
+}> = ({
+  username,
+  email,
+  password,
+  passwordConfirm,
+  onChange,
+  error,
+  onRegister,
+}) => (
   <div className={cx('register-form')}>
     <div className={cx('logo')}>
       <Link to="/">LogShare</Link>
@@ -61,7 +70,7 @@ const RegisterForm: React.StatelessComponent<{
           <span>로그인</span>
         </Link>
       </div>
-      <AuthButton type="계정만들기" register={true} />
+      <AuthButton type="계정만들기" onClick={onRegister} register={true} />
     </div>
   </div>
 );

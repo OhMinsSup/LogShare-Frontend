@@ -83,14 +83,37 @@ class RegisterFormContainer extends React.Component<Props> {
     }
   };
 
+  public onRegister = () => {
+    const {
+      registerForm: { username, email, password },
+      AuthActions,
+    } = this.props;
+
+    AuthActions.localRegister({
+      email,
+      username,
+      password,
+    });
+  };
+
+  public initialize = () => {
+    const { AuthActions } = this.props;
+    AuthActions.initial();
+  };
+
+  public componentDidMount() {
+    this.initialize();
+  }
+
   public render() {
     const {
       registerForm: { username, email, password, passwordConfirm, error },
     } = this.props;
-    const { onChange } = this;
+    const { onChange, onRegister } = this;
 
     return (
       <RegisterForm
+        onRegister={onRegister}
         username={username}
         email={email}
         password={password}
@@ -105,6 +128,7 @@ class RegisterFormContainer extends React.Component<Props> {
 const mapStateToProps = ({ auth }: StoreState) => ({
   registerForm: auth.register_form,
   exists: auth.exists,
+  authResult: auth.authResult,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

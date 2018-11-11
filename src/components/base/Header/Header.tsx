@@ -24,7 +24,10 @@ const Header: React.StatelessComponent<{
       <Link to="/search" className={cx('search')}>
         <MdSearch />
       </Link>
-      <Link to={user ? `/notice/@${user.profile.username}` : '/auth/login'} className={cx('notice')}>
+      <Link
+        to={user ? `/notice/@${user.username}` : '/auth/login'}
+        className={cx('notice')}
+      >
         <MdNotificationsNone />
       </Link>
     </div>
@@ -33,10 +36,10 @@ const Header: React.StatelessComponent<{
         <Button className={cx('users')} theme="noline">
           <img
             className={cx('thumbnail')}
-            src={user.profile.thumbnail}
-            alt={user.profile.username}
+            src={user.thumbnail}
+            alt={user.username}
           />
-          <span className={cx('username')}>{user.profile.username}</span>
+          <span className={cx('username')}>{user.username}</span>
         </Button>
       ) : (
         <Button to="/auth/login" theme="default">

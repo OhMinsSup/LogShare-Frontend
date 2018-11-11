@@ -7,8 +7,9 @@ const cx = classNames.bind(styles);
 const AuthButton: React.StatelessComponent<{
   type: string;
   register: boolean;
-}> = ({ type, register }) => (
-  <button className={cx('auth-button', { register })}>
+  onClick(): void;
+}> = ({ type, register, onClick }) => (
+  <button className={cx('auth-button', { register })} onClick={onClick}>
     <span className={cx('button')}>{type}</span>
   </button>
 );
