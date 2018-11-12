@@ -4,11 +4,19 @@ import SocialLoginButton from '../SocialLoginButton';
 import AuthInput from 'src/components/auth/AuthInput';
 import AuthButton from 'src/components/auth/AuthButton';
 import { Link } from 'react-router-dom';
+import Error from '../../common/Error';
 
 const styles = require('./LoginForm.scss');
 const cx = classNames.bind(styles);
 
-const LoginForm: React.StatelessComponent<{}> = ({}) => (
+const LoginForm: React.StatelessComponent<{
+  email: string;
+  password: string;
+  error: string | null;
+  onLogin(): void;
+  onSocialLogin(provider: string): void;
+  onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+}> = ({ email, password, onChange, error, onLogin, onSocialLogin }) => (
   <div className={cx('login-form')}>
     <div className={cx('logo')}>
       <Link to="/">LogShare</Link>
@@ -18,14 +26,8 @@ const LoginForm: React.StatelessComponent<{}> = ({}) => (
     </div>
     <div className={cx('social-wrapper')}>
       <div className={cx('social-button')}>
-        <SocialLoginButton
-          type="google"
-          onSocialLogin={() => console.log('구글')}
-        />
-        <SocialLoginButton
-          type="facebook"
-          onSocialLogin={() => console.log('페이스북')}
-        />
+        <SocialLoginButton type="google" onSocialLogin={onSocialLogin} />
+        <SocialLoginButton type="facebook" onSocialLogin={onSocialLogin} />
       </div>
     </div>
     <div className={cx('login-divider')}>
@@ -38,21 +40,18 @@ const LoginForm: React.StatelessComponent<{}> = ({}) => (
       <AuthInput
         placeholder="이메일"
         name="email"
-        value=""
-        onChange={() => console.log('dss')}
+        value={email}
+        onChange={onChange}
       />
       <AuthInput
         placeholder="비밀번호"
         name="password"
-        value=""
-        onChange={() => console.log('dss')}
+        value={password}
+        onChange={onChange}
       />
     </React.Fragment>
-    <AuthButton
-      type="로그인"
-      onClick={() => console.log('gkgk')}
-      register={false}
-    />
+    {error && <Error message={error} />}
+    <AuthButton type="로그인" onClick={onLogin} register={false} />
     <div className={cx('auth-link')}>
       <span>계정이 없으신가요?</span>
       <Link className={cx('link')} to="/auth/register">

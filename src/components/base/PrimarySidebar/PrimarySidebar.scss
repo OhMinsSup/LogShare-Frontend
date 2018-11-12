@@ -47,6 +47,10 @@
               color: $oc-gray-7;
               font-size: 0.625rem;
             }
+
+            &:hover {
+                background: $oc-gray-2;
+            }
         }
     }
 }

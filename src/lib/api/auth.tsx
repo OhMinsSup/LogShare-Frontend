@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 type CheckExistsPayload = { key: string; value: string };
+type LocalLoginPayload = { email: string; password: string };
 type LocalRegisterPayload = {
   username: string;
   email: string;
@@ -20,3 +21,8 @@ export const localRegister = ({
     email,
     password,
   });
+
+export const localLogin = ({ email, password }: LocalLoginPayload) =>
+  axios.post('/auth/login/local', { email, password });
+
+export const logout = () => axios.post('/auth/logout');

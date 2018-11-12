@@ -1,6 +1,7 @@
-import { fork, put, take } from 'redux-saga/effects';
+import { fork, put, take, call } from 'redux-saga/effects';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
+import * as AuthAPI from '../../lib/api/auth';
 
 type SetUserPayload = {
   payload: {
@@ -35,6 +36,15 @@ function* setUser() {
   window.location.href = '/';
 }
 
+function* logOut() {
+  yield take(UserActionType.LOGOUT);
+
+  yield call(AuthAPI.logout);
+
+  storage.remove('__log_share__');
+  window.location.href = '/';
+}
+
 export default function* userSaga() {
-  yield [fork(setUser)];
+  yield [fork(setUser), fork(logOut)];
 }

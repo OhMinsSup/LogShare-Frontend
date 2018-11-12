@@ -7,6 +7,10 @@ export enum AuthActionType {
   LOCAL_REGISTER_SUCCESS = 'auth/LOCAL_REGISTER_SUCCESS',
   LOCAL_REGISTER_ERROR = 'auth/LOCAL_REGISTER_ERROR',
 
+  LOCAL_LOGIN_REQUEST = 'auth/LOCAL_LOGIN_REQUEST',
+  LOCAL_LOGIN_SUCCESS = 'auth/LOCAL_LOGIN_SUCCESS',
+  LOCAL_LOGIN_ERROR = 'auth/LOCAL_LOGIN_ERROR',
+
   CHECK_EXISTS_REQUEST = 'auth/CHECK_EXISTS_REQUEST',
   CHECK_EXISTS_SUCCESS = 'auth/CHECK_EXISTS_SUCCESS',
   CHECK_EXISTS_ERROR = 'auth/CHECK_EXISTS_ERROR',
@@ -25,6 +29,7 @@ type LocalRegisterPayload = {
 type ChangeInputPayload = { form: string; name: string; value: string };
 type ErrorPayload = { form: string; name: string; message: string | null };
 type CheckExistsPayload = { key: string; value: string };
+type LocalLoginPayload = { email: string; password: string };
 
 export const authCreators = {
   initial: createAction(AuthActionType.INITIAL),
@@ -43,6 +48,10 @@ export const authCreators = {
   localRegister: createAction(
     AuthActionType.LOCAL_REGISTER_REQUEST,
     (payload: LocalRegisterPayload) => payload
+  ),
+  localLogin: createAction(
+    AuthActionType.LOCAL_LOGIN_REQUEST,
+    (payload: LocalLoginPayload) => payload
   ),
 };
 
@@ -67,9 +76,25 @@ type LocalRegisterAction = GenericResponseAction<
   string
 >;
 
+type LocalLoginAction = GenericResponseAction<
+  {
+    user: {
+      _id: string;
+      email: string;
+      profile: {
+        username: string;
+        thumbnail: string;
+        shortBio: string;
+      };
+    };
+  },
+  string
+>;
+
 export interface LoginFormState {
   email: string;
   password: string;
+  error: string;
 }
 
 export interface ExistsState {
@@ -105,6 +130,7 @@ const initialState: AuthState = {
   login_form: {
     email: '',
     password: '',
+    error: '',
   },
   register_form: {
     username: '',
@@ -134,6 +160,7 @@ export default handleActions<AuthState, any>(
         draft.login_form = {
           email: '',
           password: '',
+          error: '',
         };
         draft.register_form = {
           username: '',
@@ -206,6 +233,31 @@ export default handleActions<AuthState, any>(
       });
     },
     [AuthActionType.LOCAL_REGISTER_ERROR]: state => {
+      return produce(state, draft => {
+        draft.authResult = {
+          _id: '',
+          username: '',
+          thumbnail: '',
+          shortBio: '',
+          email: '',
+        };
+      });
+    },
+    [AuthActionType.LOCAL_LOGIN_SUCCESS]: (state, action: LocalLoginAction) => {
+      return produce(state, draft => {
+        const {
+          payload: { user },
+        } = action;
+        draft.authResult = {
+          _id: user._id,
+          email: user.email,
+          username: user.profile.username,
+          thumbnail: user.profile.thumbnail,
+          shortBio: user.profile.shortBio,
+        };
+      });
+    },
+    [AuthActionType.LOCAL_LOGIN_ERROR]: state => {
       return produce(state, draft => {
         draft.authResult = {
           _id: '',

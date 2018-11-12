@@ -3,17 +3,37 @@ import { AuthActionType } from '../modules/auth';
 import * as AuthAPI from '../../lib/api/auth';
 import { StoreState } from '../modules';
 import { UserActionType } from '../modules/user';
+import storage from 'src/lib/storage';
 
 type LocalRegisterPayload = {
   payload: { email: string; username: string; password: string };
 };
+type LocalLoginPayload = {
+  payload: { email: string; password: string };
+};
+type LocalLoginResponse = {
+  data: {
+    user: {
+      _id: string;
+      email: string;
+      profile: {
+        username: string;
+        thumbnail: string;
+        shortBio: string;
+      };
+    };
+  };
+};
 type LocalRegisterResponse = {
   data: {
     user: {
-      username: string;
-      thumbnail: string;
-      shortBio: string;
+      _id: string;
       email: string;
+      profile: {
+        username: string;
+        thumbnail: string;
+        shortBio: string;
+      };
     };
   };
 };
@@ -107,6 +127,54 @@ function* localRegister(action: any) {
   }
 }
 
+function* localLogin(action: any) {
+  const {
+    payload: { email, password },
+  }: LocalLoginPayload = action;
+
+  try {
+    const response: LocalLoginResponse = yield call(AuthAPI.localLogin, {
+      email,
+      password,
+    });
+
+    yield put({
+      type: AuthActionType.LOCAL_LOGIN_SUCCESS,
+      payload: {
+        user: response.data.user,
+      },
+    });
+
+    const authResult = yield select(
+      (state: StoreState) => state.auth.authResult
+    );
+
+    yield put({
+      type: UserActionType.SET_USER_REQUEST,
+      payload: {
+        authResult,
+      },
+    });
+  } catch (e) {
+    storage.remove('__log_share__');
+    // window.location.href = '/auth/login?expired';
+
+    yield put({
+      type: AuthActionType.SET_ERROR,
+      payload: {
+        form: 'login_form',
+        name: 'error',
+        message: '잘못된 계정정보입니다.',
+      },
+    });
+
+    yield put({
+      type: AuthActionType.LOCAL_LOGIN_ERROR,
+      error: e.message,
+    });
+  }
+}
+
 function* watchCheckExists() {
   yield takeEvery(AuthActionType.CHECK_EXISTS_REQUEST, checkExists);
 }
@@ -115,6 +183,14 @@ function* watchLocalRegister() {
   yield takeEvery(AuthActionType.LOCAL_REGISTER_REQUEST, localRegister);
 }
 
+function* watchLocalLogin() {
+  yield takeEvery(AuthActionType.LOCAL_LOGIN_REQUEST, localLogin);
+}
+
 export default function* authSaga() {
-  yield [fork(watchCheckExists), fork(watchLocalRegister)];
+  yield [
+    fork(watchCheckExists),
+    fork(watchLocalRegister),
+    fork(watchLocalLogin),
+  ];
 }

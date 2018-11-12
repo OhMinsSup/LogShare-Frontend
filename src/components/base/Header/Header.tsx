@@ -10,7 +10,9 @@ const cx = classNames.bind(styles);
 
 const Header: React.StatelessComponent<{
   user: UserSubState | null;
-}> = ({ user }) => (
+  menu: React.ReactNode;
+  onMenu(): void;
+}> = ({ user, menu, onMenu }) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
       <button className={cx('menu')}>
@@ -33,7 +35,7 @@ const Header: React.StatelessComponent<{
     </div>
     <div className={cx('right-items')}>
       {user ? (
-        <Button className={cx('users')} theme="noline">
+        <Button className={cx('users')} theme="noline" onClick={onMenu}>
           <img
             className={cx('thumbnail')}
             src={user.thumbnail}
@@ -46,6 +48,7 @@ const Header: React.StatelessComponent<{
           로그인 / 회원가입
         </Button>
       )}
+      {menu}
     </div>
   </div>
 );
