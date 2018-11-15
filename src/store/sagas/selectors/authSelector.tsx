@@ -20,3 +20,18 @@ export const authResultSelector = createSelector(
   (state: StoreState) => state.auth.authResult,
   authResult => authResult
 );
+
+export const tokenDataSelector = createSelector(
+  (state: StoreState) => state.auth.tokenData,
+  tokenData => tokenData
+);
+
+export const verifySocialResultSelector = createSelector(
+  (state: StoreState) => state.auth.verifySocialResult,
+  verifySocialResult => verifySocialResult
+);
+
+export const socialAuthResultSelector = createSelector(
+  (state: StoreState) => state.auth.socialAuthResult,
+  socialAuthResult => socialAuthResult
+);

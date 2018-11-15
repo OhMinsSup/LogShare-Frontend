@@ -2,23 +2,13 @@ import { fork, put, take, call } from 'redux-saga/effects';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
 import * as AuthAPI from '../../lib/api/auth';
-
-type SetUserPayload = {
-  payload: {
-    authResult: {
-      _id: string;
-      username: string;
-      thumbnail: string;
-      shortBio: string;
-      email: string;
-    };
-  };
-};
+import * as UserType from './types/user';
+import { ErrorActionType } from '../modules/error';
 
 function* setUser() {
   const {
     payload: { authResult },
-  }: SetUserPayload = yield take(UserActionType.SET_USER_REQUEST);
+  }: UserType.SetUserPayload = yield take(UserActionType.SET_USER_REQUEST);
 
   if (!authResult || authResult === undefined) {
     storage.remove('__log_share__');
@@ -39,10 +29,20 @@ function* setUser() {
 function* logOut() {
   yield take(UserActionType.LOGOUT);
 
-  yield call(AuthAPI.logout);
+  try {
+    yield call(AuthAPI.logout);
 
-  storage.remove('__log_share__');
-  window.location.href = '/';
+    storage.remove('__log_share__');
+    window.location.href = '/';
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        text: e.response.statusText,
+        code: e.response.status,
+      },
+    });
+  }
 }
 
 export default function* userSaga() {

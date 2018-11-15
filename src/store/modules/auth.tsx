@@ -1,95 +1,73 @@
 import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
-import { GenericResponseAction } from 'src/lib/common';
+import * as AuthType from './types/auth';
 
 export enum AuthActionType {
   LOCAL_REGISTER_REQUEST = 'auth/LOCAL_REGISTER_REQUEST',
   LOCAL_REGISTER_SUCCESS = 'auth/LOCAL_REGISTER_SUCCESS',
-  LOCAL_REGISTER_ERROR = 'auth/LOCAL_REGISTER_ERROR',
 
   LOCAL_LOGIN_REQUEST = 'auth/LOCAL_LOGIN_REQUEST',
   LOCAL_LOGIN_SUCCESS = 'auth/LOCAL_LOGIN_SUCCESS',
-  LOCAL_LOGIN_ERROR = 'auth/LOCAL_LOGIN_ERROR',
 
   CHECK_EXISTS_REQUEST = 'auth/CHECK_EXISTS_REQUEST',
   CHECK_EXISTS_SUCCESS = 'auth/CHECK_EXISTS_SUCCESS',
-  CHECK_EXISTS_ERROR = 'auth/CHECK_EXISTS_ERROR',
+
+  GET_PROVIDER_TOKEN_REQUEST = 'auth/GET_PROVIDER_TOKEN_REQUEST',
+  GET_PROVIDER_TOKEN_SUCCESS = 'auth/GET_PROVIDER_TOKEN_SUCCESS',
+
+  VERIFY_SOCIAL_SUCCESS = 'auth/VERIFY_SOCIAL_SUCCESS',
+  SOCIAL_LOGIN_SUCCESS = 'auth/SOCIAL_LOGIN_SUCCESS',
+
+  SOCIAL_REGISTER_REQUEST = 'auth/SOCIAL_REGISTER_REQUEST',
+  SOCIAL_REGISTER_SUCCESS = 'auth/SOCIAL_REGISTER_SUCCESS',
 
   SET_ERROR = 'auth/SET_ERROR_REQUEST',
+  SET_NEXT_URL = 'auth/SET_NEXT_URL',
   CHANGE_INPUT = 'auth/CHANGE_INPUT_REQUEST',
+  AUTOCOMPLETE_REGISTER_FORM = 'auth/AUTOCOMPLETE_REGISTER_FORM',
 
   INITIAL = 'auth/INITIAL',
 }
 
-type LocalRegisterPayload = {
-  email: string;
-  username: string;
-  password: string;
-};
-type ChangeInputPayload = { form: string; name: string; value: string };
-type ErrorPayload = { form: string; name: string; message: string | null };
-type CheckExistsPayload = { key: string; value: string };
-type LocalLoginPayload = { email: string; password: string };
-
 export const authCreators = {
   initial: createAction(AuthActionType.INITIAL),
+  callbackSocial: createAction(
+    AuthActionType.GET_PROVIDER_TOKEN_REQUEST,
+    (payload: AuthType.CallbackSocialPayload) => payload
+  ),
   changeInput: createAction(
     AuthActionType.CHANGE_INPUT,
-    (payload: ChangeInputPayload) => payload
+    (payload: AuthType.ChangeInputPayload) => payload
+  ),
+  autoCompleteRegisterForm: createAction(
+    AuthActionType.AUTOCOMPLETE_REGISTER_FORM,
+    (payload: AuthType.AutoCompleteFormPayload) => payload
   ),
   setError: createAction(
     AuthActionType.SET_ERROR,
-    (payload: ErrorPayload) => payload
+    (payload: AuthType.ErrorPayload) => payload
+  ),
+  setNextUrl: createAction(
+    AuthActionType.SET_NEXT_URL,
+    (payload: string | string[]) => payload
   ),
   checkExists: createAction(
     AuthActionType.CHECK_EXISTS_REQUEST,
-    (payload: CheckExistsPayload) => payload
+    (payload: AuthType.CheckExistsPayload) => payload
   ),
   localRegister: createAction(
     AuthActionType.LOCAL_REGISTER_REQUEST,
-    (payload: LocalRegisterPayload) => payload
+    (payload: AuthType.LocalRegisterPayload) => payload
   ),
   localLogin: createAction(
     AuthActionType.LOCAL_LOGIN_REQUEST,
-    (payload: LocalLoginPayload) => payload
+    (payload: AuthType.LocalLoginPayload) => payload
+  ),
+  socialRegister: createAction(
+    AuthActionType.SOCIAL_REGISTER_REQUEST,
+    (payload: AuthType.SocialRegisterPayload) => payload
   ),
 };
-
-type ChangeInputAction = ReturnType<typeof authCreators.changeInput>;
-type SetErrorAction = ReturnType<typeof authCreators.setError>;
-type CheckExistsAction = GenericResponseAction<
-  { exists: boolean; key: string },
-  string
->;
-type LocalRegisterAction = GenericResponseAction<
-  {
-    user: {
-      _id: string;
-      email: string;
-      profile: {
-        username: string;
-        thumbnail: string;
-        shortBio: string;
-      };
-    };
-  },
-  string
->;
-
-type LocalLoginAction = GenericResponseAction<
-  {
-    user: {
-      _id: string;
-      email: string;
-      profile: {
-        username: string;
-        thumbnail: string;
-        shortBio: string;
-      };
-    };
-  },
-  string
->;
 
 export interface LoginFormState {
   email: string;
@@ -119,11 +97,34 @@ export interface AuthResultState {
   email: string;
 }
 
+export interface SocialResultState {
+  provider: string;
+  accessToken: string;
+}
+
+export interface TokenDataState {
+  type: string | null;
+  token: string | null;
+}
+
+export interface VerifySocialResultState {
+  id: string;
+  thumbnail: string;
+  email: string;
+  username: string;
+  exists: boolean;
+}
+
 export interface AuthState {
   login_form: LoginFormState;
   register_form: RegisterFormState;
   exists: ExistsState;
-  authResult: AuthResultState;
+  authResult: AuthResultState | null;
+  nextUrl: string | null | string[];
+  isSocial: boolean;
+  socialAuthResult: SocialResultState | null;
+  tokenData: TokenDataState | null;
+  verifySocialResult: VerifySocialResultState | null;
 }
 
 const initialState: AuthState = {
@@ -151,6 +152,23 @@ const initialState: AuthState = {
     shortBio: '',
     email: '',
   },
+  socialAuthResult: {
+    provider: '',
+    accessToken: '',
+  },
+  tokenData: {
+    type: null,
+    token: null,
+  },
+  verifySocialResult: {
+    id: '',
+    thumbnail: '',
+    email: '',
+    username: '',
+    exists: false,
+  },
+  isSocial: false,
+  nextUrl: null,
 };
 
 export default handleActions<AuthState, any>(
@@ -183,13 +201,36 @@ export default handleActions<AuthState, any>(
         };
       });
     },
-    [AuthActionType.CHANGE_INPUT]: (state, action: ChangeInputAction) => {
+    [AuthActionType.AUTOCOMPLETE_REGISTER_FORM]: (
+      state,
+      action: AuthType.AutoCompleteRegisterFormAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.register_form.username = action.payload.username;
+        draft.register_form.email = action.payload.email;
+        draft.isSocial = true;
+      });
+    },
+    [AuthActionType.CHANGE_INPUT]: (
+      state,
+      action: AuthType.ChangeInputAction
+    ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft[action.payload.form][action.payload.name] = action.payload.value;
       });
     },
-    [AuthActionType.SET_ERROR]: (state, action: SetErrorAction) => {
+    [AuthActionType.SET_NEXT_URL]: (
+      state,
+      action: AuthType.SetNextUrlAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.nextUrl = action.payload;
+      });
+    },
+    [AuthActionType.SET_ERROR]: (state, action: AuthType.SetErrorAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft[action.payload.form][action.payload.name] =
@@ -198,25 +239,16 @@ export default handleActions<AuthState, any>(
     },
     [AuthActionType.CHECK_EXISTS_SUCCESS]: (
       state,
-      action: CheckExistsAction
+      action: AuthType.CheckExistsAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.exists[action.payload.key] = action.payload.exists;
       });
     },
-    [AuthActionType.CHECK_EXISTS_ERROR]: state => {
-      return produce(state, draft => {
-        draft.exists = {
-          email: false,
-          username: false,
-          password: false,
-        };
-      });
-    },
     [AuthActionType.LOCAL_REGISTER_SUCCESS]: (
       state,
-      action: LocalRegisterAction
+      action: AuthType.LocalRegisterAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -232,18 +264,10 @@ export default handleActions<AuthState, any>(
         };
       });
     },
-    [AuthActionType.LOCAL_REGISTER_ERROR]: state => {
-      return produce(state, draft => {
-        draft.authResult = {
-          _id: '',
-          username: '',
-          thumbnail: '',
-          shortBio: '',
-          email: '',
-        };
-      });
-    },
-    [AuthActionType.LOCAL_LOGIN_SUCCESS]: (state, action: LocalLoginAction) => {
+    [AuthActionType.LOCAL_LOGIN_SUCCESS]: (
+      state,
+      action: AuthType.LocalLoginAction
+    ) => {
       return produce(state, draft => {
         const {
           payload: { user },
@@ -257,14 +281,58 @@ export default handleActions<AuthState, any>(
         };
       });
     },
-    [AuthActionType.LOCAL_LOGIN_ERROR]: state => {
+    [AuthActionType.GET_PROVIDER_TOKEN_SUCCESS]: (
+      state,
+      action: AuthType.GetProviderTokenAction
+    ) => {
       return produce(state, draft => {
+        if (action.payload.token === undefined) return;
+        const {
+          payload: { token, provider },
+        } = action;
+        draft.socialAuthResult = {
+          accessToken: token,
+          provider,
+        };
+        draft.tokenData = {
+          type: provider,
+          token,
+        };
+      });
+    },
+    [AuthActionType.VERIFY_SOCIAL_SUCCESS]: (
+      state,
+      action: AuthType.VerifySocialAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        const {
+          payload: { profile, exists },
+        } = action;
+        draft.verifySocialResult = {
+          id: profile.id,
+          username: profile.username,
+          email: profile.email,
+          thumbnail: profile.thumbnail,
+          exists: exists,
+        };
+      });
+    },
+    [AuthActionType.SOCIAL_LOGIN_SUCCESS]: (
+      state,
+      action: AuthType.SocialLoginAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        const {
+          payload: { user },
+        } = action;
         draft.authResult = {
-          _id: '',
-          username: '',
-          thumbnail: '',
-          shortBio: '',
-          email: '',
+          _id: user._id,
+          email: user.email,
+          username: user.profile.username,
+          shortBio: user.profile.shortBio,
+          thumbnail: user.profile.thumbnail,
         };
       });
     },

@@ -67,8 +67,10 @@ class LoginFormContainer extends React.Component<Props> {
   };
 
   public onSocialLogin = (provider: string) => {
+    const nextUrl = this.props.nextUrl || '/recent';
+
     if (provider === 'google') {
-      const goolgeLoginUrl = `http://localhost:4000/auth/callback/google/login`;
+      const goolgeLoginUrl = `http://localhost:4000/auth/callback/google/login?next=${nextUrl}`;
       window.location.replace(goolgeLoginUrl);
       return;
     }
@@ -86,7 +88,7 @@ class LoginFormContainer extends React.Component<Props> {
     const query = queryString.parse(search);
 
     if (query.expired !== undefined) {
-      this.setError('다시 로그인하세요');
+      this.setError('잘못된 계정정보입니다. 다시 로그인하세요');
       return;
     }
 
@@ -113,6 +115,7 @@ class LoginFormContainer extends React.Component<Props> {
 
 const mapStateToProps = ({ auth }: StoreState) => ({
   loginForm: auth.login_form,
+  nextUrl: auth.nextUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

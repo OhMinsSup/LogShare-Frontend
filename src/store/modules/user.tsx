@@ -1,6 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import produce from 'immer';
-import { GenericResponseAction } from 'src/lib/common';
+import * as UserType from './types/user';
 
 export enum UserActionType {
   SET_USER_REQUEST = 'user/SET_USER_REQUEST',
@@ -9,37 +9,13 @@ export enum UserActionType {
   LOGOUT = 'user/LOGOUT',
 }
 
-type ProcessPayload = {
-  authResult: {
-    _id: string;
-    username: string;
-    thumbnail: string;
-    shortBio: string;
-    email: string;
-  };
-};
-
 export const userCreators = {
   process: createAction(
     UserActionType.PROCESS,
-    (payload: ProcessPayload | null) => payload
+    (payload: UserType.ProcessPayload | null) => payload
   ),
   logout: createAction(UserActionType.LOGOUT),
 };
-
-type ProcessAction = ReturnType<typeof userCreators.process>;
-type SetUserAction = GenericResponseAction<
-  {
-    authResult: {
-      username: string;
-      thumbnail: string;
-      shortBio: string;
-      email: string;
-      _id: string;
-    };
-  },
-  string
->;
 
 export interface UserSubState {
   _id: string;
@@ -59,13 +35,16 @@ const initialState: UserState = {
 
 export default handleActions<UserState, any>(
   {
-    [UserActionType.SET_USER_SUCCESS]: (state, action: SetUserAction) => {
+    [UserActionType.SET_USER_SUCCESS]: (
+      state,
+      action: UserType.SetUserAction
+    ) => {
       return produce(state, draft => {
         if (action.payload.authResult === undefined) return;
         draft.user = action.payload.authResult;
       });
     },
-    [UserActionType.PROCESS]: (state, action: ProcessAction) => {
+    [UserActionType.PROCESS]: (state, action: UserType.ProcessAction) => {
       return produce(state, draft => {
         if (!action.payload || action.payload === null) {
           draft.user = null;

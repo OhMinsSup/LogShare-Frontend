@@ -1,55 +1,31 @@
 import { fork, put, call, takeEvery, select } from 'redux-saga/effects';
-import { AuthActionType } from '../modules/auth';
+import {
+  AuthActionType,
+  TokenDataState,
+  VerifySocialResultState,
+  AuthResultState,
+  ExistsState,
+} from '../modules/auth';
 import * as AuthAPI from '../../lib/api/auth';
+import * as AuthType from './types/auth';
 import { StoreState } from '../modules';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
-
-type LocalRegisterPayload = {
-  payload: { email: string; username: string; password: string };
-};
-type LocalLoginPayload = {
-  payload: { email: string; password: string };
-};
-type LocalLoginResponse = {
-  data: {
-    user: {
-      _id: string;
-      email: string;
-      profile: {
-        username: string;
-        thumbnail: string;
-        shortBio: string;
-      };
-    };
-  };
-};
-type LocalRegisterResponse = {
-  data: {
-    user: {
-      _id: string;
-      email: string;
-      profile: {
-        username: string;
-        thumbnail: string;
-        shortBio: string;
-      };
-    };
-  };
-};
-type ChekcExistsPayload = { payload: { key: string; value: string } };
-type ChekcExistsResponse = { data: { exists: boolean } };
+import { ErrorActionType } from '../modules/error';
 
 function* checkExists(action: any) {
   const {
     payload: { key, value },
-  }: ChekcExistsPayload = action;
+  }: AuthType.ChekcExistsPayload = action;
 
   try {
-    const response: ChekcExistsResponse = yield call(AuthAPI.checkExists, {
-      key,
-      value,
-    });
+    const response: AuthType.ChekcExistsResponse = yield call(
+      AuthAPI.checkExists,
+      {
+        key,
+        value,
+      }
+    );
 
     yield put({
       type: AuthActionType.CHECK_EXISTS_SUCCESS,
@@ -59,7 +35,7 @@ function* checkExists(action: any) {
       },
     });
 
-    const existsSelect: { email: boolean; username: string } = yield select(
+    const existsSelect: ExistsState = yield select(
       ({ auth }: StoreState) => auth.exists
     );
 
@@ -84,8 +60,11 @@ function* checkExists(action: any) {
     }
   } catch (e) {
     yield put({
-      type: AuthActionType.CHECK_EXISTS_ERROR,
-      error: e.message,
+      type: ErrorActionType.ERROR,
+      payload: {
+        text: e.response.statusText,
+        code: e.response.status,
+      },
     });
   }
 }
@@ -93,36 +72,53 @@ function* checkExists(action: any) {
 function* localRegister(action: any) {
   const {
     payload: { email, username, password },
-  }: LocalRegisterPayload = action;
+  }: AuthType.LocalRegisterPayload = action;
 
   try {
-    const response: LocalRegisterResponse = yield call(AuthAPI.localRegister, {
-      email,
-      username,
-      password,
-    });
+    const responseLocalRegiter: AuthType.LocalRegisterResponse = yield call(
+      AuthAPI.localRegister,
+      {
+        email,
+        username,
+        password,
+      }
+    );
 
     yield put({
       type: AuthActionType.LOCAL_REGISTER_SUCCESS,
       payload: {
-        user: response.data.user,
+        user: responseLocalRegiter.data.user,
       },
     });
 
-    const authResult = yield select(
+    const authResultSelect: AuthResultState = yield select(
       (state: StoreState) => state.auth.authResult
     );
+
+    if (!authResultSelect) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          text: 'Not Found',
+          code: 404,
+        },
+      });
+      return;
+    }
 
     yield put({
       type: UserActionType.SET_USER_REQUEST,
       payload: {
-        authResult,
+        authResultSelect,
       },
     });
   } catch (e) {
     yield put({
-      type: AuthActionType.LOCAL_REGISTER_ERROR,
-      error: e.message,
+      type: ErrorActionType.ERROR,
+      payload: {
+        text: e.response.statusText,
+        code: e.response.status,
+      },
     });
   }
 }
@@ -130,47 +126,226 @@ function* localRegister(action: any) {
 function* localLogin(action: any) {
   const {
     payload: { email, password },
-  }: LocalLoginPayload = action;
+  }: AuthType.LocalLoginPayload = action;
 
   try {
-    const response: LocalLoginResponse = yield call(AuthAPI.localLogin, {
-      email,
-      password,
-    });
+    const responseLocalLogin: AuthType.LocalLoginResponse = yield call(
+      AuthAPI.localLogin,
+      {
+        email,
+        password,
+      }
+    );
 
     yield put({
       type: AuthActionType.LOCAL_LOGIN_SUCCESS,
       payload: {
-        user: response.data.user,
+        user: responseLocalLogin.data.user,
       },
     });
 
-    const authResult = yield select(
+    const authResultSelect: AuthResultState = yield select(
       (state: StoreState) => state.auth.authResult
     );
 
     yield put({
       type: UserActionType.SET_USER_REQUEST,
       payload: {
-        authResult,
+        authResultSelect,
       },
     });
   } catch (e) {
     storage.remove('__log_share__');
-    // window.location.href = '/auth/login?expired';
+    window.location.href = '/auth/login?expired';
 
     yield put({
-      type: AuthActionType.SET_ERROR,
+      type: ErrorActionType.ERROR,
       payload: {
-        form: 'login_form',
-        name: 'error',
-        message: '잘못된 계정정보입니다.',
+        text: e.response.statusText,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
+function* callbackSocial(action: any) {
+  const {
+    payload: { next, provider, history },
+  }: AuthType.GetProviderTokenPayload = action;
+
+  try {
+    const responseToken: AuthType.GetProviderTokenResponse = yield call(
+      AuthAPI.getProviderToken
+    );
+
+    yield put({
+      type: AuthActionType.GET_PROVIDER_TOKEN_SUCCESS,
+      payload: {
+        provider: provider,
+        token: responseToken.data.token,
       },
     });
 
+    const tokenDataSelect: TokenDataState = yield select(
+      (state: StoreState) => state.auth.tokenData
+    );
+
+    if (!tokenDataSelect.token) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          text: 'Not Found',
+          code: 404,
+        },
+      });
+      return;
+    }
+
+    const responseVerify: AuthType.VerifySocialResponse = yield call(
+      AuthAPI.verifySocial,
+      {
+        accessToken: tokenDataSelect.token,
+        provider: tokenDataSelect.type,
+      }
+    );
+
     yield put({
-      type: AuthActionType.LOCAL_LOGIN_ERROR,
-      error: e.message,
+      type: AuthActionType.VERIFY_SOCIAL_SUCCESS,
+      payload: {
+        profile: responseVerify.data.profile,
+        exists: responseVerify.data.exists,
+      },
+    });
+
+    const verifySocialResultSelect: VerifySocialResultState = yield select(
+      (state: StoreState) => state.auth.verifySocialResult
+    );
+
+    if (!verifySocialResultSelect) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          text: 'Not Found',
+          code: 404,
+        },
+      });
+      return;
+    }
+
+    if (verifySocialResultSelect.exists) {
+      const responseSocialLogin: AuthType.SocialLoginResponse = yield call(
+        AuthAPI.socialLogin,
+        {
+          accessToken: tokenDataSelect.token,
+          provider: tokenDataSelect.type,
+        }
+      );
+
+      yield put({
+        type: AuthActionType.SOCIAL_LOGIN_SUCCESS,
+        payload: {
+          user: responseSocialLogin.data.user,
+        },
+      });
+
+      const authResultSelect: AuthResultState = yield select(
+        (state: StoreState) => state.auth.authResult
+      );
+
+      if (!authResultSelect) {
+        yield put({
+          type: ErrorActionType.ERROR,
+          payload: {
+            text: 'Not Found',
+            code: 404,
+          },
+        });
+        return;
+      }
+
+      yield put({
+        type: UserActionType.SET_USER_REQUEST,
+        payload: {
+          authResultSelect,
+        },
+      });
+
+      history.push(next || '/recent');
+      return;
+    }
+
+    const { email, username } = verifySocialResultSelect;
+
+    yield put({
+      type: AuthActionType.AUTOCOMPLETE_REGISTER_FORM,
+      payload: {
+        email,
+        username,
+      },
+    });
+
+    history.push('/auth/register');
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        text: e.response.statusText,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
+function* socialRegister(action: any) {
+  const {
+    payload: { accessToken, username, provider },
+  }: AuthType.SocialRegisterPayload = action;
+
+  try {
+    const response: AuthType.SocialRegisterResponse = yield call(
+      AuthAPI.socialRegister,
+      {
+        accessToken,
+        username,
+        provider,
+      }
+    );
+
+    yield put({
+      type: AuthActionType.SOCIAL_REGISTER_SUCCESS,
+      payload: {
+        authResult: response.data.user,
+      },
+    });
+
+    const authResultSelect = yield select(
+      (state: StoreState) => state.auth.authResult
+    );
+
+    if (!authResultSelect) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          text: 'Not Found',
+          code: 404,
+        },
+      });
+      return;
+    }
+
+    yield put({
+      type: UserActionType.SET_USER_REQUEST,
+      payload: {
+        authResultSelect,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        text: e.response.statusText,
+        code: e.response.status,
+      },
     });
   }
 }
@@ -187,10 +362,20 @@ function* watchLocalLogin() {
   yield takeEvery(AuthActionType.LOCAL_LOGIN_REQUEST, localLogin);
 }
 
+function* watchCallBackSocial() {
+  yield takeEvery(AuthActionType.GET_PROVIDER_TOKEN_REQUEST, callbackSocial);
+}
+
+function* watchSocialRegister() {
+  yield takeEvery(AuthActionType.SOCIAL_REGISTER_REQUEST, socialRegister);
+}
+
 export default function* authSaga() {
   yield [
     fork(watchCheckExists),
     fork(watchLocalRegister),
     fork(watchLocalLogin),
+    fork(watchCallBackSocial),
+    fork(watchSocialRegister),
   ];
 }

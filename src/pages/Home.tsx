@@ -2,13 +2,46 @@ import * as React from 'react';
 import PageTemplate from 'src/components/base/PageTemplate';
 import LandingTemplateContainer from 'src/containers/landing/LandingTemplateContainer';
 import { match } from 'react-router';
+import { Location } from 'history';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
+import { authCreators } from 'src/store/modules/auth';
+import * as queryString from 'query-string';
 
-const Home: React.StatelessComponent<{
-  match: match<string>;
-}> = ({ match }) => (
-  <PageTemplate>
-    <LandingTemplateContainer match={match} />
-  </PageTemplate>
-);
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+type OwnProps = { match: match<string>; location: Location };
+type Props = OwnProps & StateProps & DispatchProps;
 
-export default Home;
+class Home extends React.Component<Props> {
+  public constructor(props: Props) {
+    super(props);
+
+    const { AuthActions } = this.props;
+    const query = queryString.parse(this.props.location.search);
+
+    if (query.next) {
+      AuthActions.setNextUrl(query.next);
+    }
+  }
+
+  public render() {
+    const { match } = this.props;
+    return (
+      <PageTemplate>
+        <LandingTemplateContainer match={match} />
+      </PageTemplate>
+    );
+  }
+}
+
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  AuthActions: bindActionCreators(authCreators, dispatch),
+});
+
+export default connect<StateProps, DispatchProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

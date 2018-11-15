@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
+import * as BaseType from './types/base';
 
 export enum BaseActionType {
   SHOW_USER_MENU = 'base/SHOW_USER_MENU',
@@ -12,8 +13,6 @@ export const baseCreators = {
   hideUserMenu: createAction(BaseActionType.HIDE_USER_MENU),
   setWidth: createAction(BaseActionType.SET_WIDTH, (width: number) => width),
 };
-
-type SetWidthAction = ReturnType<typeof baseCreators.setWidth>;
 
 export interface BaseState {
   user_menu: {
@@ -45,7 +44,7 @@ export default handleActions<BaseState, any>(
         draft.user_menu.visible = false;
       });
     },
-    [BaseActionType.SET_WIDTH]: (state, action: SetWidthAction) => {
+    [BaseActionType.SET_WIDTH]: (state, action: BaseType.SetWidthAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.window.width = action.payload;
