@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Home, Auth } from './pages';
+import { Home, Auth, Write } from './pages';
 import Core from './containers/etc/Core';
 import Callback from './containers/etc/Callback';
 
@@ -11,6 +11,7 @@ const App = () => (
       <Route exact path="/(recent|trending|seris)" component={Home} />
       <Route exact path="/auth/(register|login)" component={Auth} />
       <Route exact path="/callback" component={Callback} />
+      <Route exact path="/write" component={Write} />
     </Switch>
     <Core />
   </React.Fragment>

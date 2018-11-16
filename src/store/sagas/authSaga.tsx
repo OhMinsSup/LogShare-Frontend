@@ -109,7 +109,7 @@ function* localRegister(action: any) {
     yield put({
       type: UserActionType.SET_USER_REQUEST,
       payload: {
-        authResultSelect,
+        authResult: authResultSelect,
       },
     });
   } catch (e) {
@@ -151,7 +151,7 @@ function* localLogin(action: any) {
     yield put({
       type: UserActionType.SET_USER_REQUEST,
       payload: {
-        authResultSelect,
+        authResult: authResultSelect,
       },
     });
   } catch (e) {
@@ -266,7 +266,7 @@ function* callbackSocial(action: any) {
       yield put({
         type: UserActionType.SET_USER_REQUEST,
         payload: {
-          authResultSelect,
+          authResult: authResultSelect,
         },
       });
 
@@ -298,7 +298,7 @@ function* callbackSocial(action: any) {
 
 function* socialRegister(action: any) {
   const {
-    payload: { accessToken, username, provider },
+    payload: { accessToken, username, provider, history },
   }: AuthType.SocialRegisterPayload = action;
 
   try {
@@ -314,11 +314,11 @@ function* socialRegister(action: any) {
     yield put({
       type: AuthActionType.SOCIAL_REGISTER_SUCCESS,
       payload: {
-        authResult: response.data.user,
+        user: response.data.user,
       },
     });
 
-    const authResultSelect = yield select(
+    const authResultSelect: AuthResultState = yield select(
       (state: StoreState) => state.auth.authResult
     );
 
@@ -336,9 +336,11 @@ function* socialRegister(action: any) {
     yield put({
       type: UserActionType.SET_USER_REQUEST,
       payload: {
-        authResultSelect,
+        authResult: authResultSelect,
       },
     });
+
+    history.push('/recent');
   } catch (e) {
     yield put({
       type: ErrorActionType.ERROR,

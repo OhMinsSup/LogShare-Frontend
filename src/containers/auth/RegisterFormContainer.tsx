@@ -5,10 +5,12 @@ import { StoreState } from 'src/store/modules';
 import { isEmail, isLength, isAlphanumeric } from 'validator';
 import { Dispatch, bindActionCreators } from 'redux';
 import { authCreators } from 'src/store/modules/auth';
+import { History } from 'history';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type Props = StateProps & DispatchProps;
+type OwnProps = { history: History };
+type Props = StateProps & DispatchProps & OwnProps;
 
 class RegisterFormContainer extends React.Component<Props> {
   public onValidate = {
@@ -88,6 +90,7 @@ class RegisterFormContainer extends React.Component<Props> {
       registerForm: { username, email, password },
       isSocial,
       AuthActions,
+      history,
     } = this.props;
 
     if (isSocial) {
@@ -101,6 +104,7 @@ class RegisterFormContainer extends React.Component<Props> {
         accessToken,
         username,
         provider,
+        history,
       });
     } else {
       AuthActions.localRegister({
@@ -111,18 +115,10 @@ class RegisterFormContainer extends React.Component<Props> {
     }
   };
 
-  public initialize = () => {
-    const { AuthActions } = this.props;
-    AuthActions.initial();
-  };
-
-  public componentDidMount() {
-    this.initialize();
-  }
-
   public render() {
     const {
       registerForm: { username, email, password, passwordConfirm, error },
+      isSocial,
     } = this.props;
     const { onChange, onRegister } = this;
 
@@ -135,6 +131,7 @@ class RegisterFormContainer extends React.Component<Props> {
         passwordConfirm={passwordConfirm}
         onChange={onChange}
         error={error}
+        disabled={isSocial}
       />
     );
   }
@@ -152,7 +149,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   AuthActions: bindActionCreators(authCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(RegisterFormContainer);

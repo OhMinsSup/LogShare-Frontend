@@ -17,6 +17,7 @@ export type SocialRegisterPayload = {
   accessToken: string;
   provider: string;
   username: string;
+  history: History;
 };
 export type CheckExistsPayload = { key: string; value: string };
 export type LocalLoginPayload = { email: string; password: string };
@@ -26,6 +27,21 @@ export type CallbackSocialPayload = {
   next: string;
   history: History;
 };
+
+export type SocialRegisterAction = GenericResponseAction<
+  {
+    user: {
+      _id: string;
+      email: string;
+      profile: {
+        username: string;
+        thumbnail: string;
+        shortBio: string;
+      };
+    };
+  },
+  string
+>;
 
 export type CheckExistsAction = GenericResponseAction<
   { exists: boolean; key: string },
@@ -68,7 +84,7 @@ export type GetProviderTokenAction = GenericResponseAction<
 >;
 export type VerifySocialAction = GenericResponseAction<
   {
-    profile: { id: string; thumbnail: string; email: string; username: string };
+    profile: { id: string; thumbnail: string; email: string; name: string };
     exists: boolean;
   },
   string

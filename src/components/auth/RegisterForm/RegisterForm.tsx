@@ -14,6 +14,7 @@ const RegisterForm: React.StatelessComponent<{
   password: string;
   passwordConfirm: string;
   error: string | null;
+  disabled: boolean;
   onRegister(): void;
   onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }> = ({
@@ -24,6 +25,7 @@ const RegisterForm: React.StatelessComponent<{
   onChange,
   error,
   onRegister,
+  disabled,
 }) => (
   <div className={cx('register-form')}>
     <div className={cx('logo')}>
@@ -38,28 +40,26 @@ const RegisterForm: React.StatelessComponent<{
         name="username"
         value={username}
         onChange={onChange}
-        disabled={false}
       />
       <AuthInput
         placeholder="이메일"
         name="email"
         value={email}
         onChange={onChange}
-        disabled={false}
       />
       <AuthInput
         placeholder="비밀번호(영문,숫자,특수문자 8-15)"
         name="password"
         value={password}
         onChange={onChange}
-        disabled={false}
+        disabled={disabled}
       />
       <AuthInput
         placeholder="비밀번호 확인"
         name="passwordConfirm"
         value={passwordConfirm}
         onChange={onChange}
-        disabled={false}
+        disabled={disabled}
       />
     </React.Fragment>
     {error && <Error message={error} />}

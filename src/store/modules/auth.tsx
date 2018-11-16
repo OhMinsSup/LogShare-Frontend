@@ -311,7 +311,7 @@ export default handleActions<AuthState, any>(
         } = action;
         draft.verifySocialResult = {
           id: profile.id,
-          username: profile.username,
+          username: profile.name,
           email: profile.email,
           thumbnail: profile.thumbnail,
           exists: exists,
@@ -324,6 +324,23 @@ export default handleActions<AuthState, any>(
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
+        const {
+          payload: { user },
+        } = action;
+        draft.authResult = {
+          _id: user._id,
+          email: user.email,
+          username: user.profile.username,
+          shortBio: user.profile.shortBio,
+          thumbnail: user.profile.thumbnail,
+        };
+      });
+    },
+    [AuthActionType.SOCIAL_REGISTER_SUCCESS]: (
+      state,
+      action: AuthType.SocialRegisterAction
+    ) => {
+      return produce(state, draft => {
         const {
           payload: { user },
         } = action;

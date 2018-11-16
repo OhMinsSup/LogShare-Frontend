@@ -42,7 +42,7 @@ export type GetProviderTokenResponse = {
 };
 export type VerifySocialResponse = {
   data: {
-    profile: { id: string; thumbnail: string; email: string; username: string };
+    profile: { id: string; thumbnail: string; email: string; name: string };
     exists: boolean;
   };
 };
@@ -51,6 +51,7 @@ export type SocialRegisterPayload = {
     accessToken: string;
     provider: string;
     username: string;
+    history: History;
   };
 };
 export type SocialRegisterResponse = {

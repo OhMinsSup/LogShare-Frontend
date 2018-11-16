@@ -74,6 +74,12 @@ class LoginFormContainer extends React.Component<Props> {
       window.location.replace(goolgeLoginUrl);
       return;
     }
+
+    if (provider === 'facebook') {
+      const facebookLoginUrl = `http://localhost:4000/auth/callback/facebook/login?next=${nextUrl}`;
+      window.location.replace(facebookLoginUrl);
+      return;
+    }
   };
 
   public initialize = () => {
