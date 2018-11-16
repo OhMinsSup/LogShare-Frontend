@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Home, Auth, Write } from './pages';
-import Core from './containers/etc/Core';
 import Callback from './containers/etc/Callback';
+import Core from './containers/etc/Core';
 
 const App = () => (
   <React.Fragment>

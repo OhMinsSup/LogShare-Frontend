@@ -1,0 +1,102 @@
+@import 'utils';
+
+.write-header {
+    position: relative;
+    height: 4rem;
+    background: $oc-blue-6;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    color: white;
+    .back-icon {
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.925);
+      font-size: 1.75rem;
+      &:hover,
+      &:active {
+        color: white;
+      }
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        .upload-image {
+            height: 2.25rem;
+            line-height: 0.875rem;
+            font-size: 0.875rem;
+            padding: 0 0.75rem;
+            border-radius: 4px;
+            background: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            @include material-shadow(2, 0.75);
+            cursor: pointer;
+            &:hover {
+              background: white;
+              color: $oc-blue-6;
+            }
+            svg {
+              font-size: 1.125rem;
+            }
+            display: flex;
+            align-items: center;
+            margin-right: 0.75rem;
+            .btn-text {
+              margin-left: 0.5rem;
+            }
+        }
+        .button {
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            background: $oc-gray-0;
+            padding: 0 0.75rem;
+            font-weight: 500;
+            border-radius: 2px;
+            line-height: 0.875rem;
+            font-size: 0.875rem;
+            @include material-shadow(2, 0.75);
+            transition: 0.1s all ease-in;
+            user-select: none;
+            cursor: pointer;
+            &+.button {
+              margin-left: 0.75rem;
+            }
+            &.submit {
+              background: white;
+              color: $oc-blue-6;
+              &:hover {
+                background: white;
+              }
+              &:active {
+                background:white;
+              }
+            }
+            &.edit {
+              background: $oc-blue-5;
+              &:hover {
+                background: lighten($oc-blue-5, 5%);
+              }
+              &:active {
+                background: $oc-blue-5;
+              }
+            }
+        }
+        .more {
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.05s all ease-in;
+            &:hover {
+                background: rgb(252, 250, 250);
+            }
+            &:active {
+                background: rgb(252, 250, 250);
+            }
+        }
+    }
+}
