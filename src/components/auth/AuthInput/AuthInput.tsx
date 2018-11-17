@@ -5,25 +5,19 @@ import { MdLockOutline } from 'react-icons/md';
 const styles = require('./AuthInput.scss');
 const cx = classNames.bind(styles);
 
-type Props = {
+const AuthInput: React.StatelessComponent<{
   placeholder: string;
   value: string;
   name: string;
+  type: string;
   disabled?: boolean;
   onChange(e: React.ChangeEvent<HTMLInputElement>): void;
-};
-
-const AuthInput: React.StatelessComponent<Props> = ({
-  placeholder,
-  value,
-  onChange,
-  disabled,
-  name,
-}) => (
+}> = ({ placeholder, value, onChange, disabled, name, type }) => (
   <div className={cx('input-wrapper', { disabled })}>
     <input
       className={cx('auth-input')}
       placeholder={placeholder}
+      type={type}
       name={name}
       value={value}
       onChange={onChange}

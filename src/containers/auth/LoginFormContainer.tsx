@@ -6,6 +6,7 @@ import { StoreState } from 'src/store/modules';
 import { connect } from 'react-redux';
 import { isEmail, isLength } from 'validator';
 import * as queryString from 'query-string';
+import { Location } from 'history';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -106,6 +107,7 @@ class LoginFormContainer extends React.Component<Props> {
       loginForm: { email, password, error },
     } = this.props;
     const { onChange, onLogin, onSocialLogin } = this;
+
     return (
       <LoginForm
         email={email}

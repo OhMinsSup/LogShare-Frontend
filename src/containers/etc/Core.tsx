@@ -31,7 +31,7 @@ class Core extends React.Component<Props> {
   }
 
   public render() {
-    return <div />;
+    return null;
   }
 }
 
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   UserActions: bindActionCreators(userCreators, dispatch),
 });
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
 )(Core);

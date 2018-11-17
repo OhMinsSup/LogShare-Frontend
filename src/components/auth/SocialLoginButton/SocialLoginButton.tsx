@@ -5,11 +5,6 @@ import { FaFacebookF, FaGoogle } from 'react-icons/fa';
 const styles = require('./SocialLoginButton.scss');
 const cx = classNames.bind(styles);
 
-type Props = {
-  type: 'facebook' | 'google';
-  onSocialLogin(provider: string): void;
-};
-
 const providers = {
   facebook: {
     icon: FaFacebookF,
@@ -19,7 +14,10 @@ const providers = {
   },
 };
 
-const SocialLoginButton: React.StatelessComponent<Props> = props => {
+const SocialLoginButton: React.StatelessComponent<{
+  type: 'facebook' | 'google';
+  onSocialLogin(provider: string): void;
+}> = props => {
   const { type, onSocialLogin } = props;
   const { icon: Icon } = providers[type];
 

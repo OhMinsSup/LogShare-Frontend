@@ -8,6 +8,7 @@ type Props = {
   header?: React.ReactNode;
   editor?: React.ReactNode;
   preview?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 type State = {
@@ -36,7 +37,7 @@ class WriteTemplate extends React.Component<Props, State> {
   };
 
   public render() {
-    const { header, editor, preview } = this.props;
+    const { header, editor, preview, children } = this.props;
     const { leftPercentage } = this.state;
     const { onSeparatorMouseDown } = this;
 
@@ -67,6 +68,7 @@ class WriteTemplate extends React.Component<Props, State> {
             onMouseDown={onSeparatorMouseDown}
           />
         </div>
+        {children}
       </div>
     );
   }

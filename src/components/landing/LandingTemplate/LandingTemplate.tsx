@@ -4,19 +4,12 @@ import * as classNames from 'classnames/bind';
 const styles = require('./LandingTemplate.scss');
 const cx = classNames.bind(styles);
 
-type Props = {
+const LandingTemplate: React.StatelessComponent<{
   children: React.ReactNode;
   mainHead: React.ReactNode;
   mainSidebar: React.ReactNode;
   primarySidebar: React.ReactNode;
-};
-
-const LandingTemplate: React.StatelessComponent<Props> = ({
-  mainSidebar,
-  mainHead,
-  primarySidebar,
-  children,
-}) => (
+}> = ({ mainSidebar, mainHead, primarySidebar, children }) => (
   <div className={cx('landing-template')}>
     <div className={cx('landing-sidebar')}>
       <div className={cx('sidebar-content')}>{mainSidebar}</div>

@@ -5,21 +5,13 @@ import { Link } from 'react-router-dom';
 const styles = require('./Button.scss');
 const cx = classNames.bind(styles);
 
-type Props = {
+const Button: React.StatelessComponent<{
   theme: 'default' | 'outline' | 'paper' | 'noline' | 'flex' | 'submit';
   to?: string | null;
   children: React.ReactNode;
   className?: string;
-  onClick?(): any;
-};
-
-const Button: React.SFC<Props> = ({
-  to,
-  theme,
-  children,
-  className,
-  ...rest
-}) => {
+  onClick?(): void;
+}> = ({ to, theme, children, className, ...rest }) => {
   const publicClassName = cx('Button', theme, className);
   if (to) {
     return (

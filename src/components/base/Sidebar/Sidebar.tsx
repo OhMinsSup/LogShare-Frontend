@@ -7,11 +7,9 @@ import SidebarNavItem from '../SidebarNavItem';
 const styles = require('./Sidebar.scss');
 const cx = classNames.bind(styles);
 
-type Props = {
+const Sidebar: React.StatelessComponent<{
   url: string;
-};
-
-const Sidebar: React.SFC<Props> = ({ url }) => (
+}> = ({ url }) => (
   <div className={cx('sidebar')}>
     <div className={cx('sidebar-top')}>
       <div className={cx('logo-section')}>

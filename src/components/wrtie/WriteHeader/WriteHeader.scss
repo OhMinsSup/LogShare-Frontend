@@ -66,12 +66,14 @@
             }
             &.submit {
               background: white;
-              color: $oc-blue-6;
+              color: $oc-gray-8;
               &:hover {
                 background: white;
+                color: $oc-blue-6;
               }
               &:active {
                 background:white;
+                color: $oc-blue-7;
               }
             }
             &.edit {

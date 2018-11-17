@@ -37,18 +37,21 @@ const RegisterForm: React.StatelessComponent<{
     <React.Fragment>
       <AuthInput
         placeholder="유저명"
+        type="text"
         name="username"
         value={username}
         onChange={onChange}
       />
       <AuthInput
         placeholder="이메일"
+        type="text"
         name="email"
         value={email}
         onChange={onChange}
       />
       <AuthInput
         placeholder="비밀번호(영문,숫자,특수문자 8-15)"
+        type="password"
         name="password"
         value={password}
         onChange={onChange}
@@ -56,6 +59,7 @@ const RegisterForm: React.StatelessComponent<{
       />
       <AuthInput
         placeholder="비밀번호 확인"
+        type="password"
         name="passwordConfirm"
         value={passwordConfirm}
         onChange={onChange}

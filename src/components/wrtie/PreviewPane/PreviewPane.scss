@@ -11,4 +11,8 @@
     padding-bottom: 2rem;
     border-bottom: 1px solid $oc-gray-4;
   }
+
+  &>h1 {
+    word-break: break-all;
+  }
 }

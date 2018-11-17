@@ -6,6 +6,7 @@ import { Location } from 'history';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { authCreators } from 'src/store/modules/auth';
+import { StoreState } from 'src/store/modules';
 import * as queryString from 'query-string';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -35,7 +36,7 @@ class Home extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: StoreState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   AuthActions: bindActionCreators(authCreators, dispatch),

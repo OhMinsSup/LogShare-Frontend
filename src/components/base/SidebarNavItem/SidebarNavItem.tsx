@@ -5,14 +5,12 @@ import { Link } from 'react-router-dom';
 const styles = require('./SidebarNavItem.scss');
 const cx = classNames.bind(styles);
 
-type Props = {
+const SidebarNavItem: React.StatelessComponent<{
   text: string;
   to: string;
   icon: React.ReactNode;
   active?: boolean;
-};
-
-const SidebarNavItem: React.SFC<Props> = ({ active, to, text, icon }) => (
+}> = ({ active, to, text, icon }) => (
   <li className={cx('nav-item', { active })}>
     <Link to={to}>
       {icon}

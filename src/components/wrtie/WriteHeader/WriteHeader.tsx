@@ -7,12 +7,11 @@ import { IoMdImage } from 'react-icons/io';
 const styles = require('./WriteHeader.scss');
 const cx = classNames.bind(styles);
 
-const WriteHeader = () => (
+const WriteHeader: React.StatelessComponent<{
+  onGoBack(): void;
+}> = ({ onGoBack }) => (
   <div className={cx('write-header')}>
-    <MdArrowBack
-      className={cx('back-icon')}
-      onClick={() => console.log('뒤로 가랏')}
-    />
+    <MdArrowBack className={cx('back-icon')} onClick={onGoBack} />
     <div className={cx('actions')}>
       <button
         className={cx('upload-image')}
@@ -29,7 +28,7 @@ const WriteHeader = () => (
       </div>
       <div
         className={cx('more util flex-center')}
-        style={{ marginLeft: '1rem' }}
+        style={{ marginLeft: '1rem', cursor: 'pointer' }}
         onClick={() => console.log('뒤로 가랏')}
       >
         <FaEllipsisV className={cx('ignore-click-outside')} />

@@ -4,16 +4,19 @@ import WriteHeaderContainer from 'src/containers/write/WriteHeaderContainer';
 import WritePaneContainer from 'src/containers/write/WritePaneContainer';
 import PreviewPanContainer from 'src/containers/write/PreviewPanContainer';
 import { History, Location } from 'history';
+import SubmitBoxContainer from 'src/containers/write/SubmitBoxContainer';
 
 const Write: React.StatelessComponent<{
   history: History;
   location: Location;
-}> = () => (
+}> = ({ history }) => (
   <WriteTemplate
-    header={<WriteHeaderContainer />}
+    header={<WriteHeaderContainer history={history} />}
     editor={<WritePaneContainer />}
     preview={<PreviewPanContainer />}
-  />
+  >
+    <SubmitBoxContainer />
+  </WriteTemplate>
 );
 
 export default Write;

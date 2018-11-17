@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import { Doc } from 'codemirror';
 
 let CodeMirror: any = null;
 
@@ -39,16 +40,16 @@ class WritePane extends React.Component<Props> {
     this.codeMirror.on('change', this.handleChangeMarkdown);
   };
 
-  public handleChange = (e: any) => {
+  public handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { onChangeInput } = this.props;
     const { value, name } = e.target;
     onChangeInput(name, value);
   };
 
-  public handleChangeMarkdown = (doc: any) => {
+  public handleChangeMarkdown = (doc: Doc) => {
     const { onChangeInput } = this.props;
     this.cursor = doc.getCursor();
-    let name = 'markdown';
+    let name = 'body';
     let value = doc.getValue();
     onChangeInput(name, value);
   };
@@ -78,6 +79,7 @@ class WritePane extends React.Component<Props> {
           className={cx('title')}
           placeholder="제목을 입력하세요"
           name="title"
+          autoFocus
           value={title}
           onChange={handleChange}
         />

@@ -39,12 +39,14 @@ const LoginForm: React.StatelessComponent<{
     <React.Fragment>
       <AuthInput
         placeholder="이메일"
+        type="text"
         name="email"
         value={email}
         onChange={onChange}
       />
       <AuthInput
         placeholder="비밀번호"
+        type="password"
         name="password"
         value={password}
         onChange={onChange}

@@ -15,6 +15,7 @@ class Callback extends React.Component<Props> {
   public initialize = () => {
     const query = queryString.parse(this.props.location.search);
     const { next, type, key } = query;
+
     if (!type || !key) {
       return;
     }
