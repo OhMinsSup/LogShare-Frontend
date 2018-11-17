@@ -37,7 +37,7 @@ class Callback extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = ({  }: StoreState) => ({});
+const mapStateToProps = (state: StoreState) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   AuthActions: bindActionCreators(authCreators, dispatch),

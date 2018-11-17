@@ -9,7 +9,8 @@ const cx = classNames.bind(styles);
 
 const WriteHeader: React.StatelessComponent<{
   onGoBack(): void;
-}> = ({ onGoBack }) => (
+  onSubmitBox(): void;
+}> = ({ onGoBack, onSubmitBox }) => (
   <div className={cx('write-header')}>
     <MdArrowBack className={cx('back-icon')} onClick={onGoBack} />
     <div className={cx('actions')}>
@@ -26,11 +27,7 @@ const WriteHeader: React.StatelessComponent<{
       >
         작성하기
       </div>
-      <div
-        className={cx('more util flex-center')}
-        style={{ marginLeft: '1rem', cursor: 'pointer' }}
-        onClick={() => console.log('뒤로 가랏')}
-      >
+      <div className={cx('more')} onClick={onSubmitBox}>
         <FaEllipsisV className={cx('ignore-click-outside')} />
       </div>
     </div>

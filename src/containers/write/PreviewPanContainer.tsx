@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   WriteActions: bindActionCreators(writeCreators, dispatch),
 });
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
 )(PreviewPanContainer);

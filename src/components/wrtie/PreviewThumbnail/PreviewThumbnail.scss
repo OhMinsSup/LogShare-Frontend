@@ -1,0 +1,75 @@
+@import "utils";
+.preview-thumbnail {
+  position: relative;
+  .remove-wrapper {
+    margin-top: -0.75rem;
+    text-align: right;
+    padding-right: 0.25rem;
+    margin-bottom: 0.5rem;
+    .remove {
+        background: white;
+        font-size: 0.875rem;
+        font-weight: 800;
+        color: $oc-red-5;
+        user-select: none;
+        border-radius: 4px;
+        border: 1px solid white;
+        cursor: pointer;
+        &:hover {
+            border: 1px solid $oc-red-5;
+            background: $oc-red-5;
+            color: white;
+        }
+    }
+  }
+  .white-button {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    color: $oc-gray-8;
+    display: flex;
+    align-items: center;
+    transition: 0.1s all ease-in;
+    user-select: none;
+    &.fullwidth {
+      width: 100%;
+      justify-content: center;
+    }
+    &:hover {
+      background: $oc-gray-1;
+    }
+    svg {
+      font-size: 1.25rem;
+    }
+    .text {
+      margin-left: 0.5rem;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+  }
+  .thumbnail-area {
+    width: 100%;
+    padding-top: 52.63%;
+    position: relative;
+    .full {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    img {
+      object-fit: cover;
+      display: block;
+    }
+    .overlay {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      flex-direction: column;
+      padding-right: 0.875rem;
+      padding-bottom: 0.875rem;
+    }
+  }
+}

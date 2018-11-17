@@ -87,17 +87,22 @@
             }
         }
         .more {
+            display: flex;
             width: 2.5rem;
             height: 2.5rem;
             font-size: 1.5rem;
             border-radius: 50%;
+            margin-left: 1rem;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: 0.05s all ease-in;
+            color: whitesmoke;
             &:hover {
-                background: rgb(252, 250, 250);
+              background: rgb(252, 250, 250);
             }
             &:active {
-                background: rgb(252, 250, 250);
+              background: rgb(252, 250, 250);
             }
         }
     }
