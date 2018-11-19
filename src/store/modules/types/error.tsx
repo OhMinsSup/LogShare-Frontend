@@ -1,6 +1,6 @@
 import { GenericResponseAction } from 'src/lib/common';
 
 export type ErrorAction = GenericResponseAction<
-  { statusText: string; status: number },
+  { error: boolean; status: number | null },
   string
 >;

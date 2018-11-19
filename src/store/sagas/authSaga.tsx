@@ -62,7 +62,7 @@ function* checkExists(action: any) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        text: e.response.statusText,
+        error: true,
         code: e.response.status,
       },
     });
@@ -99,7 +99,7 @@ function* localRegister(action: any) {
       yield put({
         type: ErrorActionType.ERROR,
         payload: {
-          text: 'Not Found',
+          error: true,
           code: 404,
         },
       });
@@ -116,7 +116,7 @@ function* localRegister(action: any) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        text: e.response.statusText,
+        error: true,
         code: e.response.status,
       },
     });
@@ -161,7 +161,7 @@ function* localLogin(action: any) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        text: e.response.statusText,
+        error: true,
         code: e.response.status,
       },
     });
@@ -194,7 +194,7 @@ function* callbackSocial(action: any) {
       yield put({
         type: ErrorActionType.ERROR,
         payload: {
-          text: 'Not Found',
+          error: true,
           code: 404,
         },
       });
@@ -225,7 +225,7 @@ function* callbackSocial(action: any) {
       yield put({
         type: ErrorActionType.ERROR,
         payload: {
-          text: 'Not Found',
+          error: true,
           code: 404,
         },
       });
@@ -256,7 +256,7 @@ function* callbackSocial(action: any) {
         yield put({
           type: ErrorActionType.ERROR,
           payload: {
-            text: 'Not Found',
+            error: true,
             code: 404,
           },
         });
@@ -289,7 +289,7 @@ function* callbackSocial(action: any) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        text: e.response.statusText,
+        error: true,
         code: e.response.status,
       },
     });
@@ -326,7 +326,7 @@ function* socialRegister(action: any) {
       yield put({
         type: ErrorActionType.ERROR,
         payload: {
-          text: 'Not Found',
+          error: true,
           code: 404,
         },
       });
@@ -345,7 +345,7 @@ function* socialRegister(action: any) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        text: e.response.statusText,
+        error: true,
         code: e.response.status,
       },
     });

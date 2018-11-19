@@ -99,9 +99,11 @@
             transition: 0.05s all ease-in;
             color: whitesmoke;
             &:hover {
+              color: $oc-gray-8;
               background: rgb(252, 250, 250);
             }
             &:active {
+              color: $oc-gray-8;
               background: rgb(252, 250, 250);
             }
         }

@@ -38,7 +38,7 @@ function* logOut() {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        text: e.response.statusText,
+        error: true,
         code: e.response.status,
       },
     });

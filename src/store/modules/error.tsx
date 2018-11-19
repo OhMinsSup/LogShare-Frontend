@@ -6,27 +6,22 @@ export enum ErrorActionType {
   ERROR = 'error/ERROR',
 }
 
-export interface ErrorValueState {
-  text: string | null;
-  code: number | null;
-}
-
 export interface ErrorState {
-  error: ErrorValueState | null;
+  code: number | null;
+  error: boolean;
 }
 
 const initialState: ErrorState = {
-  error: null,
+  code: null,
+  error: false,
 };
 
 export default handleActions<ErrorState, any>(
   {
     [ErrorActionType.ERROR]: (state, action: ErrorType.ErrorAction) => {
       return produce(state, draft => {
-        draft.error = {
-          text: action.payload.statusText,
-          code: action.payload.status,
-        };
+        draft.code = action.payload.status;
+        draft.error = action.payload.error;
       });
     },
   },

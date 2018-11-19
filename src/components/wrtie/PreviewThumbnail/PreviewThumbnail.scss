@@ -32,6 +32,7 @@
     align-items: center;
     transition: 0.1s all ease-in;
     user-select: none;
+    border: none;
     &.fullwidth {
       width: 100%;
       justify-content: center;

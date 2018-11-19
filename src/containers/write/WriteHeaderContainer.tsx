@@ -12,6 +12,8 @@ type OwnProps = { history: History };
 type Props = OwnProps & StateProps & DispatchProps;
 
 class WriteHeaderContainer extends React.Component<Props> {
+  public onSubmit = () => {};
+
   public onSubmitBox = () => {
     const { WriteActions, open } = this.props;
 
@@ -22,14 +24,36 @@ class WriteHeaderContainer extends React.Component<Props> {
     }
   };
 
+  public onUploadClick = () => {
+    const upload = document.createElement('input');
+    upload.type = 'file';
+    upload.onchange = e => {
+      if (!upload.files) return;
+      const file = upload.files[0];
+
+      if (!file) return;
+
+      const { WriteActions } = this.props;
+      WriteActions.createUploadUrlPostImage({ file });
+    };
+    upload.click();
+  };
+
   public onGoBack = () => {
     const { history } = this.props;
     history.goBack();
   };
 
   public render() {
-    const { onGoBack, onSubmitBox } = this;
-    return <WriteHeader onGoBack={onGoBack} onSubmitBox={onSubmitBox} />;
+    const { onGoBack, onSubmitBox, onUploadClick, onSubmit } = this;
+    return (
+      <WriteHeader
+        onSubmit={onSubmit}
+        onUploadClick={onUploadClick}
+        onGoBack={onGoBack}
+        onSubmitBox={onSubmitBox}
+      />
+    );
   }
 }
 

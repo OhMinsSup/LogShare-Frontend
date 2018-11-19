@@ -5,9 +5,9 @@ const styles = require('./WriteTemplate.scss');
 const cx = classNames.bind(styles);
 
 type Props = {
-  header?: React.ReactNode;
-  editor?: React.ReactNode;
-  preview?: React.ReactNode;
+  header: React.ReactNode;
+  editor: React.ReactNode;
+  preview: React.ReactNode;
   children: React.ReactNode;
 };
 

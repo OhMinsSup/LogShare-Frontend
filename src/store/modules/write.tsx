@@ -7,8 +7,15 @@ export enum WriteActionType {
   INSERT_TAG = 'write/INSERT_TAG',
   REMOVE_TAG = 'write/REMOVE_TAG',
   SET_THUMBNAIL = 'write/SET_THUMBNAIL',
+  SET_INSERT_TEXT = 'write/SET_INSERT_TEXT',
+  SET_CLEAR_INSERT_TEXT = 'write/SET_CLEAR_INSERT_TEXT',
+  SET_UPLOAD_MASK = 'write/SET_UPLOAD_MASK',
   SHOW_WRITE_SUBMIT = 'write/SHOW_WRITE_SUBMIT',
   HIDE_WRITE_SUBMIT = 'write/HIDE_WRITE_SUBMIT',
+  CREATE_UPLOAD_URL_POST_IMAGE_REQUEST = 'write/CREATE_UPLOAD_URL_POST_IMAGE_REQUEST',
+  CREATE_UPLOAD_URL_POST_IMAGE_SUCCESS = 'write/CREATE_UPLOAD_URL_POST_IMAGE_SUCCESS',
+  CREATE_UPLOAD_URL_POST_THUMBNAIL_REQUEST = 'write/CREATE_UPLOAD_URL_POST_THUMBNAIL_REQUEST',
+  CREATE_UPLOAD_URL_POST_THUMBNAIL_SUCCESS = 'write/CREATE_UPLOAD_URL_POST_THUMBNAIL_SUCCESS',
 }
 
 export const writeCreators = {
@@ -18,6 +25,11 @@ export const writeCreators = {
   ),
   insertTag: createAction(WriteActionType.INSERT_TAG, (tag: string) => tag),
   removeTag: createAction(WriteActionType.REMOVE_TAG, (tag: string) => tag),
+  setClearInsertText: createAction(WriteActionType.SET_CLEAR_INSERT_TEXT),
+  setUploadMask: createAction(
+    WriteActionType.SET_UPLOAD_MASK,
+    (visible: boolean) => visible
+  ),
   setThumbnail: createAction(
     WriteActionType.SET_THUMBNAIL,
     (url: string | null) => url
@@ -29,6 +41,14 @@ export const writeCreators = {
   hideWriteSubmit: createAction(
     WriteActionType.HIDE_WRITE_SUBMIT,
     (visible: boolean) => visible
+  ),
+  createUploadUrlPostThumbnail: createAction(
+    WriteActionType.CREATE_UPLOAD_URL_POST_THUMBNAIL_REQUEST,
+    (payload: WriteType.CreateUploadUrlPostPayload) => payload
+  ),
+  createUploadUrlPostImage: createAction(
+    WriteActionType.CREATE_UPLOAD_URL_POST_IMAGE_REQUEST,
+    (payload: WriteType.CreateUploadUrlPostPayload) => payload
   ),
 };
 
@@ -49,12 +69,19 @@ export interface EditorState {
   body: string;
 }
 
+export interface SettingState {
+  mask: boolean;
+  insertText: string | null;
+}
+
 export interface WriteState {
   editor: EditorState;
   submitBox: SubmitBoxState;
   upload: UploadState;
+  setting: SettingState;
   postId: string | null;
 }
+
 const initialState: WriteState = {
   editor: {
     post_thumbnail: null,
@@ -70,11 +97,38 @@ const initialState: WriteState = {
     path: '',
     name: '',
   },
+  setting: {
+    mask: false,
+    insertText: null,
+  },
   postId: null,
 };
 
 export default handleActions<WriteState, any>(
   {
+    [WriteActionType.SET_UPLOAD_MASK]: (
+      state,
+      action: WriteType.SetUploadMaskAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.setting.mask = action.payload;
+      });
+    },
+    [WriteActionType.SET_CLEAR_INSERT_TEXT]: state => {
+      return produce(state, draft => {
+        draft.setting.insertText = null;
+      });
+    },
+    [WriteActionType.SET_INSERT_TEXT]: (
+      state,
+      action: WriteType.SetInsertTextAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.setting.insertText = action.payload.text;
+      });
+    },
     [WriteActionType.CHANGE_INPUT]: (
       state,
       action: WriteType.ChangeInputAction
@@ -129,6 +183,24 @@ export default handleActions<WriteState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.submitBox.open = action.payload;
+      });
+    },
+    [WriteActionType.CREATE_UPLOAD_URL_POST_THUMBNAIL_SUCCESS]: (
+      state,
+      action: WriteType.CreateUploadUrlPostAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.upload = action.payload;
+      });
+    },
+    [WriteActionType.CREATE_UPLOAD_URL_POST_IMAGE_SUCCESS]: (
+      state,
+      action: WriteType.CreateUploadUrlPostAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.upload = action.payload;
       });
     },
   },

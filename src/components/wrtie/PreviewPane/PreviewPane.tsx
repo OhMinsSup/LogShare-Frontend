@@ -6,8 +6,8 @@ const styles = require('./PreviewPane.scss');
 const cx = classNames.bind(styles);
 
 const PreviewPane: React.StatelessComponent<{
-  markdown?: string;
-  title?: string;
+  markdown: string;
+  title: string;
 }> = ({ markdown, title }) => (
   <div className={cx('preview-pane')}>
     <h1 className={cx('title')}>{title}</h1>

@@ -23,7 +23,7 @@
   }
   position: absolute;
   right: 0.5rem;
-  top: 5rem;
+  top: 7rem;
   background: $oc-blue-6;
   width: 20rem;
   @include media("<376px") {
@@ -31,6 +31,7 @@
   }
   padding: 1.5rem;
   color: white; 
+  @include material-shadow(2, 1);
   &.appear {
     animation: submitBoxAppear 0.15s ease-in-out;
     animation-fill-mode: forwards;
@@ -50,6 +51,42 @@
       font-weight: 700;
       margin-bottom: 0.75rem;
       color: white;
+    }
+  }
+  .footer {
+    padding-top: 1rem;
+    user-select: none;
+    margin: -1.5rem;
+    padding: 1.5rem;
+    margin-top: 0rem;
+    background: $oc-blue-7;
+    .buttons {
+      display: flex;
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-radius: 4px; 
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        &.white {
+          background: white;
+          &:hover {
+            background: $oc-gray-3;
+          }
+          &:active {
+            background: $oc-gray-4;
+          }
+        }
+      }
+    }    
+    button + button {
+      margin-left: 1rem;
     }
   }
 }

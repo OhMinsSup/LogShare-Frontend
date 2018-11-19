@@ -17,17 +17,17 @@ class SubmitBoxContainer extends React.Component<Props> {
     WriteActions.setThumbnail(null);
   };
 
-  public uploadImage = (file: File) => {
-    console.log(file);
-  };
-
   public onUploadClick = () => {
     const upload = document.createElement('input');
     upload.type = 'file';
     upload.onchange = e => {
       if (!upload.files) return;
       const file = upload.files[0];
-      this.uploadImage(file);
+      if (!file) return;
+
+      const { WriteActions } = this.props;
+
+      WriteActions.createUploadUrlPostThumbnail({ file });
     };
     upload.click();
   };
