@@ -1,0 +1,55 @@
+@import 'utils';
+
+.post-toc {
+  position: absolute;
+  top: 0;
+  right: -5rem;
+  color: $oc-gray-5;
+  transition: color 0.125s ease-in;
+  padding-top: 1rem;
+  @include media("<wide") {
+    right: -3rem;
+  }
+  @include media("<xx-large") {
+    right: -2rem;
+  }
+  @include media("<1280px") {
+    display: none;
+  }
+  &:hover {
+    color: $oc-gray-6;
+  }
+  .wrapper {
+    position: absolute;
+    font-size: 0.875rem;
+    &.fixed {
+      position: fixed;
+      top: 1rem;
+    }
+    width: 320px;
+    @include media("<wide") {
+      width: 192px;
+      font-size: 0.75rem;
+    }
+  }
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+    padding-left: 0;
+    li {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      padding-top: 0.15em;
+      padding-bottom: 0.15em;
+      line-height: 1.5em;
+      &.active {
+        font-weight: 500;
+        color: $oc-gray-9;
+      }
+      &:hover {
+        color: $oc-gray-8;
+      }
+    }
+  }
+}

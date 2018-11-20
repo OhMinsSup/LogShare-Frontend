@@ -3,6 +3,7 @@ import base, { BaseState } from './base';
 import user, { UserState } from './user';
 import auth, { AuthState } from './auth';
 import write, { WriteState } from './write';
+import post, { PostState } from './post';
 import error, { ErrorState } from './error';
 
 export default combineReducers({
@@ -10,6 +11,7 @@ export default combineReducers({
   user: user,
   auth: auth,
   write: write,
+  post: post,
   error: error,
 });
 
@@ -18,5 +20,6 @@ export interface StoreState {
   base: BaseState;
   auth: AuthState;
   write: WriteState;
+  post: PostState;
   error: ErrorState;
 }

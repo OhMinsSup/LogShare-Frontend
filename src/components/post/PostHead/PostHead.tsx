@@ -1,11 +1,25 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import PostLikeButton from '../PostLikeButton';
+import PostActionButtons from '../PostActionButtons';
 
 const styles = require('./PostHead.scss');
 const cx = classNames.bind(styles);
 
-const PostHead = () => (
+const PostHead: React.StatelessComponent<{
+  thumbnail?: string;
+  username?: string;
+  shortBio?: string;
+  createdAt?: string;
+  liked?: boolean;
+  likes?: number;
+  logged?: boolean;
+  ownPost?: boolean;
+  id?: string;
+  onAskRemove?(): void;
+  onToggleLike?(): void;
+}> = ({ ownPost = true }) => (
   <div className={cx('post-head')}>
     <div className={cx('user-info')}>
       <Link to="veloss" className={cx('user-thumbnail')}>
@@ -27,10 +41,17 @@ const PostHead = () => (
     <div className={cx('date-and-likes')}>
       <div className={cx('date')}>Mar 30</div>
       <div className={cx('placeholder')} />
-      {/*<PostLikeButton onClick={onToggleLike} liked={liked} likes={likes} disabled={!logged} />*/}
+      <PostLikeButton
+        onClick={() => console.log('gkgk')}
+        liked={true}
+        likes={3}
+        disabled={true}
+      />
     </div>
     <div className={cx('separator')} />
-    {/*ownPost && <PostActionButtons id={id} onAskRemove={onAskRemove} />*/}
+    {ownPost && (
+      <PostActionButtons id={'id'} onAskRemove={() => console.log('dsds')} />
+    )}
   </div>
 );
 

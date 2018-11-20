@@ -8,8 +8,8 @@ const cx = classNames.bind(styles);
 const PostContent: React.StatelessComponent<{
   body: string;
   post_thumbnail: string | null;
-  onSetToc: (toc: any) => void;
-  onActivateHeading: (headingId: string) => void;
+  onSetToc(toc: any): void;
+  onActivateHeading(headingId: string): void;
 }> = ({ body, onSetToc, onActivateHeading, post_thumbnail }) => (
   <div className={cx('post-content')}>
     {post_thumbnail && (
@@ -20,8 +20,8 @@ const PostContent: React.StatelessComponent<{
     <div className={cx('contents')}>
       <MarkdownRender
         markdown={body}
-        onSetToc={onSetToc}
-        onActivateHeading={onActivateHeading}
+        onSetPostToc={onSetToc}
+        OnSetActiveHeading={onActivateHeading}
       />
     </div>
   </div>

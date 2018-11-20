@@ -10,10 +10,10 @@ const PostActionButtons: React.StatelessComponent<{
   onAskRemove: () => void;
 }> = ({ id, onAskRemove }) => (
   <div className={cx('post-action-buttons')}>
-    <Link to={`/write?edit_id=${id}`} className={cx('btn')}>
+    <Link to={`/write?edit_id=${id}`} className={cx('update-btn')}>
       수정
     </Link>
-    <button className={cx('btn')} onClick={onAskRemove}>
+    <button className={cx('remove-btn')} onClick={onAskRemove}>
       삭제
     </button>
   </div>
