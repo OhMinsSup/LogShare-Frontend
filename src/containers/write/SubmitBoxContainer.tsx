@@ -51,7 +51,7 @@ class SubmitBoxContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { tags, post_thumbnail, open } = this.props;
+    const { tags, url, open } = this.props;
     const {
       onInsertTag,
       onRemoveTag,
@@ -72,7 +72,7 @@ class SubmitBoxContainer extends React.Component<Props> {
         onClick={onClick}
         previewThumbnail={
           <PreviewThumbnail
-            thumbnail={post_thumbnail}
+            thumbnail={url}
             onClearThumbnail={onClearThumbnail}
             onUploadClick={onUploadClick}
           />
@@ -85,7 +85,7 @@ class SubmitBoxContainer extends React.Component<Props> {
 const mapStateToProps = ({ write }: StoreState) => ({
   open: write.submitBox.open,
   tags: write.submitBox.tags,
-  post_thumbnail: write.editor.post_thumbnail,
+  url: write.upload.url,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

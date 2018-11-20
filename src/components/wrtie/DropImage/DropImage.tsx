@@ -14,10 +14,9 @@ class DropImage extends React.Component<Props> {
 
   public onPaste = (e: any) => {
     const { items } = e.clipboardData || e.originalEvent.clipboardData;
-    if (items.length === 0) return;
-    const fileItem = [...items].filter(item => item.kind === 'file')[0];
-    if (!fileItem || !fileItem.getAsFile) return;
-    const file = fileItem.getAsFile();
+    if (items.length !== 2) return;
+    if (items[1].kind !== 'file') return;
+    const file = items[1].getAsFile();
     this.props.onPaste(file);
     e.preventDefault();
   };

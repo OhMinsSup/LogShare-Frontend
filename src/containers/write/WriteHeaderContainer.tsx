@@ -13,7 +13,7 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 class WriteHeaderContainer extends React.Component<Props> {
   public onSubmit = () => {
-    const { WriteActions, history, editor, tags, postId } = this.props;
+    const { WriteActions, history, editor, tags, postId, url } = this.props;
 
     if (postId && editor) {
       // TODO 수정하는 코드
@@ -22,7 +22,7 @@ class WriteHeaderContainer extends React.Component<Props> {
 
     WriteActions.writeSubmit({
       title: editor.title,
-      post_thumbnail: editor.post_thumbnail,
+      post_thumbnail: url,
       body: editor.body,
       history,
       tags,
@@ -76,6 +76,7 @@ const mapStateToProps = ({ write }: StoreState) => ({
   open: write.submitBox.open,
   editor: write.editor,
   tags: write.submitBox.tags,
+  url: write.upload.url,
   postId: write.postId,
 });
 

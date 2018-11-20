@@ -97,6 +97,7 @@
         float: right;
         align-items: center !important;
         .users {
+            border: 1px solid $oc-gray-3;
             margin-right: 5px;
             .thumbnail {
                 height: 25px;

@@ -4,8 +4,9 @@
   padding: 0.5rem 0.875rem;
   display: flex;
   align-items: center;
-  border: 1px solid $oc-violet-5;
-  color: $oc-violet-5;
+  background: white;
+  border: 1px solid $oc-blue-5;
+  color: $oc-blue-5;
   border-radius: 1.0625rem;
   svg {
     line-height: 1.125rem;
@@ -17,31 +18,31 @@
     font-weight: 500;
   }
   &.liked {
-    background: $oc-violet-5;
+    background: $oc-blue-5;
     color: white;
     &:hover {
-      background: $oc-violet-4;
+      background: $oc-blue-4;
     }
     &:active {
       background: white;
-      color: $oc-violet-5;
+      color: $oc-blue-5;
     }
   }
   &:not(.liked) {
     &:hover {
-      background: $oc-violet-5;
+      background: $oc-blue-5;
       color: white;
     }
     &:active {
-      background: $oc-violet-6;
+      background: $oc-blue-6;
     }
   }
   &.disabled {
     cursor: not-allowed;
     &:hover {
       background: white;
-      border: 1px solid $oc-violet-5;
-      color: $oc-violet-5;
+      border: 1px solid $oc-blue-5;
+      color: $oc-blue-5;
     }
   }
 }
