@@ -43,8 +43,6 @@ class WritePane extends React.Component<Props> {
     const { insertText, onClearInsertText } = this.props;
     const editors: any = this.codeMirror;
     const selection = editors.getSelection();
-    console.log('gpgp');
-    console.log(insertText);
 
     if (selection.length > 0) {
       editors.replaceSelection(insertText);
@@ -117,18 +115,16 @@ class WritePane extends React.Component<Props> {
     } = this.props;
 
     return (
-      <React.Fragment>
-        <div className={cx('write-pane')}>
-          <input
-            className={cx('title')}
-            placeholder="제목을 입력하세요"
-            name="title"
-            autoFocus
-            value={title}
-            onChange={onChange}
-          />
-          <div className={cx('code-editor')} ref={ref => (this.editor = ref)} />
-        </div>
+      <div className={cx('write-pane')}>
+        <input
+          className={cx('title')}
+          placeholder="제목을 입력하세요"
+          name="title"
+          autoFocus
+          value={title}
+          onChange={onChange}
+        />
+        <div className={cx('code-editor')} ref={ref => (this.editor = ref)} />
         <DropImage
           onDragEnter={onDragEnter}
           onDragLeave={onDragLeave}
@@ -136,7 +132,7 @@ class WritePane extends React.Component<Props> {
           onPaste={onPaste}
         />
         <UploadMask visible={visible} />
-      </React.Fragment>
+      </div>
     );
   }
 }

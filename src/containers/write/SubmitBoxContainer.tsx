@@ -45,9 +45,20 @@ class SubmitBoxContainer extends React.Component<Props> {
     WriteActions.removeTag(tag);
   };
 
+  public onClick = () => {
+    const { WriteActions } = this.props;
+    WriteActions.hideWriteSubmit(false);
+  };
+
   public render() {
     const { tags, post_thumbnail, open } = this.props;
-    const { onInsertTag, onRemoveTag, onUploadClick, onClearThumbnail } = this;
+    const {
+      onInsertTag,
+      onRemoveTag,
+      onUploadClick,
+      onClearThumbnail,
+      onClick,
+    } = this;
     return (
       <SubmitBox
         visible={open}
@@ -58,6 +69,7 @@ class SubmitBoxContainer extends React.Component<Props> {
             onRemove={onRemoveTag}
           />
         }
+        onClick={onClick}
         previewThumbnail={
           <PreviewThumbnail
             thumbnail={post_thumbnail}

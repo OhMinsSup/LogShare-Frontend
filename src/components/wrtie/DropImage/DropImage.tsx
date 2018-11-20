@@ -57,7 +57,7 @@ class DropImage extends React.Component<Props> {
   }
 
   public render() {
-    return <div />;
+    return null;
   }
 }
 

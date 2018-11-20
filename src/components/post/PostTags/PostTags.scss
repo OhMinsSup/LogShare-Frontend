@@ -1,0 +1,22 @@
+@import "utils";
+
+.post-tags {
+  margin: -0.375rem;
+  margin-top: 5rem;
+  a {
+    margin: 0.375rem;
+    display: inline-flex;
+    background: $oc-gray-0;
+    border: 1px solid $oc-gray-3;
+    color: $oc-gray-7;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 0.75rem;
+    border-radius: 4px;
+    &:hover {
+      cursor: pointer;
+      background: $oc-gray-1;
+    }
+  }
+}

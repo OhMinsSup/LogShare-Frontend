@@ -26,7 +26,6 @@ class WritePaneContainer extends React.Component<Props> {
   public onDragEnter = (e: any) => {
     const { WriteActions } = this.props;
     e.preventDefault();
-    console.log(e);
     setImmediate(() => {
       WriteActions.setUploadMask(true);
     });

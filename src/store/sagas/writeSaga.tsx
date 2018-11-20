@@ -3,6 +3,7 @@ import { WriteActionType, UploadState } from '../modules/write';
 import { ErrorActionType } from '../modules/error';
 import * as WriteType from './types/write';
 import * as FileAPI from '../../lib/api/file';
+import * as WriteAPI from '../../lib/api/write';
 import { StoreState } from '../modules';
 
 function* createUploadUrlPostThumbnail(action: any) {
@@ -91,6 +92,58 @@ function* createUploadUrlPostImage(action: any) {
   }
 }
 
+function* writeSubmit(action: any) {
+  const {
+    payload: { title, body, post_thumbnail, tags, history },
+  }: WriteType.WriteSubmitPayload = action;
+
+  try {
+    const responseWritePost: WriteType.WriteSubmitResponse = yield call(
+      WriteAPI.writePost,
+      {
+        title,
+        body,
+        post_thumbnail,
+        tags,
+      }
+    );
+
+    yield put({
+      type: WriteActionType.WRITE_SUBMIT_SUCCESS,
+      payload: {
+        postId: responseWritePost.data.postId,
+      },
+    });
+
+    const postIdSelect = yield select(({ write }: StoreState) => write.postId);
+
+    if (!postIdSelect) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          error: true,
+          code: 404,
+        },
+      });
+      return;
+    }
+
+    history.push(`/post/${postIdSelect}`);
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        error: true,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
+function* watchWriteSubmit() {
+  yield takeEvery(WriteActionType.WRITE_SUBMIT_REQUEST, writeSubmit);
+}
+
 function* watchCreateUploadUrlPostThumbnail() {
   yield takeEvery(
     WriteActionType.CREATE_UPLOAD_URL_POST_THUMBNAIL_REQUEST,
@@ -109,5 +162,6 @@ export default function* wrtieSaga() {
   yield [
     fork(watchCreateUploadUrlPostThumbnail),
     fork(watchCreateUploadUrlPostImage),
+    fork(watchWriteSubmit),
   ];
 }

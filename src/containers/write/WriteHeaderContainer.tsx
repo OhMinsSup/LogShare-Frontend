@@ -12,7 +12,22 @@ type OwnProps = { history: History };
 type Props = OwnProps & StateProps & DispatchProps;
 
 class WriteHeaderContainer extends React.Component<Props> {
-  public onSubmit = () => {};
+  public onSubmit = () => {
+    const { WriteActions, history, editor, tags, postId } = this.props;
+
+    if (postId && editor) {
+      // TODO 수정하는 코드
+      return;
+    }
+
+    WriteActions.writeSubmit({
+      title: editor.title,
+      post_thumbnail: editor.post_thumbnail,
+      body: editor.body,
+      history,
+      tags,
+    });
+  };
 
   public onSubmitBox = () => {
     const { WriteActions, open } = this.props;
@@ -59,6 +74,9 @@ class WriteHeaderContainer extends React.Component<Props> {
 
 const mapStateToProps = ({ write }: StoreState) => ({
   open: write.submitBox.open,
+  editor: write.editor,
+  tags: write.submitBox.tags,
+  postId: write.postId,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

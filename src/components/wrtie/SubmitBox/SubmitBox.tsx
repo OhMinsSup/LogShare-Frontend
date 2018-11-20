@@ -8,7 +8,8 @@ const SubmitBox: React.StatelessComponent<{
   visible: boolean;
   inputTags: React.ReactNode;
   previewThumbnail: React.ReactNode;
-}> = ({ visible, inputTags, previewThumbnail }) => (
+  onClick(): void;
+}> = ({ visible, inputTags, previewThumbnail, onClick }) => (
   <div className={cx('submit-box', visible ? 'appear' : 'disappear')}>
     <div className={cx('sections')}>
       <section>
@@ -23,7 +24,9 @@ const SubmitBox: React.StatelessComponent<{
     <div className={cx('footer')}>
       <div className={cx('buttons')}>
         <button className={cx('white')}>임시저장</button>
-        <button className={cx('white')}>확인</button>
+        <button className={cx('white')} onClick={onClick}>
+          확인
+        </button>
       </div>
     </div>
   </div>

@@ -19,6 +19,8 @@ const cx = classNames.bind(styles);
 
 type Props = {
   markdown?: string;
+  onSetToc: (toc: any) => void;
+  onActivateHeading: (headingId: string) => void;
 };
 
 type State = {

@@ -1,9 +1,17 @@
 import { writeCreators } from '../write';
 import { GenericResponseAction } from 'src/lib/common';
+import { History } from 'history';
 
 export type ChangeInputPayload = { name: string; value: string };
 export type CreateUploadUrlPostPayload = {
   file: File;
+};
+export type WriteSubmitPayload = {
+  title: string;
+  body: string;
+  post_thumbnail: string | null;
+  tags: string[];
+  history: History;
 };
 
 export type ChangeInputAction = ReturnType<typeof writeCreators.changeInput>;
@@ -26,4 +34,10 @@ export type SetInsertTextAction = GenericResponseAction<
 >;
 export type SetUploadMaskAction = ReturnType<
   typeof writeCreators.setUploadMask
+>;
+export type WriteSubmitAction = GenericResponseAction<
+  {
+    postId: string;
+  },
+  string
 >;
