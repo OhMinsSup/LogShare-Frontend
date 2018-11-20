@@ -5,6 +5,8 @@ import * as PostType from './types/post';
 export enum PostActionType {
   SET_TOC = 'post/SET_TOC',
   ACTIVATE_HEADING = 'post/ACTIVATE_HEADING',
+  READ_POST_REQUEST = 'post/READ_POST_REQUEST',
+  READ_POST_SUCCESS = 'post/READ_POST_SUCCESS',
 }
 
 export const postCreators = {
@@ -12,6 +14,10 @@ export const postCreators = {
   activateHeading: createAction(
     PostActionType.ACTIVATE_HEADING,
     (payload: string) => payload
+  ),
+  readPost: createAction(
+    PostActionType.READ_POST_REQUEST,
+    (payload: PostType.ReadPostPayload) => payload
   ),
 };
 
@@ -22,7 +28,7 @@ export interface TocState {
 }
 
 export interface PostDataState {
-  _id: string;
+  postId: string;
   post_thumbnail: string | null;
   title: string;
   body: string;
@@ -36,6 +42,7 @@ export interface PostDataState {
   user: {
     username: string;
     thumbnail: string;
+    shortBio: string;
     _id: string;
   };
 }
@@ -67,6 +74,15 @@ export default handleActions<PostState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.activeHeading = action.payload;
+      });
+    },
+    [PostActionType.READ_POST_SUCCESS]: (
+      state,
+      action: PostType.ReadPostAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.postData = action.payload.postData;
       });
     },
   },

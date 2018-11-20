@@ -10,10 +10,11 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { throttle } from 'lodash';
 import { postCreators, TocState } from 'src/store/modules/post';
 import { Location } from 'history';
+import { match } from 'react-router';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type OwnProps = { location: Location };
+type OwnProps = { location: Location; match: match<{ id: string }> };
 type Props = StateProps & DispatchProps & OwnProps;
 
 class PostViewer extends React.Component<Props> {
@@ -29,11 +30,23 @@ class PostViewer extends React.Component<Props> {
 
   public onToggleLike = () => {};
 
-  public initialize = () => {};
+  public initialize = () => {
+    if (document.body && document.body.scrollTop) {
+      document.body.scrollTop = 0;
+    }
+    if (document.documentElement) {
+      document.documentElement.scrollTop = 0;
+    }
 
-  public componentDidUpdate(prevProps: Props) {}
-
-  public componentWillUnmount() {}
+    const {
+      match: {
+        params: { id },
+      },
+      PostActions,
+    } = this.props;
+    if (!id) return;
+    PostActions.readPost({ postId: id });
+  };
 
   public componentDidMount() {
     this.initialize();
@@ -47,9 +60,9 @@ class PostViewer extends React.Component<Props> {
   }
 
   public render() {
-    const { toc, activeHeading, post, logged } = this.props;
+    const { toc, activeHeading, post, logged, currentUsername } = this.props;
     const { onActivateHeading, onSetToc, onToggleLike } = this;
-    if (!post) return;
+    if (!post) return null;
 
     return (
       <React.Fragment>
@@ -65,7 +78,18 @@ class PostViewer extends React.Component<Props> {
           activeHeading={activeHeading}
           onActivateHeading={onActivateHeading}
         />
-        <PostHead />
+        <PostHead
+          thumbnail={post.user.thumbnail}
+          username={post.user.username}
+          shortBio={post.user.shortBio}
+          createdAt={post.createdAt}
+          title={post.title}
+          liked={post.liked}
+          likes={post.info.likes}
+          logged={logged}
+          id={post.postId}
+          ownPost={currentUsername === post.user.username}
+        />
         <PostContent
           body={post.body}
           post_thumbnail={post.post_thumbnail}
@@ -83,6 +107,7 @@ const mapStateToProps = ({ post, user }: StoreState) => ({
   toc: post.toc,
   activeHeading: post.activeHeading,
   logged: !!user.user,
+  currentUsername: user.user && user.user.username,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

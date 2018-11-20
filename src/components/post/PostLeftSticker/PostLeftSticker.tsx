@@ -79,6 +79,7 @@ class PostLeftSticker extends React.Component<Props, State> {
           <button
             onClick={onToggleLike}
             className={cx('circle', 'like', {
+              disabled: !logged,
               liked,
               justLiked: liked && justLiked,
             })}

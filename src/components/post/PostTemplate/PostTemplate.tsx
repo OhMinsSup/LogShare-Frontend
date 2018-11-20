@@ -5,8 +5,8 @@ const styles = require('./PostTemplate.scss');
 const cx = classNames.bind(styles);
 
 const PostTemplate: React.StatelessComponent<{
-  children?: React.ReactNode;
-  header?: React.ReactNode;
+  children: React.ReactNode;
+  header: React.ReactNode;
 }> = ({ children, header }) => (
   <div className={cx('post-template')}>
     <div className={cx('header-area')}>{header}</div>

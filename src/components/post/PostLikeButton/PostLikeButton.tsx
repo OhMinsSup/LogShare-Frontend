@@ -13,9 +13,9 @@ const PostLikeButton: React.StatelessComponent<{
   onClick: () => void;
 }> = ({ likes, liked, onClick, disabled }) => (
   <button
-    className={cx('post-like-button', { liked, disabled })}
-    onClick={disabled ? undefined : onClick}
-    {...(disabled ? { 'data-tip': '로그인 후 이용해주세요.' } : {})}
+    className={cx('post-like-button', { liked, disabled: !disabled })}
+    onClick={!disabled ? undefined : onClick}
+    {...(!disabled ? { 'data-tip': '로그인 후 이용해주세요.' } : {})}
   >
     {liked ? <FaHeart /> : <FaRegHeart />}
     <div className={cx('count')}>{likes ? likes.toLocaleString() : 0}</div>
