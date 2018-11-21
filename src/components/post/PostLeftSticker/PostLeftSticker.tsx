@@ -3,7 +3,7 @@ import * as classNames from 'classnames/bind';
 import * as Tooltip from 'react-tooltip';
 import { FaHeart, FaRegHeart, FaFacebook, FaTwitter } from 'react-icons/fa';
 import { MdShare, MdClass } from 'react-icons/md';
-import { getScrollTop } from 'src/lib/common';
+import { getScrollTop, shareTwitter, shareFacebook } from 'src/lib/common';
 
 const styles = require('./PostLeftSticker.scss');
 const cx = classNames.bind(styles);
@@ -13,7 +13,7 @@ type Props = {
   liked: boolean;
   onToggleLike: () => void;
   logged: boolean;
-  url?: string;
+  url: string;
   title: string;
 };
 
@@ -53,11 +53,15 @@ class PostLeftSticker extends React.Component<Props, State> {
   };
 
   public onFacebookShare = () => {
+    const { url } = this.props;
     this.onToggleShareButton();
+    shareFacebook(`http://localhost:3000${url}`);
   };
 
   public onTwitterShare = () => {
+    const { title, url } = this.props;
     this.onToggleShareButton();
+    shareTwitter(`http://localhost:3000${url}`, title);
   };
 
   public componentDidUpdate(prevProps: Props) {

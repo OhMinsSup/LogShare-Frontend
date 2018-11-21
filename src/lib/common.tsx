@@ -21,3 +21,21 @@ export const escapeForUrl = (text: string): string => {
     .replace(/ /g, '-')
     .replace(/--+/g, '-');
 };
+
+export const shareTwitter = (href: string, text: string) => {
+  window.open(
+    `https://twitter.com/share?url=${encodeURI(
+      encodeURI(href)
+    )}&text=${text}&hashtags=logshare`,
+    'sharer',
+    'toolbar=0,status=0,width=626,height=436'
+  );
+};
+
+export const shareFacebook = (href: string) => {
+  (window as any).FB.ui({
+    method: 'share',
+    mobile_iframe: true,
+    href,
+  });
+};

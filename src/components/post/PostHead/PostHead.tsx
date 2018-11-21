@@ -20,7 +20,7 @@ const PostHead: React.StatelessComponent<{
   ownPost: boolean;
   id: string;
   onAskRemove?(): void;
-  onToggleLike?(): void;
+  onToggleLike(): void;
 }> = ({
   id,
   ownPost,
@@ -32,6 +32,7 @@ const PostHead: React.StatelessComponent<{
   likes,
   title,
   logged,
+  onToggleLike,
 }) => (
   <div className={cx('post-head')}>
     <div className={cx('user-info')}>
@@ -50,7 +51,7 @@ const PostHead: React.StatelessComponent<{
       <div className={cx('date')}>{moment(createdAt).format('ll')}</div>
       <div className={cx('placeholder')} />
       <PostLikeButton
-        onClick={() => console.log('gkgk')}
+        onClick={onToggleLike}
         liked={liked}
         likes={likes}
         disabled={logged}

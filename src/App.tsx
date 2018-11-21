@@ -6,6 +6,7 @@ import Core from './containers/etc/Core';
 
 const App = () => (
   <React.Fragment>
+    <meta property="fb:app_id" content="1565906873518620" />
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/(recent|trending|seris)" component={Home} />

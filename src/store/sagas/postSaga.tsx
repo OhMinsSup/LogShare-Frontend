@@ -32,10 +32,73 @@ function* readPost(action: any) {
   }
 }
 
+function* like(action: any) {
+  const {
+    payload: { postId },
+  } = action;
+
+  yield put({
+    type: PostActionType.LIKE_REQUEST,
+  });
+
+  try {
+    const responseLike = yield call(PostAPI.like, postId);
+
+    yield put({
+      type: PostActionType.LIKE_SUCCESS,
+      payload: {
+        liked: responseLike.data.liked,
+        likes: responseLike.data.likes,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: PostActionType.LIKE_ERROR,
+    });
+  }
+}
+
+function* unlike(action: any) {
+  const {
+    payload: { postId },
+  }: PostType.LikePayload = action;
+
+  yield put({
+    type: PostActionType.UNLIKE_REQUEST,
+  });
+
+  try {
+    const responseLike: PostType.LikeResponse = yield call(
+      PostAPI.unlike,
+      postId
+    );
+
+    yield put({
+      type: PostActionType.UNLIKE_SUCCESS,
+      payload: {
+        liked: responseLike.data.liked,
+        likes: responseLike.data.likes,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: PostActionType.UNLIKE_ERROR,
+    });
+  }
+}
+
 function* watchReadPost() {
   yield takeEvery(PostActionType.READ_POST_REQUEST, readPost);
 }
 
+function* watchLike() {
+  yield takeEvery(PostActionType.LIKE, like);
+}
+
+function* watchUnLike() {
+  yield takeEvery(PostActionType.UNLIKE, unlike);
+}
+
 export default function* postSaga() {
-  yield [fork(watchReadPost)];
+  yield [fork(watchReadPost), fork(watchLike), fork(watchUnLike)];
 }
