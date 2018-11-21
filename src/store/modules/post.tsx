@@ -15,6 +15,9 @@ export enum PostActionType {
   UNLIKE_REQUEST = 'post/UNLIKE_REQUEST',
   UNLIKE_SUCCESS = 'post/UNLIKE_SUCCESS',
   UNLIKE_ERROR = 'post/UNLIKE_ERROR',
+
+  POST_SEQUENCES_REQUEST = 'post/POST_SEQUENCES_REQUEST',
+  POST_SEQUENCES_SUCCESS = 'post/POST_SEQUENCES_SUCCESS',
 }
 
 export const postCreators = {
@@ -29,6 +32,10 @@ export const postCreators = {
   unlike: createAction(
     PostActionType.UNLIKE,
     (payload: PostType.LikePayload) => payload
+  ),
+  postSequences: createAction(
+    PostActionType.POST_SEQUENCES_REQUEST,
+    (payload: PostType.PostSequencesPayload) => payload
   ),
 };
 
@@ -52,12 +59,22 @@ export interface PostDataState {
   };
 }
 
+export interface PostSequenceState {
+  _id: string;
+  post_thumbnail: string | null;
+  title: string;
+  body: string;
+  createdAt: string;
+}
+
 export interface PostState {
   postData: PostDataState | null;
+  sequences: PostSequenceState[] | null;
 }
 
 const initialState: PostState = {
   postData: null,
+  sequences: [],
 };
 
 export default handleActions<PostState, any>(
@@ -115,6 +132,15 @@ export default handleActions<PostState, any>(
           payload: { liked, likes },
         } = action;
         (draft.postData.liked = liked), (draft.postData.info.likes = likes);
+      });
+    },
+    [PostActionType.POST_SEQUENCES_SUCCESS]: (
+      state,
+      action: PostType.PostSequencesAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.sequences = action.payload.sequences;
       });
     },
   },

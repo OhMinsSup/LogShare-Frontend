@@ -1,0 +1,60 @@
+@import "utils";
+
+.post-sequences {
+  z-index: 1;
+  flex: 1;
+  margin-top: 1rem;
+  background: $oc-gray-0;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  border-top: 1px solid $oc-gray-2;
+  h3 {
+    margin-top: 0;
+  }
+  .wrapper {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 768px;
+    margin: 0 auto;
+    @include media("<medium") {
+      width: 100%;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+  .post-sequences-item {
+    padding: 1.5rem;
+    border: 1px solid $oc-gray-2;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    &.active {
+      border: 1px solid $oc-blue-6;
+      color: $oc-blue-6;
+    }
+    .date {
+      color: $oc-gray-7;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .title {
+      font-weight: 500;
+      font-size: 1.125rem;
+      a {
+        &:hover {
+          text-decoration: underline;
+          color: $oc-blue-5;
+        }
+      }
+    }
+    p {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      color: $oc-gray-8;
+      font-size: 0.875rem;
+    }
+  }
+  .post-sequences-item+.post-sequences-item {
+    margin-top: 1rem;
+  }
+}

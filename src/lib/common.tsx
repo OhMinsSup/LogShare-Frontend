@@ -12,6 +12,14 @@ export const getScrollTop = () => {
   return scrollTop;
 };
 
+export const getScrollBottom = () => {
+  if (!document.body) return 0;
+  const { scrollHeight } = document.body;
+  const { innerHeight } = window;
+  const scrollTop = getScrollTop();
+  return scrollHeight - innerHeight - scrollTop;
+};
+
 export const escapeForUrl = (text: string): string => {
   return text
     .replace(

@@ -42,7 +42,14 @@ class PostViewer extends React.Component<Props> {
     } = this.props;
     if (!id) return;
     PostActions.readPost({ postId: id });
+    PostActions.postSequences({ postId: id });
   };
+
+  public componentDidUpdate(prevProps: Props) {
+    if (prevProps.match.url !== this.props.match.url) {
+      this.initialize();
+    }
+  }
 
   public componentDidMount() {
     this.initialize();

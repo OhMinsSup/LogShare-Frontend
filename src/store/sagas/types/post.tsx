@@ -1,4 +1,4 @@
-import { PostDataState } from 'src/store/modules/post';
+import { PostDataState, PostSequenceState } from 'src/store/modules/post';
 
 export type ReadPostPayload = {
   payload: {
@@ -6,6 +6,11 @@ export type ReadPostPayload = {
   };
 };
 export type LikePayload = {
+  payload: {
+    postId: string;
+  };
+};
+export type PostSequencesPayload = {
   payload: {
     postId: string;
   };
@@ -18,4 +23,7 @@ export type LikeResponse = {
 };
 export type ReadPostResponse = {
   data: PostDataState | null;
+};
+export type PostSequencesResponse = {
+  data: PostSequenceState[];
 };

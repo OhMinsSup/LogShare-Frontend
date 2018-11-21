@@ -87,6 +87,34 @@ function* unlike(action: any) {
   }
 }
 
+function* PostSequences(action: any) {
+  const {
+    payload: { postId },
+  }: PostType.PostSequencesPayload = action;
+
+  try {
+    const responseSequences: PostType.PostSequencesResponse = yield call(
+      PostAPI.sequences,
+      postId
+    );
+
+    yield put({
+      type: PostActionType.POST_SEQUENCES_SUCCESS,
+      payload: {
+        sequences: responseSequences.data,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        error: true,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
 function* watchReadPost() {
   yield takeEvery(PostActionType.READ_POST_REQUEST, readPost);
 }
@@ -99,6 +127,15 @@ function* watchUnLike() {
   yield takeEvery(PostActionType.UNLIKE, unlike);
 }
 
+function* watchPostSequences() {
+  yield takeEvery(PostActionType.POST_SEQUENCES_REQUEST, PostSequences);
+}
+
 export default function* postSaga() {
-  yield [fork(watchReadPost), fork(watchLike), fork(watchUnLike)];
+  yield [
+    fork(watchReadPost),
+    fork(watchLike),
+    fork(watchUnLike),
+    fork(watchPostSequences),
+  ];
 }
