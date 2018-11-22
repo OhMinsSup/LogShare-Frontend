@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 const PostActionButtons: React.StatelessComponent<{
   id: string;
-  onAskRemove: () => void;
+  onAskRemove(): void;
 }> = ({ id, onAskRemove }) => (
   <div className={cx('post-action-buttons')}>
     <Link to={`/write?edit_id=${id}`} className={cx('update-btn')}>

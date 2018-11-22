@@ -71,6 +71,15 @@ export interface PostDataState {
   };
 }
 
+export interface CommentDataState {
+  post: string;
+  user: string;
+  reply: string;
+  level: number;
+  visible: boolean;
+  text: string;
+}
+
 export interface PostSequenceState {
   _id: string;
   post_thumbnail: string | null;
@@ -79,16 +88,32 @@ export interface PostSequenceState {
   createdAt: string;
 }
 
+export interface RemoveCommentState {
+  visible: boolean;
+  commentId: string | null;
+  parentId: string | null;
+}
+
 export interface PostState {
   postData: PostDataState | null;
   sequences: PostSequenceState[] | null;
   askModal: boolean;
+  comments: CommentDataState[] | null;
+  removeComment: RemoveCommentState;
+  subComment: CommentDataState | {};
 }
 
 const initialState: PostState = {
   postData: null,
   sequences: [],
   askModal: false,
+  comments: null,
+  subComment: {},
+  removeComment: {
+    commentId: null,
+    parentId: null,
+    visible: false,
+  },
 };
 
 export default handleActions<PostState, any>(

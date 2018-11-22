@@ -4,6 +4,7 @@ import user, { UserState } from './user';
 import auth, { AuthState } from './auth';
 import write, { WriteState } from './write';
 import post, { PostState } from './post';
+import list, { ListState } from './list';
 import error, { ErrorState } from './error';
 
 export default combineReducers({
@@ -12,6 +13,7 @@ export default combineReducers({
   auth: auth,
   write: write,
   post: post,
+  list: list,
   error: error,
 });
 
@@ -21,5 +23,6 @@ export interface StoreState {
   auth: AuthState;
   write: WriteState;
   post: PostState;
+  list: ListState;
   error: ErrorState;
 }
