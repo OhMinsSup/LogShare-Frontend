@@ -10,10 +10,14 @@ const cx = classNames.bind(styles);
 const PostSequencesItem: React.StatelessComponent<{
   sequence: PostSequenceState;
   active: boolean;
-}> = ({ sequence, active }) => {
+  onClick(postId: string): void;
+}> = ({ sequence, active, onClick }) => {
   const to = `/post/${sequence._id}`;
   return (
-    <div className={cx('post-sequences-item', { active })}>
+    <div
+      className={cx('post-sequences-item', { active })}
+      onClick={() => onClick(sequence._id)}
+    >
       <div className={cx('date')}>
         {moment(sequence.createdAt).format('ll')}
       </div>
@@ -29,7 +33,8 @@ const PostSequences: React.StatelessComponent<{
   sequences?: PostSequenceState[] | null;
   username: string | null;
   currentPostId: string | null;
-}> = ({ username, sequences, currentPostId }) => {
+  onClick(postId: string): void;
+}> = ({ username, sequences, currentPostId, onClick }) => {
   if (!sequences || sequences.length === 0 || sequences.length === 1)
     return null;
   return (
@@ -39,6 +44,7 @@ const PostSequences: React.StatelessComponent<{
         {sequences.map((s, i) => (
           <PostSequencesItem
             key={i}
+            onClick={onClick}
             sequence={s}
             active={s._id === currentPostId}
           />

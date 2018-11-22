@@ -1,4 +1,4 @@
-import { PostDataState, PostSequenceState } from '../post';
+import { PostDataState, PostSequenceState, postCreators } from '../post';
 import { GenericResponseAction } from 'src/lib/common';
 
 export type ReadPostPayload = {
@@ -8,6 +8,9 @@ export type LikePayload = {
   postId: string;
 };
 export type PostSequencesPayload = {
+  postId: string;
+};
+export type DeletePostPayload = {
   postId: string;
 };
 export type ReadPostAction = GenericResponseAction<
@@ -29,3 +32,4 @@ export type PostSequencesAction = GenericResponseAction<
   },
   string
 >;
+export type SetModalAction = ReturnType<typeof postCreators.setModal>;

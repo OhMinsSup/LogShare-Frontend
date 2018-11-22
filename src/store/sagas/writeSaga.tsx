@@ -140,6 +140,34 @@ function* writeSubmit(action: any) {
   }
 }
 
+function* getPost(action: any) {
+  const {
+    payload: { postId },
+  }: WriteType.GetPostPayload = action;
+
+  try {
+    const responseReadPost: WriteType.GetPostAction = yield call(
+      WriteAPI.getPost,
+      postId
+    );
+
+    yield put({
+      type: WriteActionType.GET_POST_SUCCESS,
+      payload: {
+        postData: responseReadPost.data,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        error: true,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
 function* watchWriteSubmit() {
   yield takeEvery(WriteActionType.WRITE_SUBMIT_REQUEST, writeSubmit);
 }
@@ -158,10 +186,15 @@ function* watchCreateUploadUrlPostImage() {
   );
 }
 
+function* watchGetPost() {
+  yield takeEvery(WriteActionType.GET_POST_REQUEST, getPost);
+}
+
 export default function* wrtieSaga() {
   yield [
     fork(watchCreateUploadUrlPostThumbnail),
     fork(watchCreateUploadUrlPostImage),
     fork(watchWriteSubmit),
+    fork(watchGetPost),
   ];
 }

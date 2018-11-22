@@ -18,6 +18,8 @@ export enum WriteActionType {
   CREATE_UPLOAD_URL_POST_THUMBNAIL_SUCCESS = 'write/CREATE_UPLOAD_URL_POST_THUMBNAIL_SUCCESS',
   WRITE_SUBMIT_REQUEST = 'write/WRITE_SUBMIT_REQUEST',
   WRITE_SUBMIT_SUCCESS = 'write/WRITE_SUBMIT_SUCCESS',
+  GET_POST_REQUEST = 'write/GET_POST_REQUEST',
+  GET_POST_SUCCESS = 'write/GET_POST_SUCCESS',
 }
 
 export const writeCreators = {
@@ -55,6 +57,10 @@ export const writeCreators = {
   writeSubmit: createAction(
     WriteActionType.WRITE_SUBMIT_REQUEST,
     (payload: WriteType.WriteSubmitPayload) => payload
+  ),
+  getPost: createAction(
+    WriteActionType.GET_POST_REQUEST,
+    (payload: WriteType.GetPostPayload) => payload
   ),
 };
 
@@ -222,6 +228,18 @@ export default handleActions<WriteState, any>(
           title: '',
         };
         draft.submitBox.tags = [];
+      });
+    },
+    [WriteActionType.GET_POST_SUCCESS]: (
+      state,
+      action: WriteType.GetPostAction
+    ) => {
+      return produce(state, draft => {
+        if (!action.payload.postData) return;
+        draft.editor.title = action.payload.postData.title;
+        draft.editor.body = action.payload.postData.body;
+        draft.editor.post_thumbnail = action.payload.postData.post_thumbnail;
+        draft.submitBox.tags = action.payload.postData.tag;
       });
     },
   },

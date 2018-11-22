@@ -1,6 +1,7 @@
 import * as React from 'react';
+import * as queryString from 'query-string';
 import WriteHeader from 'src/components/wrtie/WriteHeader';
-import { History } from 'history';
+import { History, Location } from 'history';
 import { connect } from 'react-redux';
 import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -8,7 +9,7 @@ import { writeCreators } from 'src/store/modules/write';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type OwnProps = { history: History };
+type OwnProps = { history: History; location: Location };
 type Props = OwnProps & StateProps & DispatchProps;
 
 class WriteHeaderContainer extends React.Component<Props> {
@@ -27,6 +28,11 @@ class WriteHeaderContainer extends React.Component<Props> {
       history,
       tags,
     });
+  };
+
+  public getPost = (editId: string) => {
+    const { WriteActions } = this.props;
+    WriteActions.getPost({ postId: editId });
   };
 
   public onSubmitBox = () => {
@@ -58,6 +64,14 @@ class WriteHeaderContainer extends React.Component<Props> {
     const { history } = this.props;
     history.goBack();
   };
+
+  public componentDidMount() {
+    const query = queryString.parse(this.props.location.search);
+
+    if (query.edit_id) {
+      this.getPost(query.edit_id as string);
+    }
+  }
 
   public render() {
     const { onGoBack, onSubmitBox, onUploadClick, onSubmit } = this;

@@ -87,7 +87,7 @@ function* unlike(action: any) {
   }
 }
 
-function* PostSequences(action: any) {
+function* postSequences(action: any) {
   const {
     payload: { postId },
   }: PostType.PostSequencesPayload = action;
@@ -115,6 +115,24 @@ function* PostSequences(action: any) {
   }
 }
 
+function* deletPost(action: any) {
+  const {
+    payload: { postId },
+  }: PostType.DeletePostPayload = action;
+
+  try {
+    yield call(PostAPI.deletePost, postId);
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        error: true,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
 function* watchReadPost() {
   yield takeEvery(PostActionType.READ_POST_REQUEST, readPost);
 }
@@ -128,7 +146,11 @@ function* watchUnLike() {
 }
 
 function* watchPostSequences() {
-  yield takeEvery(PostActionType.POST_SEQUENCES_REQUEST, PostSequences);
+  yield takeEvery(PostActionType.POST_SEQUENCES_REQUEST, postSequences);
+}
+
+function* watchDeletePost() {
+  yield takeEvery(PostActionType.DELETE_POST, deletPost);
 }
 
 export default function* postSaga() {
@@ -137,5 +159,6 @@ export default function* postSaga() {
     fork(watchLike),
     fork(watchUnLike),
     fork(watchPostSequences),
+    fork(watchDeletePost),
   ];
 }

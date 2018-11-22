@@ -14,3 +14,4 @@ export const writePost = ({
   tags,
 }: WritePostPayload) =>
   axios.post('/post', { title, body, post_thumbnail, tags });
+export const getPost = (postId: string) => axios.get(`/post/${postId}`);

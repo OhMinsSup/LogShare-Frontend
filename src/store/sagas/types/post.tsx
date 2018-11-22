@@ -10,6 +10,11 @@ export type LikePayload = {
     postId: string;
   };
 };
+export type DeletePostPayload = {
+  payload: {
+    postId: string;
+  };
+};
 export type PostSequencesPayload = {
   payload: {
     postId: string;

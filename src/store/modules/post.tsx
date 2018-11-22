@@ -3,6 +3,8 @@ import produce from 'immer';
 import * as PostType from './types/post';
 
 export enum PostActionType {
+  SET_MODAL = 'post/SET_MODAL',
+
   READ_POST_REQUEST = 'post/READ_POST_REQUEST',
   READ_POST_SUCCESS = 'post/READ_POST_SUCCESS',
 
@@ -18,9 +20,15 @@ export enum PostActionType {
 
   POST_SEQUENCES_REQUEST = 'post/POST_SEQUENCES_REQUEST',
   POST_SEQUENCES_SUCCESS = 'post/POST_SEQUENCES_SUCCESS',
+
+  DELETE_POST = 'post/DELETE_POST',
 }
 
 export const postCreators = {
+  setModal: createAction(
+    PostActionType.SET_MODAL,
+    (visible: boolean) => visible
+  ),
   readPost: createAction(
     PostActionType.READ_POST_REQUEST,
     (payload: PostType.ReadPostPayload) => payload
@@ -36,6 +44,10 @@ export const postCreators = {
   postSequences: createAction(
     PostActionType.POST_SEQUENCES_REQUEST,
     (payload: PostType.PostSequencesPayload) => payload
+  ),
+  deletePost: createAction(
+    PostActionType.DELETE_POST,
+    (payload: PostType.DeletePostPayload) => payload
   ),
 };
 
@@ -70,15 +82,23 @@ export interface PostSequenceState {
 export interface PostState {
   postData: PostDataState | null;
   sequences: PostSequenceState[] | null;
+  askModal: boolean;
 }
 
 const initialState: PostState = {
   postData: null,
   sequences: [],
+  askModal: false,
 };
 
 export default handleActions<PostState, any>(
   {
+    [PostActionType.SET_MODAL]: (state, action: PostType.SetModalAction) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.askModal = action.payload;
+      });
+    },
     [PostActionType.READ_POST_SUCCESS]: (
       state,
       action: PostType.ReadPostAction

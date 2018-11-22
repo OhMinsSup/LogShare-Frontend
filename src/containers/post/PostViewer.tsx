@@ -9,6 +9,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { postCreators } from 'src/store/modules/post';
 import { Location } from 'history';
 import { match } from 'react-router';
+import QuestionModal from 'src/components/common/QuestionModal';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -18,11 +19,22 @@ type Props = StateProps & DispatchProps & OwnProps;
 class PostViewer extends React.Component<Props> {
   public onToggleLike = () => {
     const { post, PostActions } = this.props;
+
     if (!post) return;
+
     if (post.liked) {
       PostActions.unlike({ postId: post.postId });
     } else {
       PostActions.like({ postId: post.postId });
+    }
+  };
+
+  public onAskRemove = () => {
+    const { PostActions, askModal } = this.props;
+    if (askModal) {
+      PostActions.setModal(false);
+    } else {
+      PostActions.setModal(true);
     }
   };
 
@@ -40,9 +52,22 @@ class PostViewer extends React.Component<Props> {
       },
       PostActions,
     } = this.props;
+
     if (!id) return;
+
     PostActions.readPost({ postId: id });
     PostActions.postSequences({ postId: id });
+  };
+
+  public onConfirm = () => {
+    const {
+      match: {
+        params: { id },
+      },
+      PostActions,
+    } = this.props;
+
+    PostActions.deletePost({ postId: id });
   };
 
   public componentDidUpdate(prevProps: Props) {
@@ -61,8 +86,11 @@ class PostViewer extends React.Component<Props> {
       logged,
       currentUsername,
       match: { url },
+      askModal,
     } = this.props;
-    const { onToggleLike } = this;
+
+    const { onToggleLike, onAskRemove, onConfirm } = this;
+
     if (!post) return null;
 
     return (
@@ -70,10 +98,10 @@ class PostViewer extends React.Component<Props> {
         <PostLeftSticker
           likes={post.info.likes}
           liked={post.liked}
+          title={post.title}
           onToggleLike={onToggleLike}
           logged={logged}
           url={url}
-          title={post.title}
         />
         <PostHead
           thumbnail={post.user.thumbnail}
@@ -86,10 +114,19 @@ class PostViewer extends React.Component<Props> {
           logged={logged}
           id={post.postId}
           onToggleLike={onToggleLike}
+          onAskRemove={onAskRemove}
           ownPost={currentUsername === post.user.username}
         />
         <PostContent body={post.body} post_thumbnail={post.post_thumbnail} />
         <PostTags tags={post.tag} />
+        <QuestionModal
+          open={askModal}
+          title="포스트 삭제"
+          description="이 포스트를 정말로 삭제하시겠습니까?"
+          confirmText="삭제"
+          onConfirm={onConfirm}
+          onCancel={onAskRemove}
+        />
       </React.Fragment>
     );
   }
@@ -97,6 +134,7 @@ class PostViewer extends React.Component<Props> {
 
 const mapStateToProps = ({ post, user }: StoreState) => ({
   post: post.postData,
+  askModal: post.askModal,
   logged: !!user.user,
   currentUsername: user.user && user.user.username,
 });

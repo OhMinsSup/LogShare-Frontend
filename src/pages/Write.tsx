@@ -9,9 +9,9 @@ import SubmitBoxContainer from 'src/containers/write/SubmitBoxContainer';
 const Write: React.StatelessComponent<{
   history: History;
   location: Location;
-}> = ({ history }) => (
+}> = ({ history, location }) => (
   <WriteTemplate
-    header={<WriteHeaderContainer history={history} />}
+    header={<WriteHeaderContainer history={history} location={location} />}
     editor={<WritePaneContainer />}
     preview={<PreviewPanContainer />}
   >

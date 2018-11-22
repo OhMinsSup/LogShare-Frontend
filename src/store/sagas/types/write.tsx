@@ -1,8 +1,14 @@
 import { History } from 'history';
+import { PostDataState } from 'src/store/modules/post';
 
 export type CreateUploadUrlPostPayload = {
   payload: {
     file: File;
+  };
+};
+export type GetPostPayload = {
+  payload: {
+    postId: string;
   };
 };
 export type WriteSubmitPayload = {
@@ -25,4 +31,7 @@ export type WriteSubmitResponse = {
   data: {
     postId: string;
   };
+};
+export type GetPostAction = {
+  data: PostDataState | null;
 };

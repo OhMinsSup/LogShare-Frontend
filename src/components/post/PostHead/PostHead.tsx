@@ -19,7 +19,7 @@ const PostHead: React.StatelessComponent<{
   logged: boolean;
   ownPost: boolean;
   id: string;
-  onAskRemove?(): void;
+  onAskRemove(): void;
   onToggleLike(): void;
 }> = ({
   id,
@@ -33,6 +33,7 @@ const PostHead: React.StatelessComponent<{
   title,
   logged,
   onToggleLike,
+  onAskRemove,
 }) => (
   <div className={cx('post-head')}>
     <div className={cx('user-info')}>
@@ -58,9 +59,7 @@ const PostHead: React.StatelessComponent<{
       />
     </div>
     <div className={cx('separator')} />
-    {ownPost && (
-      <PostActionButtons id={id} onAskRemove={() => console.log('dsds')} />
-    )}
+    {ownPost && <PostActionButtons id={id} onAskRemove={onAskRemove} />}
   </div>
 );
 
