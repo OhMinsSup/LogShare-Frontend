@@ -4,10 +4,14 @@ type Props = {
   onDragEnter(e: any): void;
   onDragLeave(e: any): void;
   onDrop(e: any): void;
-  onPaste(file: any): void;
+  onPaste(file: File): void;
 };
 
 class DropImage extends React.Component<Props> {
+  public componentDidMount() {
+    this.applyListeners();
+  }
+
   public onDragOver = (e: any) => {
     e.preventDefault();
   };
@@ -47,16 +51,12 @@ class DropImage extends React.Component<Props> {
     }
   };
 
-  public componentDidMount() {
-    this.applyListeners();
-  }
-
   public componentWillUnmount() {
     this.removeListeners();
   }
 
   public render() {
-    return null;
+    return <div />;
   }
 }
 

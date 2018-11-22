@@ -5,6 +5,7 @@ import HeaderContainer from 'src/containers/base/HeaderContainer';
 import { Location, History } from 'history';
 import { match } from 'react-router';
 import PostSequencesContainer from 'src/containers/post/PostSequencesContainer';
+import PostCommentsContainer from 'src/containers/post/PostCommentsContainer';
 
 const Post: React.StatelessComponent<{
   location: Location;
@@ -14,6 +15,7 @@ const Post: React.StatelessComponent<{
   <React.Fragment>
     <PostTemplate header={<HeaderContainer />}>
       <PostViewer location={location} match={match} />
+      <PostCommentsContainer />
     </PostTemplate>
     <PostSequencesContainer history={history} />
   </React.Fragment>

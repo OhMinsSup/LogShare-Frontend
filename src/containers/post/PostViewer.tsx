@@ -66,7 +66,7 @@ class PostViewer extends React.Component<Props> {
       },
       PostActions,
     } = this.props;
-
+    PostActions.setModal(false);
     PostActions.deletePost({ postId: id });
   };
 

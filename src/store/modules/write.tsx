@@ -3,6 +3,7 @@ import produce from 'immer';
 import * as WriteType from './types/write';
 
 export enum WriteActionType {
+  INITIAL = 'write/INITIAL',
   CHANGE_INPUT = 'write/CHANGE_INPUT',
   INSERT_TAG = 'write/INSERT_TAG',
   REMOVE_TAG = 'write/REMOVE_TAG',
@@ -20,13 +21,12 @@ export enum WriteActionType {
   WRITE_SUBMIT_SUCCESS = 'write/WRITE_SUBMIT_SUCCESS',
   GET_POST_REQUEST = 'write/GET_POST_REQUEST',
   GET_POST_SUCCESS = 'write/GET_POST_SUCCESS',
+  EDIT_SUBMIT_REQUEST = 'write/EDIT_SUBMIT_REQUEST',
+  EDIT_SUBMIT_SUCCESS = 'write/EDIT_SUBMIT_SUCCESS',
 }
 
 export const writeCreators = {
-  changeInput: createAction(
-    WriteActionType.CHANGE_INPUT,
-    (payload: WriteType.ChangeInputPayload) => payload
-  ),
+  initial: createAction(WriteActionType.INITIAL),
   insertTag: createAction(WriteActionType.INSERT_TAG, (tag: string) => tag),
   removeTag: createAction(WriteActionType.REMOVE_TAG, (tag: string) => tag),
   setClearInsertText: createAction(WriteActionType.SET_CLEAR_INSERT_TEXT),
@@ -34,10 +34,7 @@ export const writeCreators = {
     WriteActionType.SET_UPLOAD_MASK,
     (visible: boolean) => visible
   ),
-  setThumbnail: createAction(
-    WriteActionType.SET_THUMBNAIL,
-    (url: string | null) => url
-  ),
+  setThumbnail: createAction(WriteActionType.SET_THUMBNAIL),
   showWriteSubmit: createAction(
     WriteActionType.SHOW_WRITE_SUBMIT,
     (visible: boolean) => visible
@@ -45,6 +42,10 @@ export const writeCreators = {
   hideWriteSubmit: createAction(
     WriteActionType.HIDE_WRITE_SUBMIT,
     (visible: boolean) => visible
+  ),
+  changeInput: createAction(
+    WriteActionType.CHANGE_INPUT,
+    (payload: WriteType.ChangeInputPayload) => payload
   ),
   createUploadUrlPostThumbnail: createAction(
     WriteActionType.CREATE_UPLOAD_URL_POST_THUMBNAIL_REQUEST,
@@ -57,6 +58,10 @@ export const writeCreators = {
   writeSubmit: createAction(
     WriteActionType.WRITE_SUBMIT_REQUEST,
     (payload: WriteType.WriteSubmitPayload) => payload
+  ),
+  editSubmit: createAction(
+    WriteActionType.EDIT_SUBMIT_REQUEST,
+    (payload: WriteType.EditSubmitPayload) => payload
   ),
   getPost: createAction(
     WriteActionType.GET_POST_REQUEST,
@@ -118,6 +123,9 @@ const initialState: WriteState = {
 
 export default handleActions<WriteState, any>(
   {
+    [WriteActionType.INITIAL]: () => {
+      return initialState;
+    },
     [WriteActionType.SET_UPLOAD_MASK]: (
       state,
       action: WriteType.SetUploadMaskAction
@@ -170,13 +178,13 @@ export default handleActions<WriteState, any>(
         );
       });
     },
-    [WriteActionType.SET_THUMBNAIL]: (
-      state,
-      action: WriteType.SetThumbnailAction
-    ) => {
+    [WriteActionType.SET_THUMBNAIL]: state => {
       return produce(state, draft => {
-        if (action.payload === undefined) return;
-        draft.editor.post_thumbnail = action.payload;
+        draft.upload = {
+          url: '',
+          path: '',
+          name: '',
+        };
       });
     },
     [WriteActionType.SHOW_WRITE_SUBMIT]: (
@@ -240,6 +248,21 @@ export default handleActions<WriteState, any>(
         draft.editor.body = action.payload.postData.body;
         draft.editor.post_thumbnail = action.payload.postData.post_thumbnail;
         draft.submitBox.tags = action.payload.postData.tag;
+      });
+    },
+    [WriteActionType.EDIT_SUBMIT_SUCCESS]: (
+      state,
+      action: WriteType.EditSubmitAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.postId = action.payload.postId;
+        draft.editor = {
+          post_thumbnail: null,
+          body: '',
+          title: '',
+        };
+        draft.submitBox.tags = [];
       });
     },
   },

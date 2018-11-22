@@ -14,16 +14,24 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 class WriteHeaderContainer extends React.Component<Props> {
   public onSubmit = () => {
-    const { WriteActions, history, editor, tags, postId, url } = this.props;
+    const { WriteActions, history, editor, tags, url } = this.props;
+    const query = queryString.parse(this.props.location.search);
 
-    if (postId && editor) {
-      // TODO 수정하는 코드
+    if (query.edit_id && editor) {
+      WriteActions.editSubmit({
+        postId: query.edit_id as string,
+        title: editor.title,
+        post_thumbnail: url === '' ? null : url,
+        body: editor.body,
+        history,
+        tags,
+      });
       return;
     }
 
     WriteActions.writeSubmit({
       title: editor.title,
-      post_thumbnail: url,
+      post_thumbnail: url === '' ? null : url,
       body: editor.body,
       history,
       tags,
@@ -61,8 +69,9 @@ class WriteHeaderContainer extends React.Component<Props> {
   };
 
   public onGoBack = () => {
-    const { history } = this.props;
+    const { history, WriteActions } = this.props;
     history.goBack();
+    WriteActions.initial();
   };
 
   public componentDidMount() {
@@ -75,12 +84,15 @@ class WriteHeaderContainer extends React.Component<Props> {
 
   public render() {
     const { onGoBack, onSubmitBox, onUploadClick, onSubmit } = this;
+    const { edit_id } = queryString.parse(this.props.location.search);
+
     return (
       <WriteHeader
         onSubmit={onSubmit}
         onUploadClick={onUploadClick}
         onGoBack={onGoBack}
         onSubmitBox={onSubmitBox}
+        isEdit={!!edit_id}
       />
     );
   }

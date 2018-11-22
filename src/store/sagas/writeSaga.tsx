@@ -1,5 +1,5 @@
 import { takeEvery, fork, put, call, select } from 'redux-saga/effects';
-import { WriteActionType, UploadState } from '../modules/write';
+import { WriteActionType } from '../modules/write';
 import { ErrorActionType } from '../modules/error';
 import * as WriteType from './types/write';
 import * as FileAPI from '../../lib/api/file';
@@ -47,20 +47,9 @@ function* createUploadUrlPostImage(action: any) {
       file
     );
 
-    yield put({
-      type: WriteActionType.CREATE_UPLOAD_URL_POST_IMAGE_SUCCESS,
-      payload: {
-        url: responseUploadUrl.data.url,
-        path: responseUploadUrl.data.path,
-        name: responseUploadUrl.data.name,
-      },
-    });
+    const { url, path, name } = responseUploadUrl.data;
 
-    const uploadSelect: UploadState = yield select(
-      ({ write }: StoreState) => write.upload
-    );
-
-    if (!uploadSelect.name || !uploadSelect.url) {
+    if (!url || !name || !path) {
       yield put({
         type: ErrorActionType.ERROR,
         payload: {
@@ -71,9 +60,7 @@ function* createUploadUrlPostImage(action: any) {
       return;
     }
 
-    const markdownUrl = `${'\n'}![${uploadSelect.name}](${
-      uploadSelect.url
-    })${'\n'}`;
+    const markdownUrl = `${'\n'}![${name}](${url})${'\n'}`;
 
     yield put({
       type: WriteActionType.SET_INSERT_TEXT,
@@ -168,6 +155,56 @@ function* getPost(action: any) {
   }
 }
 
+function* editSubmit(action: any) {
+  const {
+    payload: { title, body, post_thumbnail, tags, postId, history },
+  }: WriteType.EditSubmitPayload = action;
+
+  try {
+    const responseUpdatePost = yield call(WriteAPI.updatePost, {
+      title,
+      body,
+      post_thumbnail,
+      tags,
+      postId,
+    });
+
+    yield put({
+      type: WriteActionType.EDIT_SUBMIT_SUCCESS,
+      payload: {
+        postId: responseUpdatePost.data.postId,
+      },
+    });
+
+    const postIdSelect = yield select(({ write }: StoreState) => write.postId);
+
+    if (!postIdSelect) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          error: true,
+          code: 404,
+        },
+      });
+      return;
+    }
+
+    history.push(`/post/${postIdSelect}`);
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        error: true,
+        code: e.response.status,
+      },
+    });
+  }
+}
+
+function* watchEditSubmit() {
+  yield takeEvery(WriteActionType.EDIT_SUBMIT_REQUEST, editSubmit);
+}
+
 function* watchWriteSubmit() {
   yield takeEvery(WriteActionType.WRITE_SUBMIT_REQUEST, writeSubmit);
 }
@@ -196,5 +233,6 @@ export default function* wrtieSaga() {
     fork(watchCreateUploadUrlPostImage),
     fork(watchWriteSubmit),
     fork(watchGetPost),
+    fork(watchEditSubmit),
   ];
 }

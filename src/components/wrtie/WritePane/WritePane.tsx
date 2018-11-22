@@ -41,7 +41,7 @@ class WritePane extends React.Component<Props> {
 
   public onInsertText = () => {
     const { insertText, onClearInsertText } = this.props;
-    const editors: any = this.codeMirror;
+    const editors = this.codeMirror;
     const selection = editors.getSelection();
 
     if (selection.length > 0) {
@@ -61,6 +61,7 @@ class WritePane extends React.Component<Props> {
   };
 
   public initializeEditor = () => {
+    const { onDragEnter, onDragLeave } = this.props;
     this.codeMirror = CodeMirror(this.editor, {
       mode: 'markdown',
       theme: 'monokai',
@@ -68,6 +69,8 @@ class WritePane extends React.Component<Props> {
       lineWrapping: true,
     });
     this.codeMirror.on('change', this.onChangeMarkdown);
+    this.codeMirror.on('dragenter', (event: Event, e: any) => onDragEnter(e));
+    this.codeMirror.on('dragleave', (event: Event, e: any) => onDragLeave(e));
   };
 
   public onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

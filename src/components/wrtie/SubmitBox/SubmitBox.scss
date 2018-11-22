@@ -4,7 +4,7 @@
   @keyframes submitBoxAppear {
     0% {
       opacity: 0;
-      transform: translateY(-25%);
+      transform: translateY(10%);
     }
     100% {
       opacity: 1;
@@ -18,12 +18,14 @@
     }
     100% {
       opacity: 0;
-      transform: translateY(-25%);
+      transform: translateY(10%);
     }
   }
   position: absolute;
-  right: 0.5rem;
-  top: 7rem;
+  justify-content: center;
+  right: 0;
+  top: 0;
+  z-index: 120;
   background: $oc-blue-6;
   width: 20rem;
   @include media("<376px") {

@@ -122,6 +122,7 @@ function* deletPost(action: any) {
 
   try {
     yield call(PostAPI.deletePost, postId);
+    window.location.href = '/';
   } catch (e) {
     yield put({
       type: ErrorActionType.ERROR,

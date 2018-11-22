@@ -20,7 +20,7 @@ const PreviewThumbnail: React.StatelessComponent<{
         </div>
         <div className={cx('thumbnail-area')}>
           <img className={cx('full')} src={thumbnail} alt="post-thumbnail" />
-          <div className={cx('overlay full')}>
+          <div className={cx('overlay', 'full')}>
             <button className={cx('white-button')} onClick={onUploadClick}>
               <MdSync />
               <div className={cx('text')}>변경</div>

@@ -20,6 +20,16 @@ export type WriteSubmitPayload = {
     history: History;
   };
 };
+export type EditSubmitPayload = {
+  payload: {
+    postId: string;
+    title: string;
+    body: string;
+    post_thumbnail: string | null;
+    tags: string[];
+    history: History;
+  };
+};
 export type CreateUploadUrlPostResponse = {
   data: {
     url: string;
