@@ -1,5 +1,5 @@
 export type ListPostsPayload = {
-  username?: string;
+  username?: string | null;
 };
 
 export type PrefetchPostsPayload = {

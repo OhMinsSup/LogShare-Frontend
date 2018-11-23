@@ -248,6 +248,7 @@ export default handleActions<WriteState, any>(
         draft.editor.body = action.payload.postData.body;
         draft.editor.post_thumbnail = action.payload.postData.post_thumbnail;
         draft.submitBox.tags = action.payload.postData.tag;
+        draft.upload.url = action.payload.postData.post_thumbnail as string;
       });
     },
     [WriteActionType.EDIT_SUBMIT_SUCCESS]: (

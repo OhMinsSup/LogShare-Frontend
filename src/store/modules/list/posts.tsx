@@ -25,9 +25,27 @@ export const postsCreators = {
   revealPostsPrefetched: createAction(PostsActionType.REVEAL_POSTS_PREFETCHED),
 };
 
+export interface PostsSubState {
+  postId: string;
+  title: string;
+  body: string;
+  post_thumbnail: string | null;
+  createdAt: string;
+  info: {
+    likes: number;
+    comments: number;
+  };
+  user: {
+    username: string;
+    thumbnail: string;
+    shortBio: string;
+    _id: string;
+  };
+}
+
 export interface ListingSetState {
-  post: string[];
-  prefetched: string[];
+  post: PostsSubState[];
+  prefetched: PostsSubState[];
   end: boolean;
   next: string;
   loading: boolean;

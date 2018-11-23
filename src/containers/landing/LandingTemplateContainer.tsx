@@ -4,6 +4,7 @@ import HeaderContainer from '../base/HeaderContainer';
 import SidebarContainer from '../base/SidebarContainer';
 import PrimarySidebarContainer from '../base/PrimarySidebarContainer';
 import { match, Switch, Route } from 'react-router';
+import RecentPostCards from '../list/RecentPostCards';
 
 type OwnProps = {
   match: match<string>;
@@ -22,7 +23,8 @@ class LandingTemplateContainer extends React.Component<Props> {
         primarySidebar={<PrimarySidebarContainer />}
       >
         <Switch>
-          <Route exact path="/recent" component={Recent} />
+          <Route exact path="/" component={RecentPostCards} />
+          <Route exact path="/recent" component={RecentPostCards} />
           <Route exact path="/trending" component={Trending} />
           <Route exact path="/seris" component={Series} />
         </Switch>
@@ -31,7 +33,6 @@ class LandingTemplateContainer extends React.Component<Props> {
   }
 }
 
-const Recent = () => <div>Recent</div>;
 const Trending = () => <div>Trending</div>;
 const Series = () => <div>Series</div>;
 
