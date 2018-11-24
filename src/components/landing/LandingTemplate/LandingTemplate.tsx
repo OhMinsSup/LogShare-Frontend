@@ -12,9 +12,7 @@ const LandingTemplate: React.StatelessComponent<{
   primarySidebar: React.ReactNode;
 }> = ({ mainSidebar, mainHead, primarySidebar, children }) => (
   <div className={cx('landing-template')}>
-    <div className={cx('landing-sidebar')}>
-      <div className={cx('sidebar-content')}>{mainSidebar}</div>
-    </div>
+    <div className={cx('landing-sidebar')}>{mainSidebar}</div>
     <div className={cx('shadow-sidebar')} />
     <div className={cx('feed-area')}>
       <div className={cx('mobile-head')}>

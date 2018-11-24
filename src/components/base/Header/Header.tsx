@@ -11,11 +11,12 @@ const cx = classNames.bind(styles);
 const Header: React.StatelessComponent<{
   user: UserSubState | null;
   menu: React.ReactNode;
+  onSideBar(): void;
   onMenu(): void;
-}> = ({ user, menu, onMenu }) => (
+}> = ({ user, menu, onMenu, onSideBar }) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
-      <button className={cx('menu')}>
+      <button className={cx('menu')} onClick={onSideBar}>
         <MdMenu />
       </button>
       {user ? (

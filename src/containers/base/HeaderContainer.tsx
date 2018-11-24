@@ -16,16 +16,34 @@ class HeaderContainer extends React.Component<Props> {
     userMenu ? BaseActions.hideUserMenu() : BaseActions.showUserMenu();
   };
 
+  public onSideBar = () => {
+    const { BaseActions, sideBar } = this.props;
+
+    if (sideBar) {
+      BaseActions.setSideBar(false);
+    } else {
+      BaseActions.setSideBar(true);
+    }
+  };
+
   public render() {
     const { user } = this.props;
-    const { onMenu } = this;
-    return <Header user={user} menu={<UserMenuContainer />} onMenu={onMenu} />;
+    const { onMenu, onSideBar } = this;
+    return (
+      <Header
+        user={user}
+        menu={<UserMenuContainer />}
+        onMenu={onMenu}
+        onSideBar={onSideBar}
+      />
+    );
   }
 }
 
 const mapStateToProps = ({ user, base }: StoreState) => ({
   userMenu: base.user_menu.visible,
   user: user.user && user.user,
+  sideBar: base.side_bar.visible,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

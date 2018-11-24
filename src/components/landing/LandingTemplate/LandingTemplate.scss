@@ -8,27 +8,7 @@
     height: 100%;
 
     .landing-sidebar {
-        background: white;
-        width: 260px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 910;
-        border-right: 1px solid #d6d8df;
-        box-sizing: border-box;
 
-        @include media("<=1024px") {
-            width: 220px;
-        }
-
-        @include media ("<=890px") {
-            display: none;
-            box-shadow: 0 4px 20px 4px rgba(0,0,0,0.2);
-        }
-
-        .sidebar-content {
-            height: 100vh;
-        }
     }
 
     .shadow-sidebar {

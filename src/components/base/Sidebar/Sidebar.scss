@@ -1,6 +1,27 @@
 @import 'utils';
 
 .sidebar {
+    background: white;
+    width: 260px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 910;
+    border-right: 1px solid #d6d8df;
+    box-sizing: border-box;
+    height: 100vh;
+
+    @include media(">1024px", "<=1220px") {
+        width: 220px;
+    }
+
+    @include media("<=1023px") {
+        width: 220px;
+    }
+
+    @include media ("<=890px") {
+        box-shadow: 0 4px 20px 4px rgba(0,0,0,0.2);
+    }    
     .sidebar-top {
         display: block;
         box-sizing: border-box;

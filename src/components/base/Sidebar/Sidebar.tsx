@@ -9,7 +9,9 @@ const cx = classNames.bind(styles);
 
 const Sidebar: React.StatelessComponent<{
   url: string;
-}> = ({ url }) => (
+  width: number;
+  sideBar: boolean;
+}> = ({ url, sideBar, width }) => (
   <div className={cx('sidebar')}>
     <div className={cx('sidebar-top')}>
       <div className={cx('logo-section')}>
