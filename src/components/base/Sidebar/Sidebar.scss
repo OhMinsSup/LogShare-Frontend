@@ -46,6 +46,10 @@
                         margin-left: 0;
                     }
                 }
+
+                @include media ("<=890px") {
+                    padding-left: 0.75rem;
+                }  
             }
         }
 

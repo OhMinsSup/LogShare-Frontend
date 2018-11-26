@@ -1,4 +1,4 @@
-import { fork, put, call, takeEvery, select } from 'redux-saga/effects';
+import { fork, put, call, takeEvery, select, all } from 'redux-saga/effects';
 import {
   AuthActionType,
   TokenDataState,
@@ -19,7 +19,7 @@ function* checkExists(action: any) {
   }: AuthType.ChekcExistsPayload = action;
 
   try {
-    const response: AuthType.ChekcExistsResponse = yield call(
+    const responseCheckExists: AuthType.ChekcExistsResponse = yield call(
       AuthAPI.checkExists,
       {
         key,
@@ -30,7 +30,7 @@ function* checkExists(action: any) {
     yield put({
       type: AuthActionType.CHECK_EXISTS_SUCCESS,
       payload: {
-        exists: response.data.exists,
+        exists: responseCheckExists.data.exists,
         key,
       },
     });
@@ -373,11 +373,11 @@ function* watchSocialRegister() {
 }
 
 export default function* authSaga() {
-  yield [
+  yield all([
     fork(watchCheckExists),
     fork(watchLocalRegister),
     fork(watchLocalLogin),
     fork(watchCallBackSocial),
     fork(watchSocialRegister),
-  ];
+  ]);
 }

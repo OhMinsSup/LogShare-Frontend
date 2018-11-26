@@ -17,12 +17,16 @@ function* createUploadUrlPostThumbnail(action: any) {
       file
     );
 
+    const {
+      data: { url, path, name },
+    } = responseUploadUrl;
+
     yield put({
       type: WriteActionType.CREATE_UPLOAD_URL_POST_THUMBNAIL_SUCCESS,
       payload: {
-        url: responseUploadUrl.data.url,
-        path: responseUploadUrl.data.path,
-        name: responseUploadUrl.data.name,
+        url,
+        path,
+        name,
       },
     });
   } catch (e) {

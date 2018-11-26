@@ -15,7 +15,7 @@ const Post: React.StatelessComponent<{
   <React.Fragment>
     <PostTemplate header={<HeaderContainer />}>
       <PostViewer location={location} match={match} />
-      <PostCommentsContainer />
+      <PostCommentsContainer match={match} />
     </PostTemplate>
     <PostSequencesContainer history={history} />
   </React.Fragment>

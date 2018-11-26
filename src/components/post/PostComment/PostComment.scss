@@ -1,0 +1,117 @@
+@import 'utils';
+
+.post-comment {
+  padding: 1rem;
+  @include media("<medium") {
+    padding: 1rem 0.5rem;
+  }
+  .comment-head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+    img {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+    }
+    .text-block {
+      font-size: 0.875rem;
+      margin-left: 0.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      .username {
+        font-weight: 600;
+        color: $oc-gray-9;
+        &.unknown {
+          font-weight: 400;
+        }
+      }
+      .date {
+        margin-top: 0.125rem;
+        color: $oc-gray-6;
+      }
+    }
+    .actions {
+      position: absolute;
+      right: 0;
+      top: 0.6rem;
+      font-size: 0.875rem;
+      color: $oc-gray-5;
+      button {
+        border: none;
+        user-select: none;
+        cursor: pointer;
+        background: #eee;
+        &:hover {
+          color: $oc-gray-8;
+          text-decoration: underline;
+        }
+      }
+      button+button {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+  .replies-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem;
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background: #eee;
+    font-weight: 600;
+    border: none;
+    font-size: 0.875rem;
+    color: $oc-blue-6;
+    border-radius: 2px;
+    cursor: pointer;
+    svg {
+      margin-right: 0.5rem;
+    }
+    &:hover {
+      background: $oc-gray-0;
+    }
+  }
+
+  .replies {
+    margin-left: 1rem;
+    background: rgba(0, 0, 0, 0.025);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    @include media("<medium") {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      margin-left: 0;
+      padding: 1rem 0.5rem;
+    }
+    border-radius: 4px;
+    .show-input-button {
+      margin-top: 1rem;
+      border-radius: 2px;
+      padding: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 0.875rem;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      border: 1px solid $oc-blue-4;
+      font-weight: 600;
+      color: $oc-blue-4;
+      background: white;
+      cursor: pointer;
+      &:hover {
+        background: $oc-blue-4;
+        color: white;
+      }
+    }
+  }
+}
+
+.post-comment+.post-comment {
+  border-top: 1px solid $oc-gray-2;
+}

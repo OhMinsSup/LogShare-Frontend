@@ -8,11 +8,11 @@ const cx = classNames.bind(styles);
 
 type Props = {
   showCancel?: boolean;
-  replyTo?: string;
+  reply: string | null;
   editing?: boolean;
   defaultValue?: string;
   onCancel?(): void;
-  onWriteComment?(text: string, replyTo?: string): void;
+  onWriteComment(text: string, reply?: string | null): void;
 };
 
 type State = {
@@ -60,8 +60,23 @@ class PostCommentInput extends React.Component<Props, State> {
     });
   };
 
+  public onWriteButtonClick = () => {
+    const { reply, onWriteComment } = this.props;
+    const { input } = this.state;
+
+    this.setState({
+      input: '',
+    });
+
+    if (this.props.onCancel) {
+      this.props.onCancel();
+    }
+
+    onWriteComment(input, reply);
+  };
+
   public render() {
-    const { showCancel, editing } = this.props;
+    const { showCancel, editing, onCancel } = this.props;
     const { focused, input } = this.state;
 
     return (
@@ -76,10 +91,14 @@ class PostCommentInput extends React.Component<Props, State> {
           value={input}
         />
         <div className={cx('button-wrapper')}>
-          <Button theme="default" onClick={() => console.log('ds')}>
-            {editing ? '수정하기' : '댓글 작성'}
+          <Button theme="default" onClick={this.onWriteButtonClick}>
+            {editing ? '수정하기' : '댓글작성'}
           </Button>
-          {showCancel && <Button theme="default">취소</Button>}
+          {showCancel && (
+            <Button theme="default" onClick={onCancel}>
+              취소
+            </Button>
+          )}
         </div>
       </div>
     );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import * as Tooltip from 'react-tooltip';
 import { FaHeart, FaRegHeart, FaFacebook, FaTwitter } from 'react-icons/fa';
-import { MdShare, MdClass } from 'react-icons/md';
+import { MdShare, MdClose } from 'react-icons/md';
 import { getScrollTop, shareTwitter, shareFacebook } from 'src/lib/common';
 
 const styles = require('./PostLeftSticker.scss');
@@ -100,7 +100,7 @@ class PostLeftSticker extends React.Component<Props, State> {
             className={cx('circle', 'share')}
             onClick={this.onToggleShareButton}
           >
-            {openShare ? <MdClass /> : <MdShare />}
+            {openShare ? <MdClose /> : <MdShare />}
           </button>
           {openShare && (
             <React.Fragment>

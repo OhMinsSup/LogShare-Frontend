@@ -59,6 +59,7 @@ class SubmitBoxContainer extends React.Component<Props> {
       onClearThumbnail,
       onClick,
     } = this;
+
     return (
       <SubmitBox
         visible={open}

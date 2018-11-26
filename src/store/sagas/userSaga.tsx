@@ -1,4 +1,4 @@
-import { fork, put, take, call } from 'redux-saga/effects';
+import { fork, put, take, call, all } from 'redux-saga/effects';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
 import * as AuthAPI from '../../lib/api/auth';
@@ -46,5 +46,5 @@ function* logOut() {
 }
 
 export default function* userSaga() {
-  yield [fork(setUser), fork(logOut)];
+  yield all([fork(setUser), fork(logOut)]);
 }

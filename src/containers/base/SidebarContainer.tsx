@@ -11,19 +11,20 @@ type OwnProps = { url: string };
 type Props = StateProps & DispatchProps & OwnProps;
 
 class SidebarContainer extends React.Component<Props> {
-  public onClickOutSide = (e: any) => {
+  public onOutSideClick = (e: any) => {
     const { BaseActions } = this.props;
     BaseActions.setSideBar(false);
   };
 
-  public componentWillMount = () => {
-    document.addEventListener('click', this.onClickOutSide);
-  };
+  public componentWillMount() {
+    document.addEventListener('click', this.onOutSideClick);
+  }
 
   public render() {
     const { url, sideBar, width } = this.props;
     if (!sideBar && width <= 890) return null;
-    return <Sidebar url={url} sideBar={sideBar} width={width} />;
+
+    return <Sidebar url={url} />;
   }
 }
 

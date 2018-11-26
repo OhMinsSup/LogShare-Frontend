@@ -22,6 +22,24 @@ export enum PostActionType {
   POST_SEQUENCES_SUCCESS = 'post/POST_SEQUENCES_SUCCESS',
 
   DELETE_POST = 'post/DELETE_POST',
+
+  WRITE_COMMENT_REQUEST = 'post/WRITE_COMMENT_REQUEST',
+  WRITE_COMMENT_SUCCESS = 'post/WRITE_COMMENT_SUCCESS',
+
+  READ_COMMENTS_REQUEST = 'post/READ_COMMENTS_REQUEST',
+  READ_COMMENTS_SUCCESS = 'post/READ_COMMENTS_SUCCESS',
+
+  READ_SUBCOMMENTS_REQUEST = 'post/READ_SUBCOMMENTS_REQUEST',
+  READ_SUBCOMMENTS_SUCCESS = 'post/READ_SUBCOMMENTS_SUCCESS',
+
+  EDIT_COMMENT_REQUEST = 'post/EDIT_COMMENT_REQUEST',
+  EDIT_COMMENT_SUCCESS = 'post/EDIT_COMMENT_SUCCESS',
+
+  DELETE_COMMENT_REQUEST = 'post/DELETE_COMMENT_REQUEST',
+  DELETE_COMMENT_SUCCESS = 'post/DELETE_COMMENT_SUCCESS',
+
+  CANCEL_COMMENT_REMOVE = 'post/CANCEL_COMMENT_REMOVE',
+  OPEN_COMMENT_REMOVE = 'post/OPEN_COMMENT_REMOVE',
 }
 
 export const postCreators = {
@@ -49,6 +67,31 @@ export const postCreators = {
     PostActionType.DELETE_POST,
     (payload: PostType.DeletePostPayload) => payload
   ),
+  writeComment: createAction(
+    PostActionType.WRITE_COMMENT_REQUEST,
+    (payload: PostType.WriteCommentPayload) => payload
+  ),
+  editComment: createAction(
+    PostActionType.EDIT_COMMENT_REQUEST,
+    (payload: PostType.EditCommentPayload) => payload
+  ),
+  deleteComment: createAction(
+    PostActionType.DELETE_COMMENT_REQUEST,
+    (payload: PostType.DeleteCommentPayload) => payload
+  ),
+  readComments: createAction(
+    PostActionType.READ_COMMENTS_REQUEST,
+    (payload: PostType.ReadCommentPayload) => payload
+  ),
+  readSubcomments: createAction(
+    PostActionType.READ_SUBCOMMENTS_REQUEST,
+    (payload: PostType.ReadSubCommentPayload) => payload
+  ),
+  openCommentRemove: createAction(
+    PostActionType.OPEN_COMMENT_REMOVE,
+    (payload: PostType.OpenCommentRemovePayload) => payload
+  ),
+  cancelCommentRemove: createAction(PostActionType.CANCEL_COMMENT_REMOVE),
 };
 
 export interface PostDataState {
@@ -73,11 +116,20 @@ export interface PostDataState {
 
 export interface CommentDataState {
   post: string;
-  user: string;
+  _id: string;
+  user: {
+    profile: {
+      username: string;
+      thumbnail: string;
+      shortBio: string;
+    };
+    _id: string;
+  };
   reply: string;
   level: number;
   visible: boolean;
   text: string;
+  createdAt: string;
 }
 
 export interface PostSequenceState {
@@ -91,33 +143,64 @@ export interface PostSequenceState {
 export interface RemoveCommentState {
   visible: boolean;
   commentId: string | null;
-  parentId: string | null;
+  reply: string | null;
+}
+
+export interface SubCommentState {
+  ['']: CommentDataState[];
 }
 
 export interface PostState {
   postData: PostDataState | null;
   sequences: PostSequenceState[] | null;
-  askModal: boolean;
   comments: CommentDataState[] | null;
   removeComment: RemoveCommentState;
-  subComment: CommentDataState | {};
+  subComment: SubCommentState | {};
+  askModal: boolean;
+  askComment: boolean;
 }
 
 const initialState: PostState = {
   postData: null,
   sequences: [],
   askModal: false,
+  askComment: false,
   comments: null,
   subComment: {},
   removeComment: {
     commentId: null,
-    parentId: null,
+    reply: null,
     visible: false,
   },
 };
 
 export default handleActions<PostState, any>(
   {
+    [PostActionType.OPEN_COMMENT_REMOVE]: (
+      state,
+      action: PostType.OpenCommentRemoveAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        const {
+          payload: { commentId, reply },
+        } = action;
+        draft.removeComment = {
+          commentId,
+          reply,
+          visible: true,
+        };
+      });
+    },
+    [PostActionType.CANCEL_COMMENT_REMOVE]: state => {
+      return produce(state, draft => {
+        draft.removeComment = {
+          commentId: null,
+          reply: null,
+          visible: false,
+        };
+      });
+    },
     [PostActionType.SET_MODAL]: (state, action: PostType.SetModalAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -186,6 +269,64 @@ export default handleActions<PostState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.sequences = action.payload.sequences;
+      });
+    },
+    [PostActionType.WRITE_COMMENT_SUCCESS]: (
+      state,
+      action: PostType.WriteCommentAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.askComment = action.payload.status;
+      });
+    },
+    [PostActionType.READ_COMMENTS_SUCCESS]: (
+      state,
+      action: PostType.ReadCommentsAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        const {
+          payload: { comments },
+        } = action;
+        draft.comments = comments;
+      });
+    },
+    [PostActionType.READ_SUBCOMMENTS_SUCCESS]: (state, action) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        const {
+          payload: { commentId, subComments, parentId },
+        } = action;
+
+        if (!draft.comments) return;
+        let comment = null;
+
+        if (!parentId) {
+          comment = draft.comments.find(c => c._id === commentId);
+        } else {
+          if (!draft.subComment[parentId]) return;
+          comment = draft.subComment[parentId].find(
+            (c: any) => c._id === commentId
+          );
+        }
+        if (!comment) return;
+        draft.subComment[commentId] = subComments;
+      });
+    },
+    [PostActionType.DELETE_COMMENT_SUCCESS]: state => {
+      return produce(state, draft => {
+        draft.removeComment = {
+          commentId: null,
+          reply: null,
+          visible: false,
+        };
+      });
+    },
+    [PostActionType.EDIT_COMMENT_SUCCESS]: (state, action) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.askComment = action.payload.status;
       });
     },
   },

@@ -1,4 +1,4 @@
-import { put, call, takeEvery, fork } from 'redux-saga/effects';
+import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
 import { PostsActionType } from '../modules/list/posts';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
@@ -66,5 +66,5 @@ function* watchPrefetchPosts() {
 }
 
 export default function* postsListSaga() {
-  yield [fork(watchGetPosts), fork(watchPrefetchPosts)];
+  yield all([fork(watchGetPosts), fork(watchPrefetchPosts)]);
 }
