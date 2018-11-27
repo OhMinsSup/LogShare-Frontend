@@ -34,7 +34,8 @@ class PostLeftSticker extends React.Component<Props, State> {
 
   public componentDidMount() {
     if (!this.element.current) return;
-    this.pos = this.element.current.getBoundingClientRect().top;
+    this.pos =
+      this.element.current.getBoundingClientRect().top + getScrollTop();
     window.addEventListener('scroll', this.onScroll);
   }
 

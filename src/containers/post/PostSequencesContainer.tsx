@@ -14,7 +14,6 @@ type Props = StateProps & DispatchProps & OwnProps;
 class PostSequencesContainer extends React.Component<Props> {
   public onClick = (postId: string) => {
     const { history } = this.props;
-
     history.push(`/post/${postId}`);
   };
 

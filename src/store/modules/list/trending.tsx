@@ -1,28 +1,27 @@
-import { handleActions, createAction } from 'redux-actions';
+import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
 import * as ListType from '../types/list';
 
-export enum PostsActionType {
-  REVEAL_POSTS_PREFETCHED = 'list/posts/REVEAL_POSTS_PREFETCHED',
+export enum TrendingActionType {
+  REVEAL_TRENDING_PREFETCHED = 'list/trending/REVEAL_TRENDING_PREFETCHED',
 
-  GET_POSTS_LIST_REQUEST = 'list/posts/GET_POSTS_LIST_REQUEST',
-  GET_POSTS_LIST_PENDING = 'list/posts/GET_POSTS_LIST_PENDING',
-  GET_POSTS_LIST_SUCCESS = 'list/posts/GET_POSTS_LIST_SUCCESS',
+  GET_TRENDING_LIST_REQUEST = 'list/trending/GET_TRENDING_LIST_REQUEST',
+  GET_TRENDING_LIST_PENDING = 'list/trending/GET_TRENDING_LIST_PENDING',
+  GET_TRENDING_LIST_SUCCESS = 'list/trending/GET_TRENDING_LIST_SUCCESS',
 
-  PREFETCH_POSTS_LIST_REQUEST = 'list/posts/PREFETCH_POSTS_LIST_REQUEST',
-  PREFETCH_POSTS_LIST_SUCCESS = 'list/posts/PREFETCH_POSTS_LIST_SUCCESS',
+  PREFETCH_TRENDING_LIST_REQUEST = 'list/trending/PREFETCH_TRENDING_LIST_REQUEST',
+  PREFETCH_TRENDING_LIST_SUCCESS = 'list/trending/PREFETCH_TRENDING_LIST_SUCCESS',
 }
 
-export const postsCreators = {
-  getPosts: createAction(
-    PostsActionType.GET_POSTS_LIST_REQUEST,
-    (payload: ListType.ListPostsPayload) => payload
-  ),
-  prefetchPosts: createAction(
-    PostsActionType.PREFETCH_POSTS_LIST_REQUEST,
+export const trendingCreators = {
+  getTrending: createAction(TrendingActionType.GET_TRENDING_LIST_REQUEST),
+  prefetchTrending: createAction(
+    TrendingActionType.PREFETCH_TRENDING_LIST_REQUEST,
     (payload: ListType.PrefetchListPayload) => payload
   ),
-  revealPostsPrefetched: createAction(PostsActionType.REVEAL_POSTS_PREFETCHED),
+  revealTrendingPrefetched: createAction(
+    TrendingActionType.REVEAL_TRENDING_PREFETCHED
+  ),
 };
 
 export interface PostsSubState {
@@ -51,8 +50,8 @@ export interface ListingSetState {
   loading: boolean;
 }
 
-export interface PostsState {
-  posts: ListingSetState;
+export interface TrendingState {
+  trending: ListingSetState;
 }
 
 const initialListingSet: ListingSetState = {
@@ -63,27 +62,27 @@ const initialListingSet: ListingSetState = {
   loading: false,
 };
 
-const initialState: PostsState = {
-  posts: initialListingSet,
+const initialState: TrendingState = {
+  trending: initialListingSet,
 };
 
-export default handleActions<PostsState, any>(
+export default handleActions<TrendingState, any>(
   {
-    [PostsActionType.REVEAL_POSTS_PREFETCHED]: state => {
+    [TrendingActionType.REVEAL_TRENDING_PREFETCHED]: state => {
       return produce(state, draft => {
-        const { post, prefetched } = draft.posts;
+        const { post, prefetched } = draft.trending;
         if (post && prefetched) {
           post.push(...prefetched);
-          draft.posts.prefetched = [];
+          draft.trending.prefetched = [];
         }
       });
     },
-    [PostsActionType.GET_POSTS_LIST_PENDING]: state => {
+    [TrendingActionType.GET_TRENDING_LIST_PENDING]: state => {
       return produce(state, draft => {
-        draft.posts.loading = true;
+        draft.trending.loading = true;
       });
     },
-    [PostsActionType.GET_POSTS_LIST_SUCCESS]: (
+    [TrendingActionType.GET_TRENDING_LIST_SUCCESS]: (
       state,
       action: ListType.PostsListAction
     ) => {
@@ -92,7 +91,7 @@ export default handleActions<PostsState, any>(
         const {
           payload: { posts },
         } = action;
-        draft.posts = {
+        draft.trending = {
           post: posts.postWithData,
           prefetched: [],
           end: false,
@@ -101,7 +100,7 @@ export default handleActions<PostsState, any>(
         };
       });
     },
-    [PostsActionType.PREFETCH_POSTS_LIST_SUCCESS]: (
+    [TrendingActionType.PREFETCH_TRENDING_LIST_SUCCESS]: (
       state,
       action: ListType.PostsListAction
     ) => {
@@ -110,10 +109,10 @@ export default handleActions<PostsState, any>(
         const {
           payload: { posts },
         } = action;
-        draft.posts.prefetched = posts.postWithData;
-        draft.posts.next = posts.next;
+        draft.trending.prefetched = posts.postWithData;
+        draft.trending.next = posts.next;
         if (posts.postWithData && posts.postWithData.length === 0) {
-          draft.posts.end = true;
+          draft.trending.end = true;
         }
       });
     },

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { authCreators } from 'src/store/modules/auth';
 import { StoreState } from 'src/store/modules';
-import * as queryString from 'query-string';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -18,12 +17,8 @@ class Home extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
 
-    const { AuthActions } = this.props;
-    const query = queryString.parse(this.props.location.search);
-
-    if (query.next) {
-      AuthActions.setNextUrl(query.next);
-    }
+    const { AuthActions, match } = this.props;
+    AuthActions.setNextUrl(match.url);
   }
 
   public render() {

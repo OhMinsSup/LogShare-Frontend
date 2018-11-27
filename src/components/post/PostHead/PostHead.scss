@@ -19,7 +19,7 @@
   }
   .user-info {
     @include media('<medium') {
-      background: $oc-gray-0;
+      background: white;
       margin-top: -0.25rem;
       border-top: 1px solid $oc-gray-2;
       border-bottom: 1px solid $oc-gray-2;

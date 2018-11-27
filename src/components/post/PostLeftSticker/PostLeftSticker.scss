@@ -15,7 +15,7 @@
   position: absolute;
   width: 4rem;
   left: -7rem;
-  top: 7rem;
+  top: 5rem;
   padding-top: 1rem;
   @include media('<large') {
     display: none;
@@ -29,6 +29,7 @@
     align-items: center;
     &.fixed {
       position: fixed;
+      top: 1rem;
     }
     .circle {
       width: 3rem;

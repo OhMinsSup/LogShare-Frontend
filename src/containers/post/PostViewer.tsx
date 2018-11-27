@@ -72,7 +72,10 @@ class PostViewer extends React.Component<Props> {
   };
 
   public componentDidUpdate(prevProps: Props) {
-    if (prevProps.match.url !== this.props.match.url) {
+    if (
+      prevProps.match.url !== this.props.match.url ||
+      prevProps.match.params.id !== this.props.match.params.id
+    ) {
       this.initialize();
     }
   }

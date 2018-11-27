@@ -5,6 +5,7 @@ import PostCommentInput from '../PostCommentInput';
 import { Link } from 'react-router-dom';
 import { FaPlusSquare, FaMinusSquare } from 'react-icons/fa';
 import { CommentDataState, SubCommentState } from 'src/store/modules/post';
+import defaultThumbnail from '../../../static/default.jpg';
 
 const styles = require('./PostComment.scss');
 const cx = classNames.bind(styles);
@@ -153,7 +154,7 @@ class PostComment extends React.Component<Props, State> {
           <React.Fragment>
             <div className={cx('comment-head')}>
               <Link to={`/@${username}`}>
-                <img src={thumbnail} alt={username} />
+                <img src={thumbnail || defaultThumbnail} alt={username} />
               </Link>
               <div className={cx('text-block')}>
                 {username === null ? (

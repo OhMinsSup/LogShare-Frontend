@@ -5,6 +5,7 @@ import SidebarContainer from '../base/SidebarContainer';
 import PrimarySidebarContainer from '../base/PrimarySidebarContainer';
 import { match, Switch, Route } from 'react-router';
 import RecentPostCards from '../list/RecentPostCards';
+import TrendingPostCards from '../list/TrendingPostCards';
 
 type OwnProps = {
   match: match<{ id: string }>;
@@ -26,7 +27,7 @@ class LandingTemplateContainer extends React.Component<Props> {
         <Switch>
           <Route exact path="/" component={RecentPostCards} />
           <Route exact path="/recent" component={RecentPostCards} />
-          <Route exact path="/trending" component={Trending} />
+          <Route exact path="/trending" component={TrendingPostCards} />
           <Route exact path="/seris" component={Series} />
         </Switch>
       </LandingTemplate>
@@ -34,7 +35,6 @@ class LandingTemplateContainer extends React.Component<Props> {
   }
 }
 
-const Trending = () => <div>Trending</div>;
 const Series = () => <div>Series</div>;
 
 export default LandingTemplateContainer;
