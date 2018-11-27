@@ -65,6 +65,6 @@ function* watchPrefetchPosts() {
   yield takeEvery(PostsActionType.PREFETCH_POSTS_LIST_REQUEST, prefetchPosts);
 }
 
-export default function* postsListSaga() {
+export default function* postsSaga() {
   yield all([fork(watchGetPosts), fork(watchPrefetchPosts)]);
 }

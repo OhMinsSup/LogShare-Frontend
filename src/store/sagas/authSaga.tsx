@@ -7,7 +7,6 @@ import {
   ExistsState,
 } from '../modules/auth';
 import * as AuthAPI from '../../lib/api/auth';
-import * as AuthType from './types/auth';
 import { StoreState } from '../modules';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
@@ -16,16 +15,13 @@ import { ErrorActionType } from '../modules/error';
 function* checkExists(action: any) {
   const {
     payload: { key, value },
-  }: AuthType.ChekcExistsPayload = action;
+  } = action;
 
   try {
-    const responseCheckExists: AuthType.ChekcExistsResponse = yield call(
-      AuthAPI.checkExists,
-      {
-        key,
-        value,
-      }
-    );
+    const responseCheckExists = yield call(AuthAPI.checkExists, {
+      key,
+      value,
+    });
 
     yield put({
       type: AuthActionType.CHECK_EXISTS_SUCCESS,
@@ -72,17 +68,14 @@ function* checkExists(action: any) {
 function* localRegister(action: any) {
   const {
     payload: { email, username, password },
-  }: AuthType.LocalRegisterPayload = action;
+  } = action;
 
   try {
-    const responseLocalRegiter: AuthType.LocalRegisterResponse = yield call(
-      AuthAPI.localRegister,
-      {
-        email,
-        username,
-        password,
-      }
-    );
+    const responseLocalRegiter = yield call(AuthAPI.localRegister, {
+      email,
+      username,
+      password,
+    });
 
     yield put({
       type: AuthActionType.LOCAL_REGISTER_SUCCESS,
@@ -126,16 +119,13 @@ function* localRegister(action: any) {
 function* localLogin(action: any) {
   const {
     payload: { email, password },
-  }: AuthType.LocalLoginPayload = action;
+  } = action;
 
   try {
-    const responseLocalLogin: AuthType.LocalLoginResponse = yield call(
-      AuthAPI.localLogin,
-      {
-        email,
-        password,
-      }
-    );
+    const responseLocalLogin = yield call(AuthAPI.localLogin, {
+      email,
+      password,
+    });
 
     yield put({
       type: AuthActionType.LOCAL_LOGIN_SUCCESS,
@@ -171,12 +161,10 @@ function* localLogin(action: any) {
 function* callbackSocial(action: any) {
   const {
     payload: { next, provider, history },
-  }: AuthType.GetProviderTokenPayload = action;
+  } = action;
 
   try {
-    const responseToken: AuthType.GetProviderTokenResponse = yield call(
-      AuthAPI.getProviderToken
-    );
+    const responseToken = yield call(AuthAPI.getProviderToken);
 
     yield put({
       type: AuthActionType.GET_PROVIDER_TOKEN_SUCCESS,
@@ -201,13 +189,10 @@ function* callbackSocial(action: any) {
       return;
     }
 
-    const responseVerify: AuthType.VerifySocialResponse = yield call(
-      AuthAPI.verifySocial,
-      {
-        accessToken: tokenDataSelect.token,
-        provider: tokenDataSelect.type,
-      }
-    );
+    const responseVerify = yield call(AuthAPI.verifySocial, {
+      accessToken: tokenDataSelect.token,
+      provider: tokenDataSelect.type,
+    });
 
     yield put({
       type: AuthActionType.VERIFY_SOCIAL_SUCCESS,
@@ -233,13 +218,10 @@ function* callbackSocial(action: any) {
     }
 
     if (verifySocialResultSelect.exists) {
-      const responseSocialLogin: AuthType.SocialLoginResponse = yield call(
-        AuthAPI.socialLogin,
-        {
-          accessToken: tokenDataSelect.token,
-          provider: tokenDataSelect.type,
-        }
-      );
+      const responseSocialLogin = yield call(AuthAPI.socialLogin, {
+        accessToken: tokenDataSelect.token,
+        provider: tokenDataSelect.type,
+      });
 
       yield put({
         type: AuthActionType.SOCIAL_LOGIN_SUCCESS,
@@ -299,17 +281,14 @@ function* callbackSocial(action: any) {
 function* socialRegister(action: any) {
   const {
     payload: { accessToken, username, provider, history },
-  }: AuthType.SocialRegisterPayload = action;
+  } = action;
 
   try {
-    const response: AuthType.SocialRegisterResponse = yield call(
-      AuthAPI.socialRegister,
-      {
-        accessToken,
-        username,
-        provider,
-      }
-    );
+    const response = yield call(AuthAPI.socialRegister, {
+      accessToken,
+      username,
+      provider,
+    });
 
     yield put({
       type: AuthActionType.SOCIAL_REGISTER_SUCCESS,

@@ -77,7 +77,7 @@
 
   .replies {
     margin-left: 1rem;
-    background: rgba(0, 0, 0, 0.025);
+    background: white;
     margin-top: 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -113,5 +113,5 @@
 }
 
 .post-comment+.post-comment {
-  border-top: 1px solid $oc-gray-2;
+  border-top: 1px solid $oc-gray-5;
 }

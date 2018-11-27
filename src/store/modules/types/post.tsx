@@ -75,3 +75,17 @@ export type ReadCommentsAction = GenericResponseAction<
   { comments: CommentDataState[] },
   string
 >;
+export type ReadSubCommentsAction = GenericResponseAction<
+  {
+    commentId: string;
+    subComments: CommentDataState[];
+    parentId: string;
+  },
+  string
+>;
+export type EditCommentAction = GenericResponseAction<
+  {
+    status: boolean;
+  },
+  string
+>;

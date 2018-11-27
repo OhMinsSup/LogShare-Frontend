@@ -3,7 +3,7 @@ import authSaga from './authSaga';
 import userSaga from './userSaga';
 import wrtieSaga from './writeSaga';
 import postSaga from './postSaga';
-import postsListSaga from './postsListSaga';
+import postsSaga from './postsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -11,6 +11,6 @@ export default function* rootSaga() {
     fork(userSaga),
     fork(wrtieSaga),
     fork(postSaga),
-    fork(postsListSaga),
+    fork(postsSaga),
   ]);
 }

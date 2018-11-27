@@ -10,6 +10,7 @@ import { postCreators } from 'src/store/modules/post';
 import { Location } from 'history';
 import { match } from 'react-router';
 import QuestionModal from 'src/components/common/QuestionModal';
+import FakePost from 'src/components/common/FakePost';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -91,7 +92,7 @@ class PostViewer extends React.Component<Props> {
 
     const { onToggleLike, onAskRemove, onConfirm } = this;
 
-    if (!post) return null;
+    if (!post) return <FakePost />;
 
     return (
       <React.Fragment>

@@ -292,7 +292,10 @@ export default handleActions<PostState, any>(
         draft.comments = comments;
       });
     },
-    [PostActionType.READ_SUBCOMMENTS_SUCCESS]: (state, action) => {
+    [PostActionType.READ_SUBCOMMENTS_SUCCESS]: (
+      state,
+      action: PostType.ReadSubCommentsAction
+    ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         const {
@@ -323,7 +326,10 @@ export default handleActions<PostState, any>(
         };
       });
     },
-    [PostActionType.EDIT_COMMENT_SUCCESS]: (state, action) => {
+    [PostActionType.EDIT_COMMENT_SUCCESS]: (
+      state,
+      action: PostType.EditCommentAction
+    ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.askComment = action.payload.status;

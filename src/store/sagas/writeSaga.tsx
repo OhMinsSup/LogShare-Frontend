@@ -1,7 +1,6 @@
-import { takeEvery, fork, put, call, select } from 'redux-saga/effects';
+import { takeEvery, fork, put, call, select, all } from 'redux-saga/effects';
 import { WriteActionType } from '../modules/write';
 import { ErrorActionType } from '../modules/error';
-import * as WriteType from './types/write';
 import * as FileAPI from '../../lib/api/file';
 import * as WriteAPI from '../../lib/api/write';
 import { StoreState } from '../modules';
@@ -9,13 +8,10 @@ import { StoreState } from '../modules';
 function* createUploadUrlPostThumbnail(action: any) {
   const {
     payload: { file },
-  }: WriteType.CreateUploadUrlPostPayload = action;
+  } = action;
 
   try {
-    const responseUploadUrl: WriteType.CreateUploadUrlPostResponse = yield call(
-      FileAPI.createUrlPost,
-      file
-    );
+    const responseUploadUrl = yield call(FileAPI.createUrlPost, file);
 
     const {
       data: { url, path, name },
@@ -43,15 +39,14 @@ function* createUploadUrlPostThumbnail(action: any) {
 function* createUploadUrlPostImage(action: any) {
   const {
     payload: { file },
-  }: WriteType.CreateUploadUrlPostPayload = action;
+  } = action;
 
   try {
-    const responseUploadUrl: WriteType.CreateUploadUrlPostResponse = yield call(
-      FileAPI.createUrlPost,
-      file
-    );
+    const responseUploadUrl = yield call(FileAPI.createUrlPost, file);
 
-    const { url, path, name } = responseUploadUrl.data;
+    const {
+      data: { url, path, name },
+    } = responseUploadUrl;
 
     if (!url || !name || !path) {
       yield put({
@@ -86,18 +81,15 @@ function* createUploadUrlPostImage(action: any) {
 function* writeSubmit(action: any) {
   const {
     payload: { title, body, post_thumbnail, tags, history },
-  }: WriteType.WriteSubmitPayload = action;
+  } = action;
 
   try {
-    const responseWritePost: WriteType.WriteSubmitResponse = yield call(
-      WriteAPI.writePost,
-      {
-        title,
-        body,
-        post_thumbnail,
-        tags,
-      }
-    );
+    const responseWritePost = yield call(WriteAPI.writePost, {
+      title,
+      body,
+      post_thumbnail,
+      tags,
+    });
 
     yield put({
       type: WriteActionType.WRITE_SUBMIT_SUCCESS,
@@ -106,7 +98,9 @@ function* writeSubmit(action: any) {
       },
     });
 
-    const postIdSelect = yield select(({ write }: StoreState) => write.postId);
+    const postIdSelect: string | null = yield select(
+      ({ write }: StoreState) => write.postId
+    );
 
     if (!postIdSelect) {
       yield put({
@@ -134,13 +128,10 @@ function* writeSubmit(action: any) {
 function* getPost(action: any) {
   const {
     payload: { postId },
-  }: WriteType.GetPostPayload = action;
+  } = action;
 
   try {
-    const responseReadPost: WriteType.GetPostAction = yield call(
-      WriteAPI.getPost,
-      postId
-    );
+    const responseReadPost = yield call(WriteAPI.getPost, postId);
 
     yield put({
       type: WriteActionType.GET_POST_SUCCESS,
@@ -162,7 +153,7 @@ function* getPost(action: any) {
 function* editSubmit(action: any) {
   const {
     payload: { title, body, post_thumbnail, tags, postId, history },
-  }: WriteType.EditSubmitPayload = action;
+  } = action;
 
   try {
     const responseUpdatePost = yield call(WriteAPI.updatePost, {
@@ -180,7 +171,9 @@ function* editSubmit(action: any) {
       },
     });
 
-    const postIdSelect = yield select(({ write }: StoreState) => write.postId);
+    const postIdSelect: string | null = yield select(
+      ({ write }: StoreState) => write.postId
+    );
 
     if (!postIdSelect) {
       yield put({
@@ -232,11 +225,11 @@ function* watchGetPost() {
 }
 
 export default function* wrtieSaga() {
-  yield [
+  yield all([
     fork(watchCreateUploadUrlPostThumbnail),
     fork(watchCreateUploadUrlPostImage),
     fork(watchWriteSubmit),
     fork(watchGetPost),
     fork(watchEditSubmit),
-  ];
+  ]);
 }

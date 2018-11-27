@@ -4,6 +4,7 @@ import Button from 'src/components/common/Button';
 import { Link } from 'react-router-dom';
 import { MdSearch, MdNotificationsNone, MdMenu } from 'react-icons/md';
 import { UserSubState } from 'src/store/modules/user';
+import defaultThumbnail from '../../../static/default.jpg';
 
 const styles = require('./Header.scss');
 const cx = classNames.bind(styles);
@@ -11,14 +12,17 @@ const cx = classNames.bind(styles);
 const Header: React.StatelessComponent<{
   user: UserSubState | null;
   menu: React.ReactNode;
+  path: string;
   onSideBar(): void;
   onMenu(): void;
-}> = ({ user, menu, onMenu, onSideBar }) => (
+}> = ({ user, path, menu, onMenu, onSideBar }) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
-      <button className={cx('menu')} onClick={onSideBar}>
-        <MdMenu />
-      </button>
+      {path === '/post/:id' ? null : (
+        <button className={cx('menu')} onClick={onSideBar}>
+          <MdMenu />
+        </button>
+      )}
       {user ? (
         <Link to="/write" className={cx('write')}>
           작성하기
@@ -39,7 +43,7 @@ const Header: React.StatelessComponent<{
         <Button className={cx('users')} theme="noline" onClick={onMenu}>
           <img
             className={cx('thumbnail')}
-            src={user.thumbnail}
+            src={user.thumbnail || defaultThumbnail}
             alt={user.username}
           />
           <span className={cx('username')}>{user.username}</span>

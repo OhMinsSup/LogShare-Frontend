@@ -4,6 +4,7 @@ import * as classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import PostLikeButton from '../PostLikeButton';
 import PostActionButtons from '../PostActionButtons';
+import defaultThumbnail from '../../../static/default.jpg';
 
 const styles = require('./PostHead.scss');
 const cx = classNames.bind(styles);
@@ -38,7 +39,7 @@ const PostHead: React.StatelessComponent<{
   <div className={cx('post-head')}>
     <div className={cx('user-info')}>
       <Link to={`/@${username}`} className={cx('user-thumbnail')}>
-        <img src={thumbnail} alt="user-thumbnail" />
+        <img src={thumbnail || defaultThumbnail} alt="user-thumbnail" />
       </Link>
       <div className={cx('info')}>
         <Link to={`/@${username}`} className={cx('username')}>

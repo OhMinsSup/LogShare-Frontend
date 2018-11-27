@@ -1,20 +1,16 @@
 import { fork, takeEvery, put, call, all } from 'redux-saga/effects';
 import { PostActionType } from '../modules/post';
 import { ErrorActionType } from '../modules/error';
-import * as PostType from './types/post';
 import * as PostAPI from '../../lib/api/post';
 import * as CommentAPI from '../../lib/api/comment';
 
 function* readPost(action: any) {
   const {
     payload: { postId },
-  }: PostType.ReadPostPayload = action;
+  } = action;
 
   try {
-    const responseReadPost: PostType.ReadPostResponse = yield call(
-      PostAPI.readPost,
-      postId
-    );
+    const responseReadPost = yield call(PostAPI.readPost, postId);
 
     yield put({
       type: PostActionType.READ_POST_SUCCESS,
@@ -62,17 +58,14 @@ function* like(action: any) {
 function* unlike(action: any) {
   const {
     payload: { postId },
-  }: PostType.LikePayload = action;
+  } = action;
 
   yield put({
     type: PostActionType.UNLIKE_REQUEST,
   });
 
   try {
-    const responseLike: PostType.LikeResponse = yield call(
-      PostAPI.unlike,
-      postId
-    );
+    const responseLike = yield call(PostAPI.unlike, postId);
 
     yield put({
       type: PostActionType.UNLIKE_SUCCESS,
@@ -91,13 +84,10 @@ function* unlike(action: any) {
 function* postSequences(action: any) {
   const {
     payload: { postId },
-  }: PostType.PostSequencesPayload = action;
+  } = action;
 
   try {
-    const responseSequences: PostType.PostSequencesResponse = yield call(
-      PostAPI.sequences,
-      postId
-    );
+    const responseSequences = yield call(PostAPI.sequences, postId);
 
     yield put({
       type: PostActionType.POST_SEQUENCES_SUCCESS,
@@ -119,7 +109,7 @@ function* postSequences(action: any) {
 function* deletePost(action: any) {
   const {
     payload: { postId },
-  }: PostType.DeletePostPayload = action;
+  } = action;
 
   try {
     yield call(PostAPI.deletePost, postId);

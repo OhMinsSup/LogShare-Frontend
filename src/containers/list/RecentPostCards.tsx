@@ -6,6 +6,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { postsCreators } from 'src/store/modules/list/posts';
 import { StoreState } from 'src/store/modules';
 import { getScrollBottom } from 'src/lib/common';
+import FakePostCards from 'src/components/common/FakePostCards';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -57,7 +58,8 @@ class RecentPostCards extends React.Component<Props> {
   }
 
   public render() {
-    const { posts } = this.props;
+    const { posts, loading } = this.props;
+    if (loading) return <FakePostCards oneColumn={false} posts={posts} />;
 
     return <PostCardList posts={posts} />;
   }

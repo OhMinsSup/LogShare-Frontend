@@ -7,7 +7,7 @@ import { match, Switch, Route } from 'react-router';
 import RecentPostCards from '../list/RecentPostCards';
 
 type OwnProps = {
-  match: match<string>;
+  match: match<{ id: string }>;
 };
 type Props = OwnProps;
 
@@ -16,9 +16,10 @@ class LandingTemplateContainer extends React.Component<Props> {
     const {
       match: { url },
     } = this.props;
+
     return (
       <LandingTemplate
-        mainHead={<HeaderContainer />}
+        mainHead={<HeaderContainer match={this.props.match} />}
         mainSidebar={<SidebarContainer url={url} />}
         primarySidebar={<PrimarySidebarContainer />}
       >

@@ -2,13 +2,12 @@ import { fork, put, take, call, all } from 'redux-saga/effects';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
 import * as AuthAPI from '../../lib/api/auth';
-import * as UserType from './types/user';
 import { ErrorActionType } from '../modules/error';
 
 function* setUser() {
   const {
     payload: { authResult },
-  }: UserType.SetUserPayload = yield take(UserActionType.SET_USER_REQUEST);
+  } = yield take(UserActionType.SET_USER_REQUEST);
 
   if (!authResult || authResult === undefined) {
     storage.remove('__log_share__');

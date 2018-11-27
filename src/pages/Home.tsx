@@ -11,7 +11,7 @@ import * as queryString from 'query-string';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type OwnProps = { match: match<string>; location: Location };
+type OwnProps = { match: match<{ id: string }>; location: Location };
 type Props = OwnProps & StateProps & DispatchProps;
 
 class Home extends React.Component<Props> {

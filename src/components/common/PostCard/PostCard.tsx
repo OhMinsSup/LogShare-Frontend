@@ -3,6 +3,7 @@ import * as classNames from 'classnames/bind';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import { IoMdImage } from 'react-icons/io';
+import defaultThumbnail from '../../../static/default.jpg';
 
 const styles = require('./PostCard.scss');
 const cx = classNames.bind(styles);
@@ -37,7 +38,7 @@ const PostCard: React.StatelessComponent<{
     </Link>
     <div className={cx('card-content')}>
       <div className={cx('user-thumbnail-wrapper')}>
-        <img src={user.thumbnail} />
+        <img src={user.thumbnail || defaultThumbnail} />
       </div>
       <div className={cx('content-head')}>
         <div className={cx('username')}>@{user.username}</div>

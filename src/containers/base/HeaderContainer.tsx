@@ -5,10 +5,12 @@ import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
 import UserMenuContainer from './UserMenuContainer';
 import { baseCreators } from 'src/store/modules/base';
+import { match } from 'react-router';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type Props = StateProps & DispatchProps;
+type OwnProps = { match: match<{ id: string }> };
+type Props = StateProps & DispatchProps & OwnProps;
 
 class HeaderContainer extends React.Component<Props> {
   public onMenu = () => {
@@ -27,11 +29,16 @@ class HeaderContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { user } = this.props;
+    const {
+      user,
+      match: { path },
+    } = this.props;
     const { onMenu, onSideBar } = this;
+
     return (
       <Header
         user={user}
+        path={path}
         menu={<UserMenuContainer />}
         onMenu={onMenu}
         onSideBar={onSideBar}
@@ -50,7 +57,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(HeaderContainer);
