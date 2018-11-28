@@ -19,7 +19,7 @@ class HeaderContainer extends React.Component<Props> {
     userMenu ? BaseActions.hideUserMenu() : BaseActions.showUserMenu();
   };
 
-  public onSideBar = () => {
+  public onCommonMenur = () => {
     const { BaseActions, commonMenu } = this.props;
 
     if (commonMenu) {
@@ -30,25 +30,27 @@ class HeaderContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { user } = this.props;
-    const { onMenu, onSideBar } = this;
+    const { user, width, match } = this.props;
+    const { onMenu, onCommonMenur } = this;
+    console.log(match.path);
 
     return (
-      <React.Fragment>
-        <Header
-          user={user}
-          menu={<UserMenuContainer />}
-          commonMenu={<CommonMenuContainer />}
-          onMenu={onMenu}
-          onSideBar={onSideBar}
-        />
-      </React.Fragment>
+      <Header
+        user={user}
+        width={width}
+        path={match.path}
+        menu={<UserMenuContainer />}
+        commonMenu={<CommonMenuContainer />}
+        onMenu={onMenu}
+        onCommonMenur={onCommonMenur}
+      />
     );
   }
 }
 
 const mapStateToProps = ({ user, base }: StoreState) => ({
   userMenu: base.user_menu.visible,
+  width: base.window.width,
   user: user.user && user.user,
   commonMenu: base.common_menu.visible,
 });

@@ -14,7 +14,7 @@ const User: React.StatelessComponent<{
     mainSidebar={<SidebarContainer url={match.url} />}
     primarySidebar={<PrimarySidebarContainer />}
   >
-    <UserHeadContainer />
+    <UserHeadContainer match={match} />
     dsds
   </UserTemplate>
 );

@@ -13,14 +13,27 @@ const Header: React.StatelessComponent<{
   commonMenu: React.ReactNode;
   user: UserSubState | null;
   menu: React.ReactNode;
-  onSideBar(): void;
+  width: number;
+  path: string;
+  onCommonMenur(): void;
   onMenu(): void;
-}> = ({ user, menu, onMenu, onSideBar, commonMenu }) => (
+}> = ({ user, menu, onMenu, onCommonMenur, commonMenu, width, path }) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
-      <button className={cx('menu')} onClick={onSideBar}>
-        <MdMenu />
-      </button>
+      {width > 885 ? null : (
+        <button className={cx('menu')} onClick={onCommonMenur}>
+          <MdMenu />
+        </button>
+      )}
+      {path === '/post/:id' ? (
+        <React.Fragment>
+          {width <= 885 ? null : (
+            <button className={cx('menu')} onClick={onCommonMenur}>
+              <MdMenu />
+            </button>
+          )}
+        </React.Fragment>
+      ) : null}
       {commonMenu}
       {user ? (
         <Link to="/write" className={cx('write')}>

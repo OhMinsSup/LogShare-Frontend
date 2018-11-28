@@ -16,6 +16,11 @@ const App = () => (
       <Route exact path="/post/:id" component={Post} />
       <Route exact path="/tags/:tag" component={Tag} />
       <Route exact path="/@:username" component={User} />
+      <Route
+        exact
+        path="/@:username/(posts|following|follower|likes|history)"
+        component={User}
+      />
     </Switch>
     <Core />
   </React.Fragment>

@@ -1,0 +1,36 @@
+@import 'utils';
+
+.nav-item {
+    flex: 1 1 auto;
+    text-align: center;
+    position: relative;
+    display: list-item;
+    box-sizing: border-box;
+    .text {
+        padding: 14px 12px 12px;
+        color: #263238;
+        border-bottom: 2px solid transparent;
+        font-size: .75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        justify-content: center !important;
+        align-items: center !important;
+        display: flex !important;
+    }
+
+    &:hover {
+        border-bottom: 2px solid $oc-blue-5;
+        .text {
+            font-weight: 700;
+            color: $oc-blue-5;
+        }
+    }
+  
+    &.active {
+        border-bottom: 3px solid $oc-blue-6;
+        .text {
+            font-weight: 700;
+            color: $oc-blue-6;
+        }
+    }
+}
