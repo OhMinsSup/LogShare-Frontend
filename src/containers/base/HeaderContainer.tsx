@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
 import UserMenuContainer from './UserMenuContainer';
+import CommonMenuContainer from './CommonMenuContainer';
 import { baseCreators } from 'src/store/modules/base';
 import { match } from 'react-router';
 
@@ -19,30 +20,29 @@ class HeaderContainer extends React.Component<Props> {
   };
 
   public onSideBar = () => {
-    const { BaseActions, sideBar } = this.props;
+    const { BaseActions, commonMenu } = this.props;
 
-    if (sideBar) {
-      BaseActions.setSideBar(false);
+    if (commonMenu) {
+      BaseActions.setCommonMenu(false);
     } else {
-      BaseActions.setSideBar(true);
+      BaseActions.setCommonMenu(true);
     }
   };
 
   public render() {
-    const {
-      user,
-      match: { path },
-    } = this.props;
+    const { user } = this.props;
     const { onMenu, onSideBar } = this;
 
     return (
-      <Header
-        user={user}
-        path={path}
-        menu={<UserMenuContainer />}
-        onMenu={onMenu}
-        onSideBar={onSideBar}
-      />
+      <React.Fragment>
+        <Header
+          user={user}
+          menu={<UserMenuContainer />}
+          commonMenu={<CommonMenuContainer />}
+          onMenu={onMenu}
+          onSideBar={onSideBar}
+        />
+      </React.Fragment>
     );
   }
 }
@@ -50,7 +50,7 @@ class HeaderContainer extends React.Component<Props> {
 const mapStateToProps = ({ user, base }: StoreState) => ({
   userMenu: base.user_menu.visible,
   user: user.user && user.user,
-  sideBar: base.side_bar.visible,
+  commonMenu: base.common_menu.visible,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

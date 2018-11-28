@@ -1,0 +1,137 @@
+@import 'utils';
+
+.tag-template {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    max-width: 1540px;
+    height: 100%;
+
+    .sidebar {
+
+    }
+
+    .shadow-sidebar {
+        width: 250px;
+
+        @include media ("<=890px") {
+            display: none;
+        }
+    }
+
+    .feed-area {
+        position: relative;
+        z-index: 900;
+        margin-top: 65px;
+        padding: 27px 0;
+        width: 830px;
+
+        @include media("<=1500px") {
+            width: 800px;
+        }
+
+        @include media("<=1442px") {
+            width: 750px;
+        }
+
+        @include media(">1310px","<=1380px") {
+            width: 54%;
+        }
+
+        @include media("<=1309px") {
+            width: 52%;
+        }
+        
+        @include media(">1200px","<=1220px") {
+            width: 644px;
+        }
+
+        @include media(">1086px","<=1199px")  {
+            width: 570px;
+        }
+
+        @include media(">1024px","<=1085px")  {
+            width: 570px;
+        }
+
+        @include media(">769px","<=1023px")  {
+            width: 67%;
+            padding-left: 1rem;
+        }
+
+        @include media("<=890px") {
+            margin-top: 0;
+        }
+
+        @include media("<=768px")  {
+            width: 100%;
+            max-width: 100%;
+        }
+        .mobile-head {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            justify-content: center !important;
+            align-items: center !important;
+            box-sizing: border-box;
+            .logo {
+                width: 180px;
+                position: relative;
+                cursor: pointer;
+                padding-left: 0.5rem;
+                font-family: "Inconsolata";
+                span {
+                    margin-left: 0.5rem;
+                    width: 600;
+                    color: $oc-gray-7;
+                    font-size: 2rem;
+                }
+            }
+
+            @include media(">890px") {
+                display: none;
+            }
+        }
+
+        .head {
+            margin-bottom: 30px;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            box-sizing: border-box;
+        }
+
+        .feed-filter {
+            position: relative;
+        }
+    }
+
+    .primary-sidebar {
+        margin-top: 65px;
+        padding: 27px 0;
+        margin-right: 64px;
+        display: block;
+        width: 310px;
+
+        @include media("<=1442px") {
+            width: 280px;
+        }
+
+        @include media("<=1345px") {
+            margin-right: 16px;
+        }
+
+        @include media("<=1150px") {
+            width: 230px;
+        }
+
+        @include media("<=1024px") {
+            margin-top: 136px;
+        }
+
+        @include media ("<=768px") {
+            display: none;
+        }
+    }
+}

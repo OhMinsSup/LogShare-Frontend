@@ -10,19 +10,18 @@ const styles = require('./Header.scss');
 const cx = classNames.bind(styles);
 
 const Header: React.StatelessComponent<{
+  commonMenu: React.ReactNode;
   user: UserSubState | null;
   menu: React.ReactNode;
-  path: string;
   onSideBar(): void;
   onMenu(): void;
-}> = ({ user, path, menu, onMenu, onSideBar }) => (
+}> = ({ user, menu, onMenu, onSideBar, commonMenu }) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
-      {path === '/post/:id' ? null : (
-        <button className={cx('menu')} onClick={onSideBar}>
-          <MdMenu />
-        </button>
-      )}
+      <button className={cx('menu')} onClick={onSideBar}>
+        <MdMenu />
+      </button>
+      {commonMenu}
       {user ? (
         <Link to="/write" className={cx('write')}>
           작성하기

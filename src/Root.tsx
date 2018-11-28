@@ -8,7 +8,7 @@ const preloadedState =
   typeof window === 'undefined' ? undefined : (window as any).__REDUX_STATE__;
 const store = configureStore(preloadedState);
 
-const Root: React.StatelessComponent<{}> = () => (
+const Root = () => (
   <Provider store={store}>
     <BrowserRouter>
       <App />

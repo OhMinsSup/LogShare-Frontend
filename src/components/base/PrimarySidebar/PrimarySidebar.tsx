@@ -2,11 +2,14 @@ import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { MdLabel } from 'react-icons/md';
+import { TagsDataState } from 'src/store/modules/list/tags';
 
 const styles = require('./PrimarySidebar.scss');
 const cx = classNames.bind(styles);
 
-const PrimarySidebar = () => (
+const PrimarySidebar: React.StatelessComponent<{
+  tags: TagsDataState[];
+}> = ({ tags }) => (
   <div className={cx('primary-sidebar')}>
     <div className={cx('header')}>
       <div className={cx('wrapper')}>
@@ -15,10 +18,15 @@ const PrimarySidebar = () => (
       </div>
     </div>
     <div className={cx('contents')}>
-      <Link className={cx('tag-item')} to={`/tags/name`}>
-        <div className={cx('name')}>태그</div>
-        <div className={cx('counts')}>5</div>
-      </Link>
+      {tags.map(tag => {
+        const { count, tagId, name } = tag;
+        return (
+          <Link key={tagId} className={cx('tag-item')} to={`/tags/${name}`}>
+            <div className={cx('name')}>{name}</div>
+            <div className={cx('counts')}>{count}</div>
+          </Link>
+        );
+      })}
     </div>
   </div>
 );

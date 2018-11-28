@@ -11,6 +11,7 @@ import { Location } from 'history';
 import { match } from 'react-router';
 import QuestionModal from 'src/components/common/QuestionModal';
 import FakePost from 'src/components/common/FakePost';
+import { authCreators } from 'src/store/modules/auth';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -52,7 +53,10 @@ class PostViewer extends React.Component<Props> {
         params: { id },
       },
       PostActions,
+      AuthActions,
     } = this.props;
+
+    AuthActions.setNextUrl(true);
 
     if (!id) return;
 
@@ -145,6 +149,7 @@ const mapStateToProps = ({ post, user }: StoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   PostActions: bindActionCreators(postCreators, dispatch),
+  AuthActions: bindActionCreators(authCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

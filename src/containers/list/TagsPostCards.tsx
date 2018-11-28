@@ -3,16 +3,18 @@ import PostCardList from 'src/components/common/PostCardList';
 import { connect } from 'react-redux';
 import { throttle } from 'lodash';
 import { Dispatch, bindActionCreators } from 'redux';
-import { postsCreators } from 'src/store/modules/list/posts';
 import { StoreState } from 'src/store/modules';
 import { getScrollBottom } from 'src/lib/common';
 import FakePostCards from 'src/components/common/FakePostCards';
+import { tagsCreators } from 'src/store/modules/list/tags';
+import { authCreators } from 'src/store/modules/auth';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type Props = StateProps & DispatchProps;
+type OwnProps = { tag: string };
+type Props = StateProps & DispatchProps & OwnProps;
 
-class RecentPostCards extends React.Component<Props> {
+class TagsPostCards extends React.Component<Props> {
   public prev: string | null = null;
 
   public onScroll = throttle(() => {
@@ -26,18 +28,19 @@ class RecentPostCards extends React.Component<Props> {
     if (!posts || posts.length === 0) return;
 
     if (this.props.prefetched) {
-      ListActions.revealPostsPrefetched();
+      ListActions.revealTagsPostsPrefetched();
     }
 
     if (next === this.prev) return;
     this.prev = next;
 
-    ListActions.prefetchPosts({ next });
+    ListActions.prefetchTagsPosts({ next });
   };
 
   public initialize = () => {
-    const { ListActions } = this.props;
-    ListActions.getPosts({ username: null });
+    const { ListActions, tag, AuthActions } = this.props;
+    AuthActions.setNextUrl(false);
+    ListActions.getTagsPosts({ tag });
   };
 
   public listenScroll = () => {
@@ -53,6 +56,12 @@ class RecentPostCards extends React.Component<Props> {
     this.listenScroll();
   }
 
+  public componentDidUpdate(preProps: Props) {
+    if (preProps.tag != this.props.tag) {
+      this.initialize();
+    }
+  }
+
   public componentWillUnmount() {
     this.unlistenScroll();
   }
@@ -66,17 +75,18 @@ class RecentPostCards extends React.Component<Props> {
 }
 
 const mapStateToProps = ({ list }: StoreState) => ({
-  posts: list.posts.posts.post,
-  prefetched: list.posts.posts.prefetched,
-  next: list.posts.posts.next,
-  loading: list.posts.posts.loading,
+  posts: list.tags.tags_posts.post,
+  prefetched: list.tags.tags_posts.prefetched,
+  next: list.tags.tags_posts.next,
+  loading: list.tags.tags_posts.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ListActions: bindActionCreators(postsCreators, dispatch),
+  ListActions: bindActionCreators(tagsCreators, dispatch),
+  AuthActions: bindActionCreators(authCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(RecentPostCards);
+)(TagsPostCards);

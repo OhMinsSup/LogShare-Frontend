@@ -1,32 +1,33 @@
 import * as React from 'react';
-import Sidebar from 'src/components/base/Sidebar/Sidebar';
 import { connect } from 'react-redux';
 import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
 import { baseCreators } from 'src/store/modules/base';
+import CommonMenu from 'src/components/base/CommonMenu';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type OwnProps = { url: string };
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = StateProps & DispatchProps;
 
-class SidebarContainer extends React.Component<Props> {
+class CommonMenuContainer extends React.Component<Props> {
   public render() {
-    const { url } = this.props;
+    const { menu, nextUrl } = this.props;
+    if (!menu) return null;
 
-    return <Sidebar url={url} />;
+    return <CommonMenu visible={nextUrl ? 'visible' : ''} />;
   }
 }
 
-const mapStateToProps = ({ base }: StoreState) => ({
-  width: base.window.width,
+const mapStateToProps = ({ base, auth }: StoreState) => ({
+  menu: base.common_menu.visible,
+  nextUrl: auth.nextUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps, OwnProps>(
+export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
-)(SidebarContainer);
+)(CommonMenuContainer);

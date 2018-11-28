@@ -49,7 +49,7 @@ export const authCreators = {
   ),
   setNextUrl: createAction(
     AuthActionType.SET_NEXT_URL,
-    (payload: string | string[]) => payload
+    (visible: boolean) => visible
   ),
   checkExists: createAction(
     AuthActionType.CHECK_EXISTS_REQUEST,
@@ -120,7 +120,7 @@ export interface AuthState {
   register_form: RegisterFormState;
   exists: ExistsState;
   authResult: AuthResultState | null;
-  nextUrl: string | null | string[];
+  nextUrl: boolean;
   isSocial: boolean;
   socialAuthResult: SocialResultState | null;
   tokenData: TokenDataState | null;
@@ -168,7 +168,7 @@ const initialState: AuthState = {
     exists: false,
   },
   isSocial: false,
-  nextUrl: null,
+  nextUrl: false,
 };
 
 export default handleActions<AuthState, any>(

@@ -24,7 +24,6 @@ const SubmitBox: React.StatelessComponent<{
       </div>
       <div className={cx('footer')}>
         <div className={cx('buttons')}>
-          <button className={cx('white')}>임시저장</button>
           <button className={cx('white')} onClick={onClick}>
             확인
           </button>

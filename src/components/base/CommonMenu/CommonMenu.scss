@@ -1,0 +1,73 @@
+@import 'utils';
+
+.common-menu {
+    position: absolute;
+    top: 2.25rem;
+    left: 0px;
+    transform: translate3d(1px, 38px, 0px);
+    will-change: transform;
+    border-radius: 6px;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    float: left;
+    min-width: 10rem;
+    z-index: 1000;
+    border: 0;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.158);
+    overflow: hidden;
+    background: #fff;
+    display: block;
+
+    @include media("<=1024px") {
+        left: 1.24rem;
+    }
+
+    @include media("<=885px") {
+        top: 6rem;
+        left: 1rem;
+    }
+
+    &.visible {
+        top: 2rem;
+    }
+
+    .action-nav {
+        svg {
+            font-size: 1.25rem;
+        }
+        span {
+            padding-left: 1rem;
+            font-size: .9rem;
+            font-weight: 400;
+            font-family: 'Rubik',sans-serif;
+            color: #263238;
+        }
+        cursor: pointer;
+        padding: .64rem 1rem;
+        margin-right: 0;
+        align-items: center!important;
+        flex-direction: row!important;
+        display: flex!important;
+        text-align: inherit;
+        white-space: nowrap;
+        background-color: transparent;
+        border: 0;
+        width: 100%;
+        clear: both;
+
+        &:hover {
+            svg  {
+                color: $oc-blue-5;
+                font-weight: 700;  
+            }
+            span {
+                color: $oc-blue-5;
+                font-weight: 700;
+            }
+        }
+    }
+}

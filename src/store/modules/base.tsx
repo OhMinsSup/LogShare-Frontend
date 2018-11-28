@@ -6,15 +6,15 @@ export enum BaseActionType {
   SHOW_USER_MENU = 'base/SHOW_USER_MENU',
   HIDE_USER_MENU = 'base/HIDE_USER_MENU',
   SET_WIDTH = 'base/SET_WIDTH',
-  SET_SIDE_BAR = 'base/SET_SIDE_BAR',
+  SET_COMMON_MENU = 'base/SET_COMMON_MENU',
 }
 
 export const baseCreators = {
   showUserMenu: createAction(BaseActionType.SHOW_USER_MENU),
   hideUserMenu: createAction(BaseActionType.HIDE_USER_MENU),
   setWidth: createAction(BaseActionType.SET_WIDTH, (width: number) => width),
-  setSideBar: createAction(
-    BaseActionType.SET_SIDE_BAR,
+  setCommonMenu: createAction(
+    BaseActionType.SET_COMMON_MENU,
     (visible: boolean) => visible
   ),
 };
@@ -26,7 +26,7 @@ export interface BaseState {
   window: {
     width: number;
   };
-  side_bar: {
+  common_menu: {
     visible: boolean;
   };
 }
@@ -38,7 +38,7 @@ const initialState: BaseState = {
   window: {
     width: 1920,
   },
-  side_bar: {
+  common_menu: {
     visible: false,
   },
 };
@@ -61,13 +61,13 @@ export default handleActions<BaseState, any>(
         draft.window.width = action.payload;
       });
     },
-    [BaseActionType.SET_SIDE_BAR]: (
+    [BaseActionType.SET_COMMON_MENU]: (
       state,
-      action: BaseType.SetSideBarAction
+      action: BaseType.SetCommonMenuAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
-        draft.side_bar.visible = action.payload;
+        draft.common_menu.visible = action.payload;
       });
     },
   },

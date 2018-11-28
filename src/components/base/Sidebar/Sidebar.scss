@@ -20,8 +20,9 @@
     }
 
     @include media ("<=890px") {
-        box-shadow: 0 4px 20px 4px rgba(0,0,0,0.2);
+        display: none;
     }    
+    
     .sidebar-top {
         display: block;
         box-sizing: border-box;
@@ -45,6 +46,10 @@
                     span {
                         margin-left: 0;
                     }
+                }
+
+                @include media(">1024px", "<=1220px") {
+                    padding-left: 0.5rem;
                 }
 
                 @include media ("<=890px") {
