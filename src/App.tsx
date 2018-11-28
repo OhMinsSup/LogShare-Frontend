@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Home, Auth, Write, Post, Tag } from './pages';
+import { Home, Auth, Write, Post, Tag, User } from './pages';
 import Callback from './containers/etc/Callback';
 import Core from './containers/etc/Core';
 
@@ -15,6 +15,7 @@ const App = () => (
       <Route exact path="/write" component={Write} />
       <Route exact path="/post/:id" component={Post} />
       <Route exact path="/tags/:tag" component={Tag} />
+      <Route exact path="/@:username" component={User} />
     </Switch>
     <Core />
   </React.Fragment>
