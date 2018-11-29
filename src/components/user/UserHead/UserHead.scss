@@ -81,6 +81,7 @@
                     border: 1px solid #eaecf3;
                     cursor: pointer;
                     border-radius: 1000px;
+                    border: 1px solid $oc-gray-2;
                     display: inline-block;
                     font-weight: 400;
                     text-align: center;
@@ -93,12 +94,12 @@
                     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
                     text-transform: none;
                     overflow: visible;
-                    margin: 0;
                     font-style: italic;
                     font-family: inherit;
 
                     &:hover {
                         background: $oc-blue-5;
+                        border: 1px solid white;
                         color: white;
                     }
                 }

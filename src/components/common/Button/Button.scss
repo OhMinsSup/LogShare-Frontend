@@ -71,7 +71,7 @@
     }
 
     &.flex {
-        background: $oc-red-5;
+        background: $oc-blue-5;
         border: none;
         color: white;
         justify-content: center;
@@ -79,10 +79,10 @@
         cursor: pointer;
         transition: background ease-in 0.125s;
         &:hover {
-            background: $oc-red-4
+            background: $oc-blue-4
         }
         &:active {
-            background: $oc-red-6
+            background: $oc-blue-6
         }
     }
 

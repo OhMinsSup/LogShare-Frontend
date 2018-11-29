@@ -6,3 +6,5 @@ export const listPosts = (username?: string) => {
 };
 export const next = (next: string) => axios.get(next);
 export const terendingPosts = () => axios.get('/post/list/trending');
+export const likePosts = (username: string) =>
+  axios.get(`/post/list/likes/@${username}`);

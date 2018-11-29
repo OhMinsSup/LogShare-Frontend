@@ -6,6 +6,7 @@ import postSaga from './postSaga';
 import postsSaga from './postsSaga';
 import trendingSaga from './trendingSaga';
 import tagsSaga from './tagsSaga';
+import likesSaga from './likesSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -16,5 +17,6 @@ export default function* rootSaga() {
     fork(postsSaga),
     fork(trendingSaga),
     fork(tagsSaga),
+    fork(likesSaga),
   ]);
 }

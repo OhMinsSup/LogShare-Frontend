@@ -32,7 +32,6 @@ class HeaderContainer extends React.Component<Props> {
   public render() {
     const { user, width, match } = this.props;
     const { onMenu, onCommonMenur } = this;
-    console.log(match.path);
 
     return (
       <Header
