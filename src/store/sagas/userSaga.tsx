@@ -16,8 +16,6 @@ function* getUserProfileInfo(action: any) {
       username
     );
 
-    console.log(responseGetUserProfileInfo);
-
     yield put({
       type: UserActionType.GET_USER_PROFILE_INFO_SUCCESS,
       payload: {

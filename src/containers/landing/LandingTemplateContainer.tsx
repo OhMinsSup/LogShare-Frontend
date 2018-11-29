@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { authCreators } from 'src/store/modules/auth';
 import { StoreState } from 'src/store/modules';
+import UsersCards from '../list/UsersCards';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -42,6 +43,7 @@ class LandingTemplateContainer extends React.Component<Props> {
           <Route exact path="/recent" component={RecentPostCards} />
           <Route exact path="/trending" component={TrendingPostCards} />
           <Route exact path="/seris" component={Series} />
+          <Route exact path="/users" component={UsersCards} />
         </Switch>
       </LandingTemplate>
     );

@@ -64,6 +64,12 @@ class LikesPostCards extends React.Component<Props> {
     this.unlistenScroll();
   }
 
+  public componentDidUpdate(preProps: Props) {
+    if (preProps.match.url !== this.props.match.url) {
+      this.initialize();
+    }
+  }
+
   public render() {
     const { posts, loading } = this.props;
     if (loading) return <FakePostCards oneColumn={false} posts={posts} />;

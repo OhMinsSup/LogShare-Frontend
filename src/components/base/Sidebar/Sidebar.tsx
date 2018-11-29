@@ -1,7 +1,12 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import { MdTrendingUp, MdAccessTime, MdContentCopy } from 'react-icons/md';
+import {
+  MdTrendingUp,
+  MdAccessTime,
+  MdContentCopy,
+  MdPerson,
+} from 'react-icons/md';
 import SidebarNavItem from '../SidebarNavItem';
 
 const styles = require('./Sidebar.scss');
@@ -36,6 +41,12 @@ const Sidebar: React.StatelessComponent<{
             icon={<MdContentCopy />}
             active={url === `/seris`}
             to={`/seris`}
+          />
+          <SidebarNavItem
+            text="유저"
+            icon={<MdPerson />}
+            active={url === `/users`}
+            to={`/users`}
           />
         </ul>
       </div>

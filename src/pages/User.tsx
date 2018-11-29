@@ -24,12 +24,8 @@ const User: React.StatelessComponent<{
       <Route exact path="/@:username" component={UserPostCards} />
       <Route exact path="/@:username/posts" component={UserPostCards} />
       <Route exact path="/@:username/likes" component={LikesPostCards} />
-      <Route exact path="/@:username/follower" component={UserFollowerCards} />
-      <Route
-        exact
-        path="/@:username/following"
-        component={UserFollowingCards}
-      />
+      <Route exact path="/@:username/follower" component={UserFollowingCards} />
+      <Route exact path="/@:username/following" component={UserFollowerCards} />
     </Switch>
   </UserTemplate>
 );

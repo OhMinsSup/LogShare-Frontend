@@ -7,6 +7,9 @@ import postsSaga from './postsSaga';
 import trendingSaga from './trendingSaga';
 import tagsSaga from './tagsSaga';
 import likesSaga from './likesSaga';
+import followsSaga from './followsSaga';
+import usersSaga from './usersSaga';
+import followSaga from './followSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -18,5 +21,8 @@ export default function* rootSaga() {
     fork(trendingSaga),
     fork(tagsSaga),
     fork(likesSaga),
+    fork(followsSaga),
+    fork(usersSaga),
+    fork(followSaga),
   ]);
 }

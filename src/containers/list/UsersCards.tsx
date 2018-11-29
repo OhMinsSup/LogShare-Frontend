@@ -3,11 +3,11 @@ import UserCardList from 'src/components/common/UserCardList';
 import { throttle } from 'lodash';
 import { StoreState } from 'src/store/modules';
 import { getScrollBottom } from 'src/lib/common';
-import { Dispatch, bindActionCreators, compose } from 'redux';
-import { followsCreators } from 'src/store/modules/list/follows';
+import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { match, withRouter } from 'react-router';
 import FakeUserCards from 'src/components/common/FakeUserCards';
+import { usersCreators } from 'src/store/modules/list/users';
+import { match } from 'react-router';
 import { History } from 'history';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -15,7 +15,7 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type OwnProps = { match: match<{ username: string }>; history: History };
 type Props = StateProps & DispatchProps & OwnProps;
 
-class UserFollowerCards extends React.Component<Props> {
+class UsersCards extends React.Component<Props> {
   public prev: string | null = null;
 
   public onScroll = throttle(() => {
@@ -34,24 +34,19 @@ class UserFollowerCards extends React.Component<Props> {
     if (!users || users.length === 0) return;
 
     if (this.props.prefetched) {
-      ListActions.revealFollowsUsersPrefetched();
+      ListActions.revealUsersPrefetched();
     }
 
     if (next === this.prev) return;
     this.prev = next;
 
-    ListActions.prefetchFollowUsers({ next });
+    ListActions.prefetchUsers({ next });
   };
 
   public initialize = () => {
-    const {
-      ListActions,
-      match: {
-        params: { username },
-      },
-    } = this.props;
+    const { ListActions } = this.props;
 
-    ListActions.getFollower({ username });
+    ListActions.getUsers();
   };
 
   public listenScroll = () => {
@@ -71,12 +66,6 @@ class UserFollowerCards extends React.Component<Props> {
     this.unlistenScroll();
   }
 
-  public componentDidUpdate(preProps: Props) {
-    if (preProps.match.url !== this.props.match.url) {
-      this.initialize();
-    }
-  }
-
   public render() {
     const { users, loading } = this.props;
     if (loading) return <FakeUserCards users={users} />;
@@ -86,20 +75,17 @@ class UserFollowerCards extends React.Component<Props> {
 }
 
 const mapStateToProps = ({ list }: StoreState) => ({
-  users: list.follows.follows.user,
-  prefetched: list.follows.follows.prefetched,
-  next: list.follows.follows.next,
-  loading: list.follows.follows.loading,
+  users: list.users.users.user,
+  prefetched: list.users.users.prefetched,
+  next: list.users.users.next,
+  loading: list.users.users.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ListActions: bindActionCreators(followsCreators, dispatch),
+  ListActions: bindActionCreators(usersCreators, dispatch),
 });
 
-export default compose(
-  withRouter,
-  connect<StateProps, DispatchProps, OwnProps>(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(UserFollowerCards);
+export default connect<StateProps, DispatchProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(UsersCards);

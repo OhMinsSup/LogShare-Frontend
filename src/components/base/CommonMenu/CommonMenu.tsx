@@ -5,6 +5,7 @@ import {
   MdAccessTime,
   MdContentCopy,
   MdHome,
+  MdPerson,
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
@@ -30,7 +31,8 @@ const CommonMenu: React.StatelessComponent<{
       <CommonMenuItem to="/" icon={<MdHome />} text="홈" />
       <CommonMenuItem to="/recent" icon={<MdAccessTime />} text="최신" />
       <CommonMenuItem to="/trending" icon={<MdTrendingUp />} text="인기" />
-      <CommonMenuItem to="seris" icon={<MdContentCopy />} text="시리즈" />
+      <CommonMenuItem to="/seris" icon={<MdContentCopy />} text="시리즈" />
+      <CommonMenuItem to="/users" icon={<MdPerson />} text="유저" />
     </div>
   );
 };

@@ -6,7 +6,7 @@
     margin-bottom: 20px;
     border: 1px solid #d6d8df;
     .cover-photo {
-        background: #546e7a;
+        background-color: $oc-blue-5;
         height: 240px;
         background-image: url(https://cdn.hashnode.com/res/hashnode/image/upload/w_800/v1541087789575/HkI4Mou37.jpeg);
     }
@@ -69,7 +69,7 @@
                 flex-direction: row !important;
                 flex-wrap: wrap !important;
                 align-items: center !important;
-                .setting {
+                .btn {
                     svg {
                         margin-right: 4px;
                         position: relative;
@@ -94,11 +94,15 @@
                     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
                     text-transform: none;
                     overflow: visible;
-                    font-style: italic;
-                    font-family: inherit;
-
-                    &:hover {
+                    font-family: "Inconsolata";
+           
+                    &.appear {
                         background: $oc-blue-5;
+                        border: 1px solid white;
+                        color: white;
+                    }
+                    &.disappear {
+                        background: $oc-red-5;
                         border: 1px solid white;
                         color: white;
                     }

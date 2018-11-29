@@ -6,6 +6,7 @@ import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userCreators } from 'src/store/modules/user';
+import { followCreators } from 'src/store/modules/follow';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -16,13 +17,37 @@ class UserHeadContainer extends React.Component<Props> {
   public initialize = () => {
     const {
       UserActions,
+      FollowActions,
       match: {
         params: { username },
       },
     } = this.props;
 
     UserActions.getUserProfile({ username });
+    FollowActions.checkExistsUserFollow({ username });
   };
+
+  public onToggleFollow = () => {
+    const {
+      follow,
+      FollowActions,
+      match: {
+        params: { username },
+      },
+    } = this.props;
+
+    if (follow) {
+      FollowActions.unfollow({ username });
+    } else {
+      FollowActions.follow({ username });
+    }
+  };
+
+  public componentDidUpdate(preProps: Props) {
+    if (preProps.match.url !== this.props.match.url) {
+      this.initialize();
+    }
+  }
 
   public componentDidMount() {
     this.initialize();
@@ -34,23 +59,33 @@ class UserHeadContainer extends React.Component<Props> {
         url,
         params: { username },
       },
+      follow,
+      currentUsername,
       userProfile,
     } = this.props;
 
     return (
       <React.Fragment>
-        <UserHead profile={userProfile} />
+        <UserHead
+          profile={userProfile}
+          follow={follow}
+          currentUsername={currentUsername}
+          onFollow={this.onToggleFollow}
+        />
         <UserNav url={url} username={username} />
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ user }: StoreState) => ({
+const mapStateToProps = ({ user, follow }: StoreState) => ({
+  currentUsername: user.user && user.user.username,
   userProfile: user.user_profile,
+  follow: follow.follow,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  FollowActions: bindActionCreators(followCreators, dispatch),
   UserActions: bindActionCreators(userCreators, dispatch),
 });
 

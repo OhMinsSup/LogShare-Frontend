@@ -34,30 +34,46 @@ const ScoreItem: React.StatelessComponent<{
 
 const UserHead: React.StatelessComponent<{
   profile: UserProfileState;
-}> = ({ profile }) => (
+  currentUsername: string | null;
+  follow: boolean;
+  onFollow(): void;
+}> = ({ profile, currentUsername, follow, onFollow }) => (
   <div className={cx('user-head')}>
     <div className={cx('cover-photo')} />
     <div className={cx('head-meta')}>
       <div className={cx('profile-top-section')}>
         <div className={cx('profile-thumbnail')}>
-          <Link to="/" className={cx('thumbnail')}>
+          <Link
+            to={`/@${profile.profile.username}`}
+            className={cx('thumbnail')}
+          >
             <img src={profile.profile.thumbnail || defaultThumbnail} />
           </Link>
         </div>
         <div className={cx('info')}>
           <h1>
-            <Link to="/" className={cx('username')}>
+            <Link
+              to={`/@${profile.profile.username}`}
+              className={cx('username')}
+            >
               {profile.profile.username}
             </Link>
           </h1>
           <span>{profile.profile.shortBio}</span>
         </div>
         <div className={cx('profile-btns')}>
-          <button className={cx('setting')}>
+          <button className={cx('btn')}>
             <FaCog />
             프로필 수정하기
           </button>
-          <button className={cx('setting')}>팔로우</button>
+          {currentUsername === profile.profile.username ? null : (
+            <button
+              className={cx('btn', follow ? 'disappear' : 'appear')}
+              onClick={onFollow}
+            >
+              {follow ? '언팔로우' : '팔로우'}
+            </button>
+          )}
         </div>
       </div>
       <div className={cx('profile-extra-info')}>

@@ -9,7 +9,7 @@ const App = () => (
     <meta property="fb:app_id" content="1565906873518620" />
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/(recent|trending|seris)" component={Home} />
+      <Route exact path="/(recent|trending|seris|users)" component={Home} />
       <Route exact path="/auth/(register|login)" component={Auth} />
       <Route exact path="/callback" component={Callback} />
       <Route exact path="/write" component={Write} />
