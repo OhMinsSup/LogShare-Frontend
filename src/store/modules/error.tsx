@@ -20,8 +20,12 @@ export default handleActions<ErrorState, any>(
   {
     [ErrorActionType.ERROR]: (state, action: ErrorType.ErrorAction) => {
       return produce(state, draft => {
-        draft.code = action.payload.status;
-        draft.error = action.payload.error;
+        if (action.payload === undefined) return;
+        const {
+          payload: { status, error },
+        } = action;
+        draft.code = status;
+        draft.error = error;
       });
     },
   },

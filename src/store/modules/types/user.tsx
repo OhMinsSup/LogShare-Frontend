@@ -1,5 +1,5 @@
 import { GenericResponseAction } from 'src/lib/common';
-import { userCreators, UserProfileState } from '../user';
+import { userCreators, UserProfileState, UserEditProfileState } from '../user';
 
 export type ProcessPayload = {
   authResult: {
@@ -10,9 +10,20 @@ export type ProcessPayload = {
     email: string;
   };
 };
+export type CreateUploadUserFilePayload = {
+  file: File;
+};
+export type EditProfilePayload = {
+  username: string;
+  shortBio: string;
+  thumbnail: string;
+  cover: string;
+};
+export type ChangeInputPayload = { name: string; value: string };
 export type GetUserProfileInfoPayload = {
   username: string;
 };
+export type ChangeInputAction = ReturnType<typeof userCreators.changeInput>;
 export type ProcessAction = ReturnType<typeof userCreators.process>;
 export type SetUserAction = GenericResponseAction<
   {
@@ -29,6 +40,19 @@ export type SetUserAction = GenericResponseAction<
 export type GetUserProfileInfoAction = GenericResponseAction<
   {
     profile: UserProfileState;
+  },
+  string
+>;
+export type CreateUploadUserFileAction = GenericResponseAction<
+  {
+    url: string;
+  },
+  string
+>;
+export type EditProfileAction = GenericResponseAction<
+  {
+    profile: UserEditProfileState;
+    status: boolean;
   },
   string
 >;

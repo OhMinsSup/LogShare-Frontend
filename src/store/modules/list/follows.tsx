@@ -37,6 +37,7 @@ export interface UsersSubState {
   username: string;
   thumbnail: string;
   shortBio: string;
+  cover: string;
   _id: string;
 }
 

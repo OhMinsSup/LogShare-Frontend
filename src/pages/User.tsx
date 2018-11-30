@@ -10,6 +10,7 @@ import UserPostCards from 'src/containers/list/UserPostCards';
 import LikesPostCards from 'src/containers/list/LikesPostCards';
 import UserFollowingCards from 'src/containers/list/UserFollowingCards';
 import UserFollowerCards from 'src/containers/list/UserFollowerCards';
+import UserProfileEditContainter from 'src/containers/user/UserProfileEditContainter';
 
 const User: React.StatelessComponent<{
   match: match<{ tag: string; id: string; username: string }>;
@@ -27,6 +28,7 @@ const User: React.StatelessComponent<{
       <Route exact path="/@:username/follower" component={UserFollowingCards} />
       <Route exact path="/@:username/following" component={UserFollowerCards} />
     </Switch>
+    <UserProfileEditContainter />
   </UserTemplate>
 );
 

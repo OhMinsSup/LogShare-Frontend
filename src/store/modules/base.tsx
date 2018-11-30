@@ -7,6 +7,7 @@ export enum BaseActionType {
   HIDE_USER_MENU = 'base/HIDE_USER_MENU',
   SET_WIDTH = 'base/SET_WIDTH',
   SET_COMMON_MENU = 'base/SET_COMMON_MENU',
+  SET_PROFILE_UPDATE_MODAL = 'base/SET_PROFILE_UPDATE_MODAL',
 }
 
 export const baseCreators = {
@@ -15,6 +16,10 @@ export const baseCreators = {
   setWidth: createAction(BaseActionType.SET_WIDTH, (width: number) => width),
   setCommonMenu: createAction(
     BaseActionType.SET_COMMON_MENU,
+    (visible: boolean) => visible
+  ),
+  setProfileUpdateModal: createAction(
+    BaseActionType.SET_PROFILE_UPDATE_MODAL,
     (visible: boolean) => visible
   ),
 };
@@ -29,6 +34,9 @@ export interface BaseState {
   common_menu: {
     visible: boolean;
   };
+  profile_modal: {
+    visible: boolean;
+  };
 }
 
 const initialState: BaseState = {
@@ -39,6 +47,9 @@ const initialState: BaseState = {
     width: 1920,
   },
   common_menu: {
+    visible: false,
+  },
+  profile_modal: {
     visible: false,
   },
 };
@@ -68,6 +79,15 @@ export default handleActions<BaseState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.common_menu.visible = action.payload;
+      });
+    },
+    [BaseActionType.SET_PROFILE_UPDATE_MODAL]: (
+      state,
+      action: BaseType.SetProfileUpdateModalAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.profile_modal.visible = action.payload;
       });
     },
   },

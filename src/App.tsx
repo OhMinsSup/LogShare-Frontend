@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Home, Auth, Write, Post, Tag, User } from './pages';
 import Callback from './containers/etc/Callback';
 import Core from './containers/etc/Core';
+import NotFound from './components/error/NotFound';
 
 const App = () => (
   <React.Fragment>
@@ -21,6 +22,7 @@ const App = () => (
         path="/@:username/(posts|following|follower|likes|history)"
         component={User}
       />
+      <Route component={NotFound} />
     </Switch>
     <Core />
   </React.Fragment>

@@ -72,7 +72,10 @@ class UserFollowingCards extends React.Component<Props> {
   }
 
   public componentDidUpdate(preProps: Props) {
-    if (preProps.match.url !== this.props.match.url) {
+    if (
+      preProps.match.url !== this.props.match.url ||
+      preProps.askProfile !== this.props.askProfile
+    ) {
       this.initialize();
     }
   }
@@ -85,10 +88,11 @@ class UserFollowingCards extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = ({ list }: StoreState) => ({
+const mapStateToProps = ({ list, user }: StoreState) => ({
   users: list.follows.follows.user,
   prefetched: list.follows.follows.prefetched,
   next: list.follows.follows.next,
+  askProfile: user.askProfile,
   loading: list.follows.follows.loading,
 });
 

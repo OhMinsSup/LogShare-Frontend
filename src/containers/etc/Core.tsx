@@ -53,7 +53,10 @@ class Core extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: StoreState) => ({});
+const mapStateToProps = ({ error }: StoreState) => ({
+  code: error.code,
+  error: error.error,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),

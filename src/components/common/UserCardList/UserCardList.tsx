@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import UserCard from '../UserCard';
-import { UsersSubState } from 'src/store/modules/list/follows';
+import { UsersSubState } from 'src/store/modules/list/users';
 
 const styles = require('./UserCardList.scss');
 const cx = classNames.bind(styles);
@@ -11,7 +11,7 @@ const UserCardList: React.StatelessComponent<{
   onClick(username: string): void;
 }> = ({ users, onClick }) => {
   const usersList = users.map((user, index) => {
-    const { username, shortBio, thumbnail } = user;
+    const { username, shortBio, thumbnail, cover } = user;
 
     return (
       <UserCard
@@ -20,6 +20,7 @@ const UserCardList: React.StatelessComponent<{
         thumbnail={thumbnail}
         shortBio={shortBio}
         onClick={onClick}
+        cover={cover}
       />
     );
   });

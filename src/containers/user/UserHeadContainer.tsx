@@ -7,6 +7,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userCreators } from 'src/store/modules/user';
 import { followCreators } from 'src/store/modules/follow';
+import { baseCreators } from 'src/store/modules/base';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -27,6 +28,16 @@ class UserHeadContainer extends React.Component<Props> {
     FollowActions.checkExistsUserFollow({ username });
   };
 
+  public onToggleProfile = () => {
+    const { BaseActions, profileModal } = this.props;
+
+    if (profileModal) {
+      BaseActions.setProfileUpdateModal(false);
+    } else {
+      BaseActions.setProfileUpdateModal(true);
+    }
+  };
+
   public onToggleFollow = () => {
     const {
       follow,
@@ -44,7 +55,10 @@ class UserHeadContainer extends React.Component<Props> {
   };
 
   public componentDidUpdate(preProps: Props) {
-    if (preProps.match.url !== this.props.match.url) {
+    if (
+      preProps.match.url !== this.props.match.url ||
+      preProps.askProfile !== this.props.askProfile
+    ) {
       this.initialize();
     }
   }
@@ -71,6 +85,7 @@ class UserHeadContainer extends React.Component<Props> {
           follow={follow}
           currentUsername={currentUsername}
           onFollow={this.onToggleFollow}
+          onProfile={this.onToggleProfile}
         />
         <UserNav url={url} username={username} />
       </React.Fragment>
@@ -78,15 +93,18 @@ class UserHeadContainer extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = ({ user, follow }: StoreState) => ({
+const mapStateToProps = ({ user, follow, base }: StoreState) => ({
   currentUsername: user.user && user.user.username,
   userProfile: user.user_profile,
   follow: follow.follow,
+  askProfile: user.askProfile,
+  profileModal: base.profile_modal.visible,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   FollowActions: bindActionCreators(followCreators, dispatch),
   UserActions: bindActionCreators(userCreators, dispatch),
+  BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

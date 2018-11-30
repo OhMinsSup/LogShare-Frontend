@@ -6,6 +6,7 @@ import { FaCog } from 'react-icons/fa';
 import { MdEmail, MdEventNote } from 'react-icons/md';
 import defaultThumbnail from '../../../static/default.jpg';
 import { UserProfileState } from 'src/store/modules/user';
+import { defaultCoverBg } from 'src/lib/common';
 
 const styles = require('./UserHead.scss');
 const cx = classNames.bind(styles);
@@ -37,9 +38,15 @@ const UserHead: React.StatelessComponent<{
   currentUsername: string | null;
   follow: boolean;
   onFollow(): void;
-}> = ({ profile, currentUsername, follow, onFollow }) => (
+  onProfile(): void;
+}> = ({ profile, currentUsername, follow, onFollow, onProfile }) => (
   <div className={cx('user-head')}>
-    <div className={cx('cover-photo')} />
+    <div
+      className={cx('cover-photo')}
+      style={{
+        backgroundImage: `url(${profile.profile.cover || defaultCoverBg})`,
+      }}
+    />
     <div className={cx('head-meta')}>
       <div className={cx('profile-top-section')}>
         <div className={cx('profile-thumbnail')}>
@@ -62,10 +69,12 @@ const UserHead: React.StatelessComponent<{
           <span>{profile.profile.shortBio}</span>
         </div>
         <div className={cx('profile-btns')}>
-          <button className={cx('btn')}>
-            <FaCog />
-            프로필 수정하기
-          </button>
+          {currentUsername === profile.profile.username ? (
+            <button className={cx('btn')} onClick={onProfile}>
+              <FaCog />
+              프로필 수정하기
+            </button>
+          ) : null}
           {currentUsername === profile.profile.username ? null : (
             <button
               className={cx('btn', follow ? 'disappear' : 'appear')}

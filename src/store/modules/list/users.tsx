@@ -25,6 +25,7 @@ export const usersCreators = {
 export interface UsersSubState {
   username: string;
   thumbnail: string;
+  cover: string;
   shortBio: string;
   _id: string;
 }

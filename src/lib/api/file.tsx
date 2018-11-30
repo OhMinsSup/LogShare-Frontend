@@ -20,3 +20,13 @@ export const createUrlUser = (file: File) => {
     withCredentials: false,
   });
 };
+export const createUrlCover = (file: File) => {
+  const data = new FormData();
+  data.append('cover', file);
+  return axios.post('/file/create-url/common-cover-background', data, {
+    headers: {
+      'Content-Type': file.type,
+    },
+    withCredentials: false,
+  });
+};
