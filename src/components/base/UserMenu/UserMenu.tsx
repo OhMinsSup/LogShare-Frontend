@@ -17,8 +17,8 @@ const UserMenu: React.StatelessComponent<{
           <div className={cx('menu-items')}>
             <UserMenuItem to={`/@${username}`}>내 페이지</UserMenuItem>
             <div className={cx('separator')} />
-            <UserMenuItem to="/">홈으로</UserMenuItem>
-            <UserMenuItem to="/write">새 핀 작성</UserMenuItem>
+            <UserMenuItem to="/series">시리즈 작성</UserMenuItem>
+            <UserMenuItem to="/write">새 포스트 작성</UserMenuItem>
             <div className={cx('separator')} />
             <UserMenuItem onClick={onLogout}>로그아웃</UserMenuItem>
           </div>

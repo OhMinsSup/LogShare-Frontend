@@ -1,0 +1,27 @@
+import { noticeCreators, NoticeMessageState } from '../notice';
+import { GenericResponseAction } from 'src/lib/common';
+
+export type SendMessagePayload = {
+  message: string;
+};
+export type SetNoticeRoomAction = ReturnType<
+  typeof noticeCreators.setNoticeRoom
+>;
+export type CheckNoticeRoomAction = GenericResponseAction<
+  {
+    noticeId: string;
+    creator: {
+      username: string;
+      shortBio: string;
+      _id: string;
+      thumbnail: string;
+    };
+  },
+  string
+>;
+export type SimpleNoticeMessageAction = GenericResponseAction<
+  {
+    notices: NoticeMessageState[];
+  },
+  string
+>;

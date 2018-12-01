@@ -10,11 +10,19 @@ type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type Props = StateProps & DispatchProps;
 
 class CommonMenuContainer extends React.Component<Props> {
+  public onClick = () => {
+    const { BaseActions } = this.props;
+
+    BaseActions.setCommonMenu(false);
+  };
+
   public render() {
     const { menu, nextUrl } = this.props;
     if (!menu) return null;
 
-    return <CommonMenu visible={nextUrl ? 'visible' : ''} />;
+    return (
+      <CommonMenu visible={nextUrl ? 'visible' : ''} onClick={this.onClick} />
+    );
   }
 }
 

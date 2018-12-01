@@ -7,6 +7,7 @@ import PostCommentInput from 'src/components/post/PostCommentInput';
 import { postCreators } from 'src/store/modules/post';
 import QuestionModal from 'src/components/common/QuestionModal';
 import { match } from 'react-router';
+import { noticeCreators } from 'src/store/modules/notice';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -52,10 +53,19 @@ class PostCommentsContainer extends React.Component<Props> {
   };
 
   public onWriteComment = (text: string, reply: string | null) => {
-    const { postId, PostActions } = this.props;
+    const {
+      postId,
+      PostActions,
+      NoticeActions,
+      postUsername,
+      currentUsername,
+    } = this.props;
     if (!postId) return;
 
     PostActions.writeComment({ text, reply, postId });
+    NoticeActions.sendMessage({
+      message: `${postUsername}님이 작성하신 포스트에 ${currentUsername}님이 댓글을 작성 하였습니다.`,
+    });
   };
 
   public initialize = () => {
@@ -128,6 +138,8 @@ class PostCommentsContainer extends React.Component<Props> {
 const mapStateToProps = ({ user, post }: StoreState) => ({
   logged: !!user.user,
   askComment: post.askComment,
+  postUsername: post.postData && post.postData.user.username,
+  currentUsername: user.user && user.user.username,
   postId: post.postData && post.postData.postId,
   username: user.user && user.user.username,
   removeComment: post.removeComment,
@@ -138,6 +150,7 @@ const mapStateToProps = ({ user, post }: StoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   PostActions: bindActionCreators(postCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

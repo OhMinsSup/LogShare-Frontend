@@ -16,8 +16,9 @@ const CommonMenuItem: React.StatelessComponent<{
   text: string;
   to: string;
   icon: React.ReactNode;
-}> = ({ text, icon, to }) => (
-  <Link to={to} className={cx('action-nav')}>
+  onClick(): void;
+}> = ({ text, icon, to, onClick }) => (
+  <Link to={to} className={cx('action-nav')} onClick={onClick}>
     {icon}
     <span>{text}</span>
   </Link>
@@ -25,14 +26,35 @@ const CommonMenuItem: React.StatelessComponent<{
 
 const CommonMenu: React.StatelessComponent<{
   visible: string;
-}> = ({ visible }) => {
+  onClick(): void;
+}> = ({ visible, onClick }) => {
   return (
     <div className={cx('common-menu', visible)}>
-      <CommonMenuItem to="/" icon={<MdHome />} text="홈" />
-      <CommonMenuItem to="/recent" icon={<MdAccessTime />} text="최신" />
-      <CommonMenuItem to="/trending" icon={<MdTrendingUp />} text="인기" />
-      <CommonMenuItem to="/seris" icon={<MdContentCopy />} text="시리즈" />
-      <CommonMenuItem to="/users" icon={<MdPerson />} text="유저" />
+      <CommonMenuItem to="/" icon={<MdHome />} text="홈" onClick={onClick} />
+      <CommonMenuItem
+        to="/recent"
+        icon={<MdAccessTime />}
+        text="최신"
+        onClick={onClick}
+      />
+      <CommonMenuItem
+        to="/trending"
+        icon={<MdTrendingUp />}
+        text="인기"
+        onClick={onClick}
+      />
+      <CommonMenuItem
+        to="/seris"
+        icon={<MdContentCopy />}
+        text="시리즈"
+        onClick={onClick}
+      />
+      <CommonMenuItem
+        to="/users"
+        icon={<MdPerson />}
+        text="유저"
+        onClick={onClick}
+      />
     </div>
   );
 };

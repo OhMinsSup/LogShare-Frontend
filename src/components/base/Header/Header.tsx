@@ -12,12 +12,24 @@ const cx = classNames.bind(styles);
 const Header: React.StatelessComponent<{
   commonMenu: React.ReactNode;
   user: UserSubState | null;
+  notice: React.ReactNode;
   menu: React.ReactNode;
   width: number;
   path: string;
   onCommonMenur(): void;
+  onNotice(): void;
   onMenu(): void;
-}> = ({ user, menu, onMenu, onCommonMenur, commonMenu, width, path }) => (
+}> = ({
+  user,
+  menu,
+  onMenu,
+  onCommonMenur,
+  commonMenu,
+  width,
+  path,
+  notice,
+  onNotice,
+}) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
       {width > 885 ? null : (
@@ -40,15 +52,16 @@ const Header: React.StatelessComponent<{
           작성하기
         </Link>
       ) : null}
+      {user ? (
+        <button className={cx('notice')} onClick={onNotice}>
+          <MdNotificationsNone />
+        </button>
+      ) : null}
+
       <Link to="/search" className={cx('search')}>
         <MdSearch />
       </Link>
-      <Link
-        to={user ? `/notice/@${user.username}` : '/auth/login'}
-        className={cx('notice')}
-      >
-        <MdNotificationsNone />
-      </Link>
+      {notice}
     </div>
     <div className={cx('right-items')}>
       {user ? (

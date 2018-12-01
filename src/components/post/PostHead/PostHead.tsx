@@ -50,7 +50,7 @@ const PostHead: React.StatelessComponent<{
     </div>
     <h1>{title}</h1>
     <div className={cx('date-and-likes')}>
-      <div className={cx('date')}>{moment(createdAt).format('ll')}</div>
+      <div className={cx('date')}>{moment(createdAt).format('LLL')}</div>
       <div className={cx('placeholder')} />
       <PostLikeButton
         onClick={onToggleLike}

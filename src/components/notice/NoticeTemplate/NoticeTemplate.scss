@@ -1,13 +1,13 @@
 @import 'utils';
 
-.landing-template {
+.notice-template {
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
     max-width: 1540px;
     height: 100%;
 
-    .landing-sidebar {
+    .notice-sidebar {
 
     }
 
@@ -96,7 +96,7 @@
             }
         }
 
-        .landing-head {
+        .notice-head {
             margin-bottom: 30px;
             display: flex !important;
             flex-wrap: wrap !important;

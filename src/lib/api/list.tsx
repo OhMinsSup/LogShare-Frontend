@@ -15,3 +15,4 @@ export const followerUsers = (username: string) =>
   axios.get(`/common/follow/@${username}/follower`);
 
 export const listUsers = () => axios.get('/common/user');
+export const noticesMessage = () => axios.get('/common/notice/');

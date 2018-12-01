@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
 import { writeCreators } from 'src/store/modules/write';
+import { noticeCreators } from 'src/store/modules/notice';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -14,7 +15,15 @@ type Props = OwnProps & StateProps & DispatchProps;
 
 class WriteHeaderContainer extends React.Component<Props> {
   public onSubmit = () => {
-    const { WriteActions, history, editor, tags, url } = this.props;
+    const {
+      WriteActions,
+      history,
+      editor,
+      tags,
+      url,
+      NoticeActions,
+      username,
+    } = this.props;
     const query = queryString.parse(this.props.location.search);
 
     if (query.edit_id && editor) {
@@ -35,6 +44,9 @@ class WriteHeaderContainer extends React.Component<Props> {
       body: editor.body,
       history,
       tags,
+    });
+    NoticeActions.sendMessage({
+      message: `${username}님이 새로운 포스트를 작성하였습니다`,
     });
   };
 
@@ -98,16 +110,18 @@ class WriteHeaderContainer extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = ({ write }: StoreState) => ({
+const mapStateToProps = ({ write, user }: StoreState) => ({
   open: write.submitBox.open,
   editor: write.editor,
   tags: write.submitBox.tags,
   url: write.upload.url,
   postId: write.postId,
+  username: user.user && user.user.username,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   WriteActions: bindActionCreators(writeCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

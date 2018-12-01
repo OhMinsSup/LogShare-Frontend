@@ -12,6 +12,7 @@ import { match } from 'react-router';
 import QuestionModal from 'src/components/common/QuestionModal';
 import FakePost from 'src/components/common/FakePost';
 import { authCreators } from 'src/store/modules/auth';
+import { noticeCreators } from 'src/store/modules/notice';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -20,14 +21,24 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class PostViewer extends React.Component<Props> {
   public onToggleLike = () => {
-    const { post, PostActions } = this.props;
+    const { post, PostActions, NoticeActions, currentUsername } = this.props;
 
     if (!post) return;
 
     if (post.liked) {
       PostActions.unlike({ postId: post.postId });
+      NoticeActions.sendMessage({
+        message: `${
+          post.user.username
+        }님이 작성하신 포스트에 ${currentUsername}님이 unlike를 하였습니다.`,
+      });
     } else {
       PostActions.like({ postId: post.postId });
+      NoticeActions.sendMessage({
+        message: `${
+          post.user.username
+        }님이 작성하신 포스트에 ${currentUsername}님이 like를 하였습니다.`,
+      });
     }
   };
 
@@ -150,6 +161,7 @@ const mapStateToProps = ({ post, user }: StoreState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   PostActions: bindActionCreators(postCreators, dispatch),
   AuthActions: bindActionCreators(authCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

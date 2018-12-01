@@ -1,0 +1,30 @@
+@import 'utils';
+
+.notice-content {
+    border: 1px solid #d6d8df;
+    box-sizing: border-box;
+    .notice-header {
+        padding: 24px 36px;
+        background: white;
+        border-bottom: 1px solid #d6d8df;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-direction: row !important;
+        display: flex !important;
+        h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #263238;
+            margin: 0;
+            font-family: inherit;
+            line-height: 1.2;
+        }
+    }
+
+    .notice-body {
+        padding: 0;
+        border: 0;
+        background: #fff;
+        display: block;
+    }
+}

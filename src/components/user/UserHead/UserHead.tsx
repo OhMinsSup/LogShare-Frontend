@@ -90,7 +90,7 @@ const UserHead: React.StatelessComponent<{
           <BioItem icon={<MdEmail />} text={profile.email} />
           <BioItem
             icon={<MdEventNote />}
-            text={moment(profile.createdAt).format('ll')}
+            text={moment(profile.createdAt).format('LLL')}
           />
         </div>
         <div className={cx('profile-score')}>

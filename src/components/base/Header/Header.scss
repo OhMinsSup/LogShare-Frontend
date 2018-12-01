@@ -52,17 +52,12 @@
                 font-weight: 600;
                 font-size: 1.6rem;
             }
-
-            @include media(">890px") {
-                // display: none;
-            }
         }
         
 
         .search {
             align-items: center !important;
             cursor: pointer;
-            margin-right: 10px;
             position: relative;
             padding: 10px;
             border-radius: 100%;
@@ -78,15 +73,17 @@
 
         .notice {
             position: relative;
-            padding: 10px;
             border-radius: 100%;
             color: #7e818d;
+            margin-right: 10px;
+            height: 41px;
+            top: 0.3rem;
+            width: 48px;
             background: rgba(255,255,255,0.58);
             border: 1px solid #d6d8df;
             cursor: pointer;
             svg {
                 position: relative;
-                top: 0.4rem;
                 font-size: 1.6rem;
             }
         }

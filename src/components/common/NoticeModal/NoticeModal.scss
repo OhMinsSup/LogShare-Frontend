@@ -1,0 +1,83 @@
+@import 'utils';
+
+.notice-modal {
+    position: absolute;
+    z-index: 1100;
+    margin-top: 16px;
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.05);
+    border: 1px solid #d6d8df;
+
+    ::before {
+        content: "";
+        position: absolute;
+        top: -12px;
+        left: 110px;
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-bottom: 12px solid #FFF;
+        z-index: 1101;
+
+        @include media ("<870px") {
+            left: 170px;
+        }
+    }
+
+    .content {
+        z-index: 1101;
+        position: relative;
+        background: white;
+        width: 400px;
+        .content-body {
+            height: 50vh;
+            overflow-y: scroll;
+            margin-bottom: 0;
+            background: white;
+            display: block;
+        }
+
+        .content-footer {
+            padding: 12px 24px;
+            border-top: 1px solid #d6d8df;
+            justify-content: space-between !important;
+            flex-direction: row !important;
+            display: flex !important;
+            .left-item {
+                background: transparent;
+                border: 0;
+                padding: 4px 8px;
+                margin: 0;
+                font-size: .875rem;
+                font-weight: 600;
+                color: #263238;
+                cursor: pointer;
+                text-transform: none;
+                font-family: inherit;
+                display: block;
+                &:hover {
+                    background: $oc-gray-2;
+                }
+            }
+
+            .rigth-item {
+                background: transparent;
+                border: 0;
+                padding: 4px 8px;
+                margin: 0;
+                font-size: .875rem;
+                font-weight: 600;
+                color: #263238;
+                cursor: pointer;
+                display: block;
+                border-radius: 0;
+                overflow: visible;
+                text-transform: none;
+                font-family: inherit;
+                &:hover {
+                    background: $oc-gray-2;
+                }
+            }
+        }
+    }
+}

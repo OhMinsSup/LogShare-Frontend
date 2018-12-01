@@ -6,6 +6,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import storage from 'src/lib/storage';
 import { userCreators } from 'src/store/modules/user';
 import { baseCreators } from 'src/store/modules/base';
+import { noticeCreators } from 'src/store/modules/notice';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -23,7 +24,7 @@ class Core extends React.Component<Props> {
 
   public checkUser = () => {
     const authResult = storage.get('__log_share__');
-    const { UserActions } = this.props;
+    const { UserActions, NoticeActions } = this.props;
 
     if (!authResult) {
       UserActions.process(null);
@@ -31,6 +32,7 @@ class Core extends React.Component<Props> {
     }
 
     UserActions.process({ authResult });
+    NoticeActions.checkNoticeRoom();
   };
 
   public setWidth = () => {
@@ -61,6 +63,7 @@ const mapStateToProps = ({ error }: StoreState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
   UserActions: bindActionCreators(userCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps>(
