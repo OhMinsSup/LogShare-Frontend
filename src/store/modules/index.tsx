@@ -7,6 +7,7 @@ import post, { PostState } from './post';
 import list, { ListState } from './list';
 import follow, { FollowState } from './follow';
 import notice, { NoticeState } from './notice';
+import search, { SearchState } from './search';
 import error, { ErrorState } from './error';
 
 export default combineReducers({
@@ -18,6 +19,7 @@ export default combineReducers({
   list: list,
   follow: follow,
   notice: notice,
+  search: search,
   error: error,
 });
 
@@ -30,5 +32,6 @@ export interface StoreState {
   list: ListState;
   notice: NoticeState;
   follow: FollowState;
+  search: SearchState;
   error: ErrorState;
 }

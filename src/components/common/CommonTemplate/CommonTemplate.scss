@@ -1,13 +1,13 @@
 @import 'utils';
 
-.user-template {
+.common-template {
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
     max-width: 1540px;
     height: 100%;
 
-    .sidebar {
+    .common-sidebar {
 
     }
 
@@ -21,7 +21,6 @@
 
     .feed-area {
         position: relative;
-        z-index: 900;
         margin-top: 65px;
         padding: 27px 0;
         width: 830px;
@@ -87,17 +86,17 @@
                 }
             }
 
+            
             @include media("<=768px") {
                 text-align: center;
             }
             
-
             @include media(">890px") {
                 display: none;
             }
         }
 
-        .head {
+        .common-head {
             margin-bottom: 30px;
             display: flex !important;
             flex-wrap: wrap !important;

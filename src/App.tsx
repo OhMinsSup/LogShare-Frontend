@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Home, Auth, Write, Post, Tag, User, Notice } from './pages';
+import { Home, Auth, Write, Post, Tag, User, Notice, Search } from './pages';
 import Callback from './containers/etc/Callback';
 import Core from './containers/etc/Core';
 import NotFound from './components/error/NotFound';
@@ -18,6 +18,7 @@ const App = () => (
       <Route exact path="/tags/:tag" component={Tag} />
       <Route exact path="/notice/@:username" component={Notice} />
       <Route exact path="/@:username" component={User} />
+      <Route exact path="/search" component={Search} />
       <Route
         exact
         path="/@:username/(posts|following|follower|likes|history)"

@@ -1,21 +1,23 @@
 import * as React from 'react';
+import CommonTemplate from 'src/components/common/CommonTemplate';
 import HeaderContainer from 'src/containers/base/HeaderContainer';
+import { match } from 'react-router';
 import SidebarContainer from 'src/containers/base/SidebarContainer';
 import PrimarySidebarContainer from 'src/containers/base/PrimarySidebarContainer';
-import { match } from 'react-router';
-import TagsPostCards from 'src/containers/list/TagsPostCards';
-import CommonTemplate from 'src/components/common/CommonTemplate';
+import SearchNavContainer from 'src/containers/search/SearchNavContainer';
+import SearchDataList from 'src/containers/list/SearchDataList';
 
-const Tag: React.StatelessComponent<{
-  match: match<{ tag: string; id: string }>;
+const Search: React.StatelessComponent<{
+  match: match<{}>;
 }> = ({ match }) => (
   <CommonTemplate
     mainHead={<HeaderContainer match={match} />}
     mainSidebar={<SidebarContainer url={match.url} />}
     primarySidebar={<PrimarySidebarContainer />}
   >
-    <TagsPostCards tag={match.params.tag} />
+    <SearchNavContainer />
+    <SearchDataList />
   </CommonTemplate>
 );
 
-export default Tag;
+export default Search;

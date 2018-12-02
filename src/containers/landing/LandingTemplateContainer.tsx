@@ -1,5 +1,4 @@
 import * as React from 'react';
-import LandingTemplate from 'src/components/landing/LandingTemplate';
 import HeaderContainer from '../base/HeaderContainer';
 import SidebarContainer from '../base/SidebarContainer';
 import PrimarySidebarContainer from '../base/PrimarySidebarContainer';
@@ -11,6 +10,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { authCreators } from 'src/store/modules/auth';
 import { StoreState } from 'src/store/modules';
 import UsersCards from '../list/UsersCards';
+import CommonTemplate from 'src/components/common/CommonTemplate';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -33,7 +33,7 @@ class LandingTemplateContainer extends React.Component<Props> {
     } = this.props;
 
     return (
-      <LandingTemplate
+      <CommonTemplate
         mainHead={<HeaderContainer match={this.props.match} />}
         mainSidebar={<SidebarContainer url={url} />}
         primarySidebar={<PrimarySidebarContainer />}
@@ -45,7 +45,7 @@ class LandingTemplateContainer extends React.Component<Props> {
           <Route exact path="/seris" component={Series} />
           <Route exact path="/users" component={UsersCards} />
         </Switch>
-      </LandingTemplate>
+      </CommonTemplate>
     );
   }
 }

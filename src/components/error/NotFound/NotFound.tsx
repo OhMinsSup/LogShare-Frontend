@@ -6,8 +6,8 @@ const styles = require('./NotFound.scss');
 const cx = classNames.bind(styles);
 
 const NotFound: React.StatelessComponent<{
-  code?: number | null;
-  message?: string;
+  code: number | null;
+  message: string;
 }> = ({ code, message }) => {
   return (
     <div className={cx('not-found')}>

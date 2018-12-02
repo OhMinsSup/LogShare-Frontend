@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { match, Route } from 'react-router';
 import { Switch } from 'react-router-dom';
-import UserTemplate from 'src/components/user/UserTemplate/UserTemplate';
 import HeaderContainer from 'src/containers/base/HeaderContainer';
 import SidebarContainer from 'src/containers/base/SidebarContainer';
 import PrimarySidebarContainer from 'src/containers/base/PrimarySidebarContainer';
@@ -11,11 +10,12 @@ import LikesPostCards from 'src/containers/list/LikesPostCards';
 import UserFollowingCards from 'src/containers/list/UserFollowingCards';
 import UserFollowerCards from 'src/containers/list/UserFollowerCards';
 import UserProfileEditContainter from 'src/containers/user/UserProfileEditContainter';
+import CommonTemplate from 'src/components/common/CommonTemplate';
 
 const User: React.StatelessComponent<{
   match: match<{ tag: string; id: string; username: string }>;
 }> = ({ match }) => (
-  <UserTemplate
+  <CommonTemplate
     mainHead={<HeaderContainer match={match} />}
     mainSidebar={<SidebarContainer url={match.url} />}
     primarySidebar={<PrimarySidebarContainer />}
@@ -29,7 +29,7 @@ const User: React.StatelessComponent<{
       <Route exact path="/@:username/following" component={UserFollowerCards} />
     </Switch>
     <UserProfileEditContainter />
-  </UserTemplate>
+  </CommonTemplate>
 );
 
 export default User;
