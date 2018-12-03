@@ -6,6 +6,7 @@ import {
   MdAccessTime,
   MdContentCopy,
   MdPerson,
+  MdRssFeed,
 } from 'react-icons/md';
 import SidebarNavItem from '../SidebarNavItem';
 
@@ -14,7 +15,8 @@ const cx = classNames.bind(styles);
 
 const Sidebar: React.StatelessComponent<{
   url: string;
-}> = ({ url }) => (
+  onRss(type: 'user' | 'entire'): void;
+}> = ({ url, onRss }) => (
   <div className={cx('sidebar')}>
     <div className={cx('sidebar-top')}>
       <div className={cx('logo-section')}>
@@ -49,6 +51,16 @@ const Sidebar: React.StatelessComponent<{
             to={`/users`}
           />
         </ul>
+      </div>
+    </div>
+    <div className={cx('sidebar-rss')}>
+      <div className={cx('rss')} onClick={() => onRss('entire')}>
+        <MdRssFeed className={cx('icon')} />
+        <span className={cx('text')}>EntireRSS</span>
+      </div>
+      <div className={cx('rss')} onClick={() => onRss('user')}>
+        <MdRssFeed className={cx('icon')} />
+        <span className={cx('text')}>UserRSS</span>
       </div>
     </div>
   </div>

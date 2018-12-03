@@ -68,4 +68,25 @@
             }
         }
     }
+
+    .sidebar-rss {
+        display: flex;
+        padding: 0px 20px;
+        position: relative;
+        top: 62%;
+
+        .rss {
+            color: $oc-gray-5;
+            cursor: pointer;
+            .icon {
+                font-size: .875rem;
+            }
+            .text {
+                margin-left: 0.25rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+            }
+            margin-right: 1.6rem;
+        }
+    }
 }

@@ -4,21 +4,43 @@ import { connect } from 'react-redux';
 import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
 import { baseCreators } from 'src/store/modules/base';
+import { match } from 'react-router';
+import { History } from 'history';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type OwnProps = { url: string };
+type OwnProps = {
+  match: match<{ id?: string; username?: string }>;
+  history: History;
+};
 type Props = StateProps & DispatchProps & OwnProps;
 
 class SidebarContainer extends React.Component<Props> {
-  public render() {
-    const { url } = this.props;
+  public onRss = (type: 'user' | 'entire') => {
+    const { username } = this.props;
 
-    return <Sidebar url={url} />;
+    if (type === 'user') {
+      const userUrl = `http://localhost:4000/common/rss/@${username}`;
+      window.open(userUrl);
+      return;
+    } else if (type === 'entire') {
+      const entireUrl = `http://localhost:4000/common/rss`;
+      window.open(entireUrl);
+      return;
+    }
+  };
+
+  public render() {
+    const {
+      match: { url },
+    } = this.props;
+
+    return <Sidebar url={url} onRss={this.onRss} />;
   }
 }
 
-const mapStateToProps = ({ base }: StoreState) => ({
+const mapStateToProps = ({ base, user }: StoreState) => ({
+  username: user.user && user.user.username,
   width: base.window.width,
 });
 

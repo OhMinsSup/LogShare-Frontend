@@ -31,11 +31,6 @@ const UserNav: React.StatelessComponent<{
         text="좋아요"
         active={url === `/@${username}/likes`}
       />
-      <UserNavItem
-        to={`/@${username}/history`}
-        text="기록"
-        active={url === `/@${username}/history`}
-      />
     </ul>
   </div>
 );

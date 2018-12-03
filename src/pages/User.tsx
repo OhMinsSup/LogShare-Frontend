@@ -11,13 +11,15 @@ import UserFollowingCards from 'src/containers/list/UserFollowingCards';
 import UserFollowerCards from 'src/containers/list/UserFollowerCards';
 import UserProfileEditContainter from 'src/containers/user/UserProfileEditContainter';
 import CommonTemplate from 'src/components/common/CommonTemplate';
+import { History } from 'history';
 
 const User: React.StatelessComponent<{
   match: match<{ tag: string; id: string; username: string }>;
-}> = ({ match }) => (
+  history: History;
+}> = ({ match, history }) => (
   <CommonTemplate
     mainHead={<HeaderContainer match={match} />}
-    mainSidebar={<SidebarContainer url={match.url} />}
+    mainSidebar={<SidebarContainer match={match} history={history} />}
     primarySidebar={<PrimarySidebarContainer />}
   >
     <UserHeadContainer match={match} />

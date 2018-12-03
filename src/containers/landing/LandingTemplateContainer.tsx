@@ -11,11 +11,13 @@ import { authCreators } from 'src/store/modules/auth';
 import { StoreState } from 'src/store/modules';
 import UsersCards from '../list/UsersCards';
 import CommonTemplate from 'src/components/common/CommonTemplate';
+import { History } from 'history';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type OwnProps = {
   match: match<{ id: string }>;
+  history: History;
 };
 type Props = StateProps & DispatchProps & OwnProps;
 
@@ -28,14 +30,12 @@ class LandingTemplateContainer extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      match: { url },
-    } = this.props;
+    const { match, history } = this.props;
 
     return (
       <CommonTemplate
-        mainHead={<HeaderContainer match={this.props.match} />}
-        mainSidebar={<SidebarContainer url={url} />}
+        mainHead={<HeaderContainer match={match} />}
+        mainSidebar={<SidebarContainer match={match} history={history} />}
         primarySidebar={<PrimarySidebarContainer />}
       >
         <Switch>

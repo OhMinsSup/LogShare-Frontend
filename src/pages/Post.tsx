@@ -9,7 +9,7 @@ import PostCommentsContainer from 'src/containers/post/PostCommentsContainer';
 
 const Post: React.StatelessComponent<{
   location: Location;
-  match: match<{ id: string }>;
+  match: match<{ tag: string; id: string; username: string }>;
   history: History;
 }> = ({ location, match, history }) => (
   <React.Fragment>

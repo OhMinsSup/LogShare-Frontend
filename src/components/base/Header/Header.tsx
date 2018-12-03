@@ -16,6 +16,7 @@ const Header: React.StatelessComponent<{
   menu: React.ReactNode;
   width: number;
   path: string;
+  count: number;
   onCommonMenur(): void;
   onNotice(): void;
   onMenu(): void;
@@ -26,6 +27,7 @@ const Header: React.StatelessComponent<{
   onCommonMenur,
   commonMenu,
   width,
+  count,
   path,
   notice,
   onNotice,
@@ -55,6 +57,11 @@ const Header: React.StatelessComponent<{
       {user ? (
         <button className={cx('notice')} onClick={onNotice}>
           <MdNotificationsNone />
+          {count === 0 ? null : (
+            <span className={cx('wrapper')}>
+              <span className={cx('count')}>{count}</span>
+            </span>
+          )}
         </button>
       ) : null}
 

@@ -6,13 +6,15 @@ import SidebarContainer from 'src/containers/base/SidebarContainer';
 import PrimarySidebarContainer from 'src/containers/base/PrimarySidebarContainer';
 import SearchNavContainer from 'src/containers/search/SearchNavContainer';
 import SearchDataList from 'src/containers/list/SearchDataList';
+import { History } from 'history';
 
 const Search: React.StatelessComponent<{
-  match: match<{}>;
-}> = ({ match }) => (
+  match: match<{ tag: string; id: string; username: string }>;
+  history: History;
+}> = ({ match, history }) => (
   <CommonTemplate
     mainHead={<HeaderContainer match={match} />}
-    mainSidebar={<SidebarContainer url={match.url} />}
+    mainSidebar={<SidebarContainer match={match} history={history} />}
     primarySidebar={<PrimarySidebarContainer />}
   >
     <SearchNavContainer />

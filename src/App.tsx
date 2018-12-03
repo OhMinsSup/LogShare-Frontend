@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Home, Auth, Write, Post, Tag, User, Notice, Search } from './pages';
 import Callback from './containers/etc/Callback';
 import Core from './containers/etc/Core';
 import NotFound from './components/error/NotFound';
+import { Home, Auth, Write, Post, Tag, User, Notice, Search } from './pages';
 
 const App = () => (
   <React.Fragment>
@@ -21,7 +21,7 @@ const App = () => (
       <Route exact path="/search" component={Search} />
       <Route
         exact
-        path="/@:username/(posts|following|follower|likes|history)"
+        path="/@:username/(posts|following|follower|likes)"
         component={User}
       />
       <Route component={NotFound} />

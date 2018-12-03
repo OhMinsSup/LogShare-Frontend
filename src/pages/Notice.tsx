@@ -5,13 +5,15 @@ import SidebarContainer from 'src/containers/base/SidebarContainer';
 import PrimarySidebarContainer from 'src/containers/base/PrimarySidebarContainer';
 import NoticeViewer from 'src/containers/notice/NoticeViewer';
 import CommonTemplate from 'src/components/common/CommonTemplate';
+import { History } from 'history';
 
 const Notice: React.StatelessComponent<{
-  match: match<{ username: string }>;
-}> = ({ match }) => (
+  match: match<{ tag: string; id: string; username: string }>;
+  history: History;
+}> = ({ match, history }) => (
   <CommonTemplate
     mainHead={<HeaderContainer match={match} />}
-    mainSidebar={<SidebarContainer url={match.url} />}
+    mainSidebar={<SidebarContainer match={match} history={history} />}
     primarySidebar={<PrimarySidebarContainer />}
   >
     <NoticeViewer />

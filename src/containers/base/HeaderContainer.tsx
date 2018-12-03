@@ -12,7 +12,9 @@ import { noticeCreators } from 'src/store/modules/notice';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type OwnProps = { match: match<{ id?: string; username?: string }> };
+type OwnProps = {
+  match: match<{ id?: string; username?: string; tag?: string }>;
+};
 type Props = StateProps & DispatchProps & OwnProps;
 
 class HeaderContainer extends React.Component<Props> {
@@ -47,7 +49,7 @@ class HeaderContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { user, width, match } = this.props;
+    const { user, width, match, count } = this.props;
     const { onMenu, onCommonMenur, onNotice } = this;
 
     return (
@@ -55,6 +57,7 @@ class HeaderContainer extends React.Component<Props> {
         user={user}
         width={width}
         path={match.path}
+        count={count.length}
         menu={<UserMenuContainer />}
         commonMenu={<CommonMenuContainer />}
         notice={<NoticeModalContainer />}
@@ -72,6 +75,7 @@ const mapStateToProps = ({ user, base, notice }: StoreState) => ({
   user: user.user && user.user,
   commonMenu: base.common_menu.visible,
   visible: notice.notice_modal.visible,
+  count: notice.noticeMessage,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

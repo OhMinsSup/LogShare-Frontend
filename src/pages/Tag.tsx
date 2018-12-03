@@ -5,13 +5,15 @@ import PrimarySidebarContainer from 'src/containers/base/PrimarySidebarContainer
 import { match } from 'react-router';
 import TagsPostCards from 'src/containers/list/TagsPostCards';
 import CommonTemplate from 'src/components/common/CommonTemplate';
+import { History } from 'history';
 
 const Tag: React.StatelessComponent<{
-  match: match<{ tag: string; id: string }>;
-}> = ({ match }) => (
+  match: match<{ tag: string; id: string; username: string }>;
+  history: History;
+}> = ({ match, history }) => (
   <CommonTemplate
     mainHead={<HeaderContainer match={match} />}
-    mainSidebar={<SidebarContainer url={match.url} />}
+    mainSidebar={<SidebarContainer match={match} history={history} />}
     primarySidebar={<PrimarySidebarContainer />}
   >
     <TagsPostCards tag={match.params.tag} />

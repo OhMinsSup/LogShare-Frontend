@@ -2,14 +2,15 @@ import * as React from 'react';
 import PageTemplate from 'src/components/base/PageTemplate';
 import LandingTemplateContainer from 'src/containers/landing/LandingTemplateContainer';
 import { match } from 'react-router';
-import { Location } from 'history';
+import { Location, History } from 'history';
 
 const Home: React.StatelessComponent<{
-  match: match<{ id: string }>;
+  match: match<{ tag: string; id: string; username: string }>;
+  history: History;
   location: Location;
-}> = ({ match }) => (
+}> = ({ match, history }) => (
   <PageTemplate>
-    <LandingTemplateContainer match={match} />
+    <LandingTemplateContainer match={match} history={history} />
   </PageTemplate>
 );
 
