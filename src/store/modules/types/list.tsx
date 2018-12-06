@@ -1,8 +1,8 @@
 import { GenericResponseAction } from 'src/lib/common';
 import { PostsSubState } from '../list/posts';
 import { TagsDataState } from '../list/tags';
-import { UsersSubState } from '../list/follows';
 import { MessageSubState } from '../list/notices';
+import { UsersSubState } from '../list/users';
 
 export type ListPostsPayload = {
   username?: string | null;

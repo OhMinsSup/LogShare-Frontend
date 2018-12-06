@@ -2,8 +2,34 @@ import { fork, put, call, all, takeEvery } from 'redux-saga/effects';
 import { FollowActionType } from '../modules/follow';
 import * as FollowAPI from '../../lib/api/follow';
 import { ErrorActionType } from '../modules/error';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* follow(action: any) {
+export interface FetchFollow extends Action<FollowActionType.FOLLOW_REQUEST> {
+  payload: {
+    username: string;
+  };
+}
+
+export interface FetchUnFollow
+  extends Action<FollowActionType.UNFOLLOW_REQUEST> {
+  payload: {
+    username: string;
+  };
+}
+
+export interface FetchGetFollow
+  extends Action<FollowActionType.CHECK_EXISTS_USER_FOLLOW_REQUEST> {
+  payload: {
+    username: string;
+  };
+}
+
+export interface FollowState {
+  follow: boolean;
+}
+
+function* follow(action: FetchFollow) {
   const {
     payload: { username },
   } = action;
@@ -13,7 +39,10 @@ function* follow(action: any) {
   });
 
   try {
-    const responseFollow = yield call(FollowAPI.follow, username);
+    const responseFollow: AxiosResponse<FollowState> = yield call(
+      FollowAPI.follow,
+      username
+    );
 
     yield put({
       type: FollowActionType.FOLLOW_SUCCESS,
@@ -28,7 +57,7 @@ function* follow(action: any) {
   }
 }
 
-function* unfollow(action: any) {
+function* unfollow(action: FetchUnFollow) {
   const {
     payload: { username },
   } = action;
@@ -38,7 +67,10 @@ function* unfollow(action: any) {
   });
 
   try {
-    const responseUnFollow = yield call(FollowAPI.unfollow, username);
+    const responseUnFollow: AxiosResponse<FollowState> = yield call(
+      FollowAPI.unfollow,
+      username
+    );
 
     yield put({
       type: FollowActionType.UNFOLLOW_SUCCESS,
@@ -53,13 +85,16 @@ function* unfollow(action: any) {
   }
 }
 
-function* getfollow(action: any) {
+function* getfollow(action: FetchGetFollow) {
   const {
     payload: { username },
   } = action;
 
   try {
-    const responseGetFollow = yield call(FollowAPI.getFollow, username);
+    const responseGetFollow: AxiosResponse<FollowState> = yield call(
+      FollowAPI.getFollow,
+      username
+    );
 
     yield put({
       type: FollowActionType.CHECK_EXISTS_USER_FOLLOW_SUCCESS,

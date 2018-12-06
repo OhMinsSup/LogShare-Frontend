@@ -16,6 +16,14 @@ class CommonMenuContainer extends React.Component<Props> {
     BaseActions.setCommonMenu(false);
   };
 
+  public componentDidUpdate(preProps: Props) {
+    const { BaseActions } = this.props;
+
+    if (this.props.width >= 890) {
+      BaseActions.setCommonMenu(false);
+    }
+  }
+
   public render() {
     const { menu, nextUrl } = this.props;
     if (!menu) return null;
@@ -27,6 +35,7 @@ class CommonMenuContainer extends React.Component<Props> {
 }
 
 const mapStateToProps = ({ base, auth }: StoreState) => ({
+  width: base.window.width,
   menu: base.common_menu.visible,
   nextUrl: auth.nextUrl,
 });

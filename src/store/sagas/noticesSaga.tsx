@@ -1,15 +1,36 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import { NoticesActionType } from '../modules/list/notices';
+import { NoticesActionType, MessageSubState } from '../modules/list/notices';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* getNotices(action: any) {
+export interface FetchGetNotices
+  extends Action<NoticesActionType.GET_NOTICES_LIST_REQUEST> {
+  payload?: any;
+}
+
+export interface FetchPrefetchNotices
+  extends Action<NoticesActionType.PREFETCH_NOTICES_LIST_REQUEST> {
+  payload: {
+    next: string;
+  };
+}
+
+export interface NoticeDataState {
+  message: MessageSubState[];
+  next: string;
+}
+
+function* getNotices(action: FetchGetNotices) {
   yield put({
     type: NoticesActionType.GET_NOTICES_LIST_PENDING,
   });
 
   try {
-    const responseGetNotices = yield call(ListAPI.noticesMessage);
+    const responseGetNotices: AxiosResponse<NoticeDataState> = yield call(
+      ListAPI.noticesMessage
+    );
 
     yield put({
       type: NoticesActionType.GET_NOTICES_LIST_SUCCESS,
@@ -29,13 +50,16 @@ function* getNotices(action: any) {
   }
 }
 
-function* prefetchNotices(action: any) {
+function* prefetchNotices(action: FetchPrefetchNotices) {
   const {
     payload: { next },
   } = action;
 
   try {
-    const responsePrefetchNotices = yield call(ListAPI.next, next);
+    const responsePrefetchNotices: AxiosResponse<NoticeDataState> = yield call(
+      ListAPI.next,
+      next
+    );
 
     yield put({
       type: NoticesActionType.PREFETCH_NOTICES_LIST_SUCCESS,

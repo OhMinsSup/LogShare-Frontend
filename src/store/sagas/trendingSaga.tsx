@@ -1,15 +1,36 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import { TrendingActionType } from '../modules/list/trending';
+import { TrendingActionType, PostsSubState } from '../modules/list/trending';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* getTrending(action: any) {
+export interface FetchGetTrending
+  extends Action<TrendingActionType.GET_TRENDING_LIST_REQUEST> {
+  payload?: any;
+}
+
+export interface FetchPrefetchTrending
+  extends Action<TrendingActionType.PREFETCH_TRENDING_LIST_REQUEST> {
+  payload: {
+    next: string;
+  };
+}
+
+export interface PostsDataState {
+  postWithData: PostsSubState[];
+  next: string;
+}
+
+function* getTrending(action: FetchGetTrending) {
   yield put({
     type: TrendingActionType.GET_TRENDING_LIST_PENDING,
   });
 
   try {
-    const responseGetPosts = yield call(ListAPI.terendingPosts);
+    const responseGetPosts: AxiosResponse<PostsDataState> = yield call(
+      ListAPI.terendingPosts
+    );
 
     yield put({
       type: TrendingActionType.GET_TRENDING_LIST_SUCCESS,
@@ -28,13 +49,16 @@ function* getTrending(action: any) {
   }
 }
 
-function* prefetchTrending(action: any) {
+function* prefetchTrending(action: FetchPrefetchTrending) {
   const {
     payload: { next },
   } = action;
 
   try {
-    const responsePrefetchPosts = yield call(ListAPI.next, next);
+    const responsePrefetchPosts: AxiosResponse<PostsDataState> = yield call(
+      ListAPI.next,
+      next
+    );
 
     yield put({
       type: TrendingActionType.PREFETCH_TRENDING_LIST_SUCCESS,

@@ -2,8 +2,44 @@ import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
 import { ErrorActionType } from '../modules/error';
 import { NoticeActionType } from '../modules/notice';
 import * as NoticeAPI from '../../lib/api/notice';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
+import { MessageSubState } from '../modules/list/notices';
 
-function* sendMessage(action: any) {
+export interface FetchSendMessage
+  extends Action<NoticeActionType.SEND_MESSAGE_REQUEST> {
+  payload: {
+    message: string;
+  };
+}
+
+export interface FetchCheckNoticeRoom
+  extends Action<NoticeActionType.CHECK_NOTICE_ROOM_REQUEST> {
+  payload?: any;
+}
+
+export interface FetchSimpleNoticeMessage
+  extends Action<NoticeActionType.SIMPLE_MESSAGE_LIST_REQUEST> {
+  payload?: any;
+}
+
+export interface NoticeDataState {
+  message: MessageSubState[];
+}
+
+export interface NoticeRoomDataState {
+  noticeWithData: {
+    noticeId: string;
+    creator: {
+      username: string;
+      shortBio: string;
+      _id: string;
+      thumbnail: string;
+    };
+  };
+}
+
+function* sendMessage(action: FetchSendMessage) {
   const {
     payload: { message },
   } = action;
@@ -20,9 +56,11 @@ function* sendMessage(action: any) {
   }
 }
 
-function* checkNoticeRoom(action: any) {
+function* checkNoticeRoom(action: FetchCheckNoticeRoom) {
   try {
-    const responseCheckNoticeRoom = yield call(NoticeAPI.checkNotice);
+    const responseCheckNoticeRoom: AxiosResponse<
+      NoticeRoomDataState
+    > = yield call(NoticeAPI.checkNotice);
 
     yield put({
       type: NoticeActionType.CHECK_NOTICE_ROOM_SUCCESS,
@@ -42,9 +80,11 @@ function* checkNoticeRoom(action: any) {
   }
 }
 
-function* simpleNoticeMessage(action: any) {
+function* simpleNoticeMessage(action: FetchSimpleNoticeMessage) {
   try {
-    const responseSimpleNoticeList = yield call(NoticeAPI.simpleNoticeMesssage);
+    const responseSimpleNoticeList: AxiosResponse<NoticeDataState> = yield call(
+      NoticeAPI.simpleNoticeMesssage
+    );
 
     yield put({
       type: NoticeActionType.SIMPLE_MESSAGE_LIST_SUCCESS,

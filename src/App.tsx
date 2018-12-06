@@ -3,7 +3,18 @@ import { Switch, Route } from 'react-router-dom';
 import Callback from './containers/etc/Callback';
 import Core from './containers/etc/Core';
 import NotFound from './components/error/NotFound';
-import { Home, Auth, Write, Post, Tag, User, Notice, Search } from './pages';
+import {
+  Home,
+  Auth,
+  Write,
+  Post,
+  Tag,
+  User,
+  Notice,
+  Search,
+  Video,
+} from './pages';
+import ChatbotContainer from './containers/etc/ChatbotContainer';
 
 const App = () => (
   <React.Fragment>
@@ -17,16 +28,19 @@ const App = () => (
       <Route exact path="/post/:id" component={Post} />
       <Route exact path="/tags/:tag" component={Tag} />
       <Route exact path="/notice/@:username" component={Notice} />
-      <Route exact path="/@:username" component={User} />
       <Route exact path="/search" component={Search} />
+      <Route exact path="/@:username" component={User} />
       <Route
         exact
         path="/@:username/(posts|following|follower|likes)"
         component={User}
       />
+      <Route exact path="/video" component={Video} />
+      <Route exact path="/video/(development)" component={Video} />
       <Route component={NotFound} />
     </Switch>
     <Core />
+    <ChatbotContainer />
   </React.Fragment>
 );
 

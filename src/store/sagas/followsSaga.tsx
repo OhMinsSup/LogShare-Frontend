@@ -2,8 +2,37 @@ import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
 import { FollowsActionType } from '../modules/list/follows';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
+import { UserSubState } from '../modules/user';
 
-function* getFollowing(action: any) {
+export interface FetchGetFollowing
+  extends Action<FollowsActionType.GET_FOLLOWING_USERS_LIST_REQUEST> {
+  payload: {
+    username: string;
+  };
+}
+
+export interface FetchGetFollower
+  extends Action<FollowsActionType.GET_FOLLOWER_USERS_LIST_REQUEST> {
+  payload: {
+    username: string;
+  };
+}
+
+export interface FetchPrefetchUsers
+  extends Action<FollowsActionType.PREFETCH_FOLLOWS_LIST_REQUEST> {
+  payload: {
+    next: string;
+  };
+}
+
+export interface UsersDataState {
+  usersWithData: UserSubState[];
+  next: string;
+}
+
+function* getFollowing(action: FetchGetFollowing) {
   const {
     payload: { username },
   } = action;
@@ -13,7 +42,7 @@ function* getFollowing(action: any) {
   });
 
   try {
-    const responseGetFollowingUsers = yield call(
+    const responseGetFollowingUsers: AxiosResponse<UsersDataState> = yield call(
       ListAPI.followingUsers,
       username
     );
@@ -35,7 +64,7 @@ function* getFollowing(action: any) {
   }
 }
 
-function* getFollower(action: any) {
+function* getFollower(action: FetchGetFollower) {
   const {
     payload: { username },
   } = action;
@@ -45,7 +74,7 @@ function* getFollower(action: any) {
   });
 
   try {
-    const responseGetFollowerUsers = yield call(
+    const responseGetFollowerUsers: AxiosResponse<UsersDataState> = yield call(
       ListAPI.followerUsers,
       username
     );
@@ -67,13 +96,16 @@ function* getFollower(action: any) {
   }
 }
 
-function* prefetchUsers(action: any) {
+function* prefetchUsers(action: FetchPrefetchUsers) {
   const {
     payload: { next },
   } = action;
 
   try {
-    const responsePrefetchUsers = yield call(ListAPI.next, next);
+    const responsePrefetchUsers: AxiosResponse<any> = yield call(
+      ListAPI.next,
+      next
+    );
 
     yield put({
       type: FollowsActionType.PREFETCH_FOLLOWS_LIST_SUCCESS,

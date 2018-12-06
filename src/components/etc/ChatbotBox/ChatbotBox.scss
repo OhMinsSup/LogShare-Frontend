@@ -1,0 +1,281 @@
+@import 'utils';
+
+.chat-bot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 900;
+    .wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #263238;
+        box-shadow: 2px 2px 19px 1px rgba(0,0,0,0.1);
+        position: relative;
+        align-items: center!important;
+        justify-content: center!important;
+        display: flex!important;
+        cursor: pointer;
+        ::before {
+            position: absolute;
+            content: "";
+            top: -20px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #263238;
+            visibility: hidden;
+            opacity: 0;
+            transition: .1s ease-in-out;
+        }
+        .icon {
+            width: 30px;
+            height: 30px;
+            display: block;
+            vertical-align: middle;
+            border-style: none;
+            color: white;
+        }
+        ::after {
+            position: absolute;
+            content: attr(data-title);
+            top: -65px;
+            right: 0;
+            background-color: #263238;
+            color: #FFF;
+            font-size: 13px;
+            width: 120px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: 'Rubik',sans-serif;
+            visibility: hidden;
+            opacity: 0;
+            transition: .1s ease-in-out;
+        }
+    }
+}
+
+.chat-bot-room {
+    @keyframes submitBoxAppear {
+        0% {
+          opacity: 0;
+          transform: translateY(15%);
+        }
+        100% {
+          opacity: 1;
+          trasnform: translateY(0px);
+        }
+    }
+    @keyframes submitBoxDisappear {
+        0% {
+          opacity: 1;
+          trasnform: translateY(0px);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(15%);
+        }
+    }
+    width: 320px !important;
+    min-height: 480px !important;
+    max-height: 720px !important;
+    height: 80% !important;
+    right: 25px !important;
+    position: fixed !important;
+    bottom: 25px !important;
+    border-radius: 16px !important;
+    background-color: transparent !important;
+    box-shadow: 0 6px 60px 0 rgba(81,99,120,0.3) !important;
+    z-index: 1000000000 !important;
+    overflow: hidden !important;
+    &.appear {
+        animation: submitBoxAppear 0.15s ease-in-out;
+        animation-fill-mode: forwards;
+    }
+    &.disappear {
+        animation: submitBoxDisappear 0.15s ease-in-out;
+        animation-fill-mode: forwards;
+    }
+    .wrapper {
+        position: relative!important;
+        height: 100%!important;
+        width: 100%!important;
+        border: none!important;
+        border-radius: 16px !important;
+        opacity: 0.99;
+        .room {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: white;
+            .header {
+               z-index: 1;
+               display: block;
+               overflow: hidden;
+               box-shadow: 0 1px 2px 0 rgba(47, 55, 64, 0.2);
+               transition: height 0.3s cubic-bezier(0.5, 0, 0.08, 1); 
+               .header-content {
+                   position: relative;
+                   height: 60px;
+                   display: flex;
+                   justify-content: center;
+                    border-top-left-radius: 0px;
+                    border-top-right-radius: 0px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: white;
+                    background-color: $oc-blue-6;
+                    box-shadow: none;
+                    overflow: hidden;
+                    z-index: 2;
+                    align-items: center;
+                    .setting {
+                        width: 56px;
+                        height: 60px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        visibility: visible;
+                        padding-left: 5px;
+                        svg {
+                            display: block;
+                            width: 24px;
+                            height: 24px;
+                            opacity: 0.6;
+                        }
+                    }
+
+                    .info {
+                        height: 100%;
+                        width: 208px;
+                        cursor: pointer;
+                        .wrapper {
+                            height: 22px;
+                            width: 208px;
+                            display: flex;
+                            margin-top: 0.5rem;
+                            justify-content: center;
+                            transform: translateY(12px);
+                            transition: transform 0.3s cubic-bezier(0.165,0.84,0.44,1);
+                            .name {
+                                flex: 0 1 auto;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                max-width: 200px;
+                            }
+                        }
+                    }
+
+                    .cancel {
+                        width: 56px;
+                        height: 60px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        visibility: visible;
+                        svg {
+                            width: 24px;
+                            height: 24px;
+                            opacity: 0.6;
+                        }
+                    }
+               }
+            }
+
+            .body {
+                position: relative;
+                overflow: hidden;
+                flex-shrink: 1;
+                flex-basis: 0;
+                flex-grow: 1;
+                .body-content {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    display: flex;
+                    flex-direction: column;
+                    .wrapper {
+                        position: relative;
+                        flex-grow: 1;
+                        flex-shrink: 1;
+                        flex-basis: 0;
+                        height: auto;
+                        .wrapper1 {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            overflow-x: hidden;
+                            overflow-y: auto;
+                            .date {
+                                height: 52px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 11px;
+                                font-weight: 600;
+                                color: $oc-gray-5;
+                            }
+                        }
+                    }
+
+                    .input-wrapper {
+                        display: flex;
+                        position: relative;
+                        align-items: center;
+                        min-height: 54px;
+                        padding: 10px;
+                        border-top: 1px solid $oc-gray-4;
+                        .input {
+                            height: 54px;
+                            flex-basis: 0;
+                            min-height: 54px;
+                            max-height: 130px;
+                            line-height: 18px;
+                            font-size: 14px;
+                            border: none;
+                            resize: none;
+                            margin: auto;
+                            padding: 18px 10px 18px 0;
+                            white-space: pre-wrap;
+                            overflow: hidden;
+                            flex-shrink: 1;
+                            flex-grow: 1;
+                            background-color: white;
+                            -webkit-rtl-ordering: logical;
+                            flex-direction: column;
+                            cursor: text;
+                        }
+                        .submit {
+                            display: flex;
+                            width: 46px;
+                            justify-content: center;
+                            align-items: center;
+                            svg {
+                                display: inline-block;
+                                width: 24px;
+                                height: 24px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

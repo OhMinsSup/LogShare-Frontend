@@ -8,6 +8,7 @@ export enum BaseActionType {
   SET_WIDTH = 'base/SET_WIDTH',
   SET_COMMON_MENU = 'base/SET_COMMON_MENU',
   SET_PROFILE_UPDATE_MODAL = 'base/SET_PROFILE_UPDATE_MODAL',
+  SET_CATEGORY_MENU = 'base/SET_CATEGORY_MENU',
 }
 
 export const baseCreators = {
@@ -20,6 +21,10 @@ export const baseCreators = {
   ),
   setProfileUpdateModal: createAction(
     BaseActionType.SET_PROFILE_UPDATE_MODAL,
+    (visible: boolean) => visible
+  ),
+  setCategoryMenu: createAction(
+    BaseActionType.SET_CATEGORY_MENU,
     (visible: boolean) => visible
   ),
 };
@@ -37,6 +42,9 @@ export interface BaseState {
   profile_modal: {
     visible: boolean;
   };
+  category: {
+    visible: boolean;
+  };
 }
 
 const initialState: BaseState = {
@@ -50,6 +58,9 @@ const initialState: BaseState = {
     visible: false,
   },
   profile_modal: {
+    visible: false,
+  },
+  category: {
     visible: false,
   },
 };
@@ -88,6 +99,15 @@ export default handleActions<BaseState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.profile_modal.visible = action.payload;
+      });
+    },
+    [BaseActionType.SET_CATEGORY_MENU]: (
+      state,
+      action: BaseType.SetCategoryMenuAction
+    ) => {
+      return produce(state, draft => {
+        if (action.payload === undefined) return;
+        draft.category.visible = action.payload;
       });
     },
   },

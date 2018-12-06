@@ -11,17 +11,92 @@ import { StoreState } from '../modules';
 import { UserActionType } from '../modules/user';
 import storage from 'src/lib/storage';
 import { ErrorActionType } from '../modules/error';
+import { Action } from 'redux';
+import { History } from 'history';
+import { AxiosResponse } from 'axios';
 
-function* checkExists(action: any) {
+export interface FetchCheckExists
+  extends Action<AuthActionType.CHECK_EXISTS_REQUEST> {
+  payload: {
+    key: string;
+    value: string;
+  };
+}
+
+export interface FetchLocalRegister
+  extends Action<AuthActionType.LOCAL_REGISTER_REQUEST> {
+  payload: {
+    email: string;
+    username: string;
+    password: string;
+  };
+}
+
+export interface FetchLocalLogin
+  extends Action<AuthActionType.LOCAL_LOGIN_REQUEST> {
+  payload: {
+    email: string;
+    password: string;
+  };
+}
+
+export interface FetchCallBackSocial
+  extends Action<AuthActionType.GET_PROVIDER_TOKEN_REQUEST> {
+  payload: {
+    next: string;
+    provider: string;
+    history: History;
+  };
+}
+
+export interface FetchSocialRegister
+  extends Action<AuthActionType.SOCIAL_REGISTER_REQUEST> {
+  payload: {
+    accessToken: string;
+    username: string;
+    provider: string;
+    history: History;
+  };
+}
+
+export interface UserDataState {
+  user: {
+    _id: string;
+    email: string;
+    profile: {
+      username: string;
+      thumbnail: string;
+      shortBio: string;
+    };
+  };
+}
+
+export interface ProviderDataState {
+  token: string;
+}
+
+export interface VerifyDataState {
+  profile: { id: string; thumbnail: string; email: string; name: string };
+  exists: boolean;
+}
+
+export interface ExistsDataState {
+  exists: boolean;
+}
+
+function* checkExists(action: FetchCheckExists) {
   const {
     payload: { key, value },
   } = action;
 
   try {
-    const responseCheckExists = yield call(AuthAPI.checkExists, {
-      key,
-      value,
-    });
+    const responseCheckExists: AxiosResponse<ExistsDataState> = yield call(
+      AuthAPI.checkExists,
+      {
+        key,
+        value,
+      }
+    );
 
     yield put({
       type: AuthActionType.CHECK_EXISTS_SUCCESS,
@@ -65,17 +140,20 @@ function* checkExists(action: any) {
   }
 }
 
-function* localRegister(action: any) {
+function* localRegister(action: FetchLocalRegister) {
   const {
     payload: { email, username, password },
   } = action;
 
   try {
-    const responseLocalRegiter = yield call(AuthAPI.localRegister, {
-      email,
-      username,
-      password,
-    });
+    const responseLocalRegiter: AxiosResponse<UserDataState> = yield call(
+      AuthAPI.localRegister,
+      {
+        email,
+        username,
+        password,
+      }
+    );
 
     yield put({
       type: AuthActionType.LOCAL_REGISTER_SUCCESS,
@@ -116,16 +194,19 @@ function* localRegister(action: any) {
   }
 }
 
-function* localLogin(action: any) {
+function* localLogin(action: FetchLocalLogin) {
   const {
     payload: { email, password },
   } = action;
 
   try {
-    const responseLocalLogin = yield call(AuthAPI.localLogin, {
-      email,
-      password,
-    });
+    const responseLocalLogin: AxiosResponse<UserDataState> = yield call(
+      AuthAPI.localLogin,
+      {
+        email,
+        password,
+      }
+    );
 
     yield put({
       type: AuthActionType.LOCAL_LOGIN_SUCCESS,
@@ -158,13 +239,15 @@ function* localLogin(action: any) {
   }
 }
 
-function* callbackSocial(action: any) {
+function* callbackSocial(action: FetchCallBackSocial) {
   const {
     payload: { next, provider, history },
   } = action;
 
   try {
-    const responseToken = yield call(AuthAPI.getProviderToken);
+    const responseToken: AxiosResponse<ProviderDataState> = yield call(
+      AuthAPI.getProviderToken
+    );
 
     yield put({
       type: AuthActionType.GET_PROVIDER_TOKEN_SUCCESS,
@@ -174,11 +257,11 @@ function* callbackSocial(action: any) {
       },
     });
 
-    const tokenDataSelect: TokenDataState = yield select(
+    const tokenDataSelect: TokenDataState | null = yield select(
       (state: StoreState) => state.auth.tokenData
     );
 
-    if (!tokenDataSelect.token) {
+    if (!tokenDataSelect) {
       yield put({
         type: ErrorActionType.ERROR,
         payload: {
@@ -189,10 +272,13 @@ function* callbackSocial(action: any) {
       return;
     }
 
-    const responseVerify = yield call(AuthAPI.verifySocial, {
-      accessToken: tokenDataSelect.token,
-      provider: tokenDataSelect.type,
-    });
+    const responseVerify: AxiosResponse<VerifyDataState> = yield call(
+      AuthAPI.verifySocial,
+      {
+        accessToken: tokenDataSelect.token,
+        provider: tokenDataSelect.type,
+      }
+    );
 
     yield put({
       type: AuthActionType.VERIFY_SOCIAL_SUCCESS,
@@ -202,7 +288,7 @@ function* callbackSocial(action: any) {
       },
     });
 
-    const verifySocialResultSelect: VerifySocialResultState = yield select(
+    const verifySocialResultSelect: VerifySocialResultState | null = yield select(
       (state: StoreState) => state.auth.verifySocialResult
     );
 
@@ -218,10 +304,13 @@ function* callbackSocial(action: any) {
     }
 
     if (verifySocialResultSelect.exists) {
-      const responseSocialLogin = yield call(AuthAPI.socialLogin, {
-        accessToken: tokenDataSelect.token,
-        provider: tokenDataSelect.type,
-      });
+      const responseSocialLogin: AxiosResponse<UserDataState> = yield call(
+        AuthAPI.socialLogin,
+        {
+          accessToken: tokenDataSelect.token,
+          provider: tokenDataSelect.type,
+        }
+      );
 
       yield put({
         type: AuthActionType.SOCIAL_LOGIN_SUCCESS,
@@ -230,7 +319,7 @@ function* callbackSocial(action: any) {
         },
       });
 
-      const authResultSelect: AuthResultState = yield select(
+      const authResultSelect: AuthResultState | null = yield select(
         (state: StoreState) => state.auth.authResult
       );
 
@@ -278,17 +367,20 @@ function* callbackSocial(action: any) {
   }
 }
 
-function* socialRegister(action: any) {
+function* socialRegister(action: FetchSocialRegister) {
   const {
     payload: { accessToken, username, provider, history },
   } = action;
 
   try {
-    const response = yield call(AuthAPI.socialRegister, {
-      accessToken,
-      username,
-      provider,
-    });
+    const response: AxiosResponse<UserDataState> = yield call(
+      AuthAPI.socialRegister,
+      {
+        accessToken,
+        username,
+        provider,
+      }
+    );
 
     yield put({
       type: AuthActionType.SOCIAL_REGISTER_SUCCESS,
@@ -297,7 +389,7 @@ function* socialRegister(action: any) {
       },
     });
 
-    const authResultSelect: AuthResultState = yield select(
+    const authResultSelect: AuthResultState | null = yield select(
       (state: StoreState) => state.auth.authResult
     );
 

@@ -1,15 +1,36 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import { UsersActionType } from '../modules/list/users';
+import { UsersActionType, UsersSubState } from '../modules/list/users';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* getUsers(action: any) {
+export interface FetchGetUsers
+  extends Action<UsersActionType.GET_USERS_LIST_REQUEST> {
+  payload?: any;
+}
+
+export interface FetchPrefetchUsers
+  extends Action<UsersActionType.PREFETCH_USERS_LIST_REQUEST> {
+  payload: {
+    next: string;
+  };
+}
+
+export interface UsersDataState {
+  usersWithData: UsersSubState[];
+  next: string;
+}
+
+function* getUsers(action: FetchGetUsers) {
   yield put({
     type: UsersActionType.GET_USERS_LIST_PENDING,
   });
 
   try {
-    const responseGetUsers = yield call(ListAPI.listUsers);
+    const responseGetUsers: AxiosResponse<UsersDataState> = yield call(
+      ListAPI.listUsers
+    );
 
     yield put({
       type: UsersActionType.GET_USERS_LIST_SUCCESS,
@@ -28,13 +49,16 @@ function* getUsers(action: any) {
   }
 }
 
-function* prefetchUsers(action: any) {
+function* prefetchUsers(action: FetchPrefetchUsers) {
   const {
     payload: { next },
   } = action;
 
   try {
-    const responsePrefetchUsers = yield call(ListAPI.next, next);
+    const responsePrefetchUsers: AxiosResponse<UsersDataState> = yield call(
+      ListAPI.next,
+      next
+    );
 
     yield put({
       type: UsersActionType.PREFETCH_USERS_LIST_SUCCESS,

@@ -3,9 +3,10 @@ import * as classNames from 'classnames/bind';
 import {
   MdTrendingUp,
   MdAccessTime,
-  MdContentCopy,
   MdHome,
   MdPerson,
+  MdVideoLibrary,
+  MdApps,
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
@@ -44,15 +45,21 @@ const CommonMenu: React.StatelessComponent<{
         onClick={onClick}
       />
       <CommonMenuItem
-        to="/seris"
-        icon={<MdContentCopy />}
-        text="시리즈"
-        onClick={onClick}
-      />
-      <CommonMenuItem
         to="/users"
         icon={<MdPerson />}
         text="유저"
+        onClick={onClick}
+      />
+      <CommonMenuItem
+        to="/video"
+        icon={<MdVideoLibrary />}
+        text="영상"
+        onClick={onClick}
+      />
+      <CommonMenuItem
+        to="/video"
+        icon={<MdApps />}
+        text="범주"
         onClick={onClick}
       />
     </div>

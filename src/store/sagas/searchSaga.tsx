@@ -1,9 +1,29 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import { SearchActionType } from '../modules/search';
+import {
+  SearchActionType,
+  SearchPostDataState,
+  SearchUserDataState,
+} from '../modules/search';
 import { ErrorActionType } from '../modules/error';
 import * as SearchAPI from '../../lib/api/search';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* searchPosts(action: any) {
+export interface FetchSearchPosts
+  extends Action<SearchActionType.SEARCH_POSTS_LIST_REQUEST> {
+  payload: {
+    value: string;
+  };
+}
+
+export interface FetchSearchUsers
+  extends Action<SearchActionType.SEARCH_USERS_LIST_REQUEST> {
+  payload: {
+    value: string;
+  };
+}
+
+function* searchPosts(action: FetchSearchPosts) {
   const {
     payload: { value },
   } = action;
@@ -13,7 +33,9 @@ function* searchPosts(action: any) {
   });
 
   try {
-    const responseSearchPosts = yield call(SearchAPI.searchPost, value);
+    const responseSearchPosts: AxiosResponse<
+      SearchPostDataState[]
+    > = yield call(SearchAPI.searchPost, value);
 
     yield put({
       type: SearchActionType.SEARCH_POSTS_LIST_SUCCESS,
@@ -32,7 +54,7 @@ function* searchPosts(action: any) {
   }
 }
 
-function* searchUsers(action: any) {
+function* searchUsers(action: FetchSearchUsers) {
   const {
     payload: { value },
   } = action;
@@ -42,7 +64,9 @@ function* searchUsers(action: any) {
   });
 
   try {
-    const responseSearchUsers = yield call(SearchAPI.searchUser, value);
+    const responseSearchUsers: AxiosResponse<
+      SearchUserDataState[]
+    > = yield call(SearchAPI.searchUser, value);
 
     yield put({
       type: SearchActionType.SEARCH_USERS_LIST_SUCCESS,

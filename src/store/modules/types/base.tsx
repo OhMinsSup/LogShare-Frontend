@@ -20,3 +20,6 @@ export type RssAction = GenericResponseAction<
   },
   string
 >;
+export type SetCategoryMenuAction = ReturnType<
+  typeof baseCreators.setCategoryMenu
+>;

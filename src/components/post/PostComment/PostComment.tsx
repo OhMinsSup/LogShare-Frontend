@@ -162,7 +162,7 @@ class PostComment extends React.Component<Props, State> {
                 ) : (
                   <Link to={`/@${username}`}>{username}</Link>
                 )}
-                <div className={cx('date')}>{moment(date).format('ll')}</div>
+                <div className={cx('date')}>{moment(date).format('LLL')}</div>
               </div>
               {username && username === currentUsername && (
                 <div className={cx('actions')}>

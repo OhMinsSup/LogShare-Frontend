@@ -1,9 +1,30 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import { PostsActionType } from '../modules/list/posts';
+import { PostsActionType, PostsSubState } from '../modules/list/posts';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* getPosts(action: any) {
+export interface FetchGetPosts
+  extends Action<PostsActionType.GET_POSTS_LIST_REQUEST> {
+  payload: {
+    username?: string;
+  };
+}
+
+export interface FetchPrefetchPosts
+  extends Action<PostsActionType.PREFETCH_POSTS_LIST_REQUEST> {
+  payload: {
+    next: string;
+  };
+}
+
+export interface PostsDataState {
+  postWithData: PostsSubState[];
+  next: string;
+}
+
+function* getPosts(action: FetchGetPosts) {
   const {
     payload: { username },
   } = action;
@@ -13,7 +34,10 @@ function* getPosts(action: any) {
   });
 
   try {
-    const responseGetPosts = yield call(ListAPI.listPosts, username);
+    const responseGetPosts: AxiosResponse<PostsDataState> = yield call(
+      ListAPI.listPosts,
+      username
+    );
 
     yield put({
       type: PostsActionType.GET_POSTS_LIST_SUCCESS,
@@ -32,13 +56,16 @@ function* getPosts(action: any) {
   }
 }
 
-function* prefetchPosts(action: any) {
+function* prefetchPosts(action: FetchPrefetchPosts) {
   const {
     payload: { next },
   } = action;
 
   try {
-    const responsePrefetchPosts = yield call(ListAPI.next, next);
+    const responsePrefetchPosts: AxiosResponse<PostsDataState> = yield call(
+      ListAPI.next,
+      next
+    );
 
     yield put({
       type: PostsActionType.PREFETCH_POSTS_LIST_SUCCESS,

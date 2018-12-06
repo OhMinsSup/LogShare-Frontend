@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import {
   MdTrendingUp,
   MdAccessTime,
-  MdContentCopy,
   MdPerson,
   MdRssFeed,
+  MdVideoLibrary,
 } from 'react-icons/md';
 import SidebarNavItem from '../SidebarNavItem';
 
@@ -39,16 +39,16 @@ const Sidebar: React.StatelessComponent<{
             to={`/trending`}
           />
           <SidebarNavItem
-            text="시리즈"
-            icon={<MdContentCopy />}
-            active={url === `/seris`}
-            to={`/seris`}
-          />
-          <SidebarNavItem
             text="유저"
             icon={<MdPerson />}
             active={url === `/users`}
             to={`/users`}
+          />
+          <SidebarNavItem
+            text="영상"
+            icon={<MdVideoLibrary />}
+            active={url === `/video`}
+            to={`/video`}
           />
         </ul>
       </div>

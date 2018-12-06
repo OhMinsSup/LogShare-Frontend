@@ -2,8 +2,30 @@ import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
 import { LikesActionType } from '../modules/list/likes';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
+import { PostsSubState } from '../modules/list/posts';
 
-function* getLikePosts(action: any) {
+export interface FetchGetLikePosts
+  extends Action<LikesActionType.GET_LIKES_LIST_REQUEST> {
+  payload: {
+    username: string;
+  };
+}
+
+export interface FetchPrefetchLikePosts
+  extends Action<LikesActionType.PREFETCH_LIKES_LIST_REQUEST> {
+  payload: {
+    next: string;
+  };
+}
+
+export interface PostsDataState {
+  postWithData: PostsSubState[];
+  next: string;
+}
+
+function* getLikePosts(action: FetchGetLikePosts) {
   const {
     payload: { username },
   } = action;
@@ -13,7 +35,10 @@ function* getLikePosts(action: any) {
   });
 
   try {
-    const responseGetPosts = yield call(ListAPI.likePosts, username);
+    const responseGetPosts: AxiosResponse<PostsDataState> = yield call(
+      ListAPI.likePosts,
+      username
+    );
 
     yield put({
       type: LikesActionType.GET_LIKES_LIST_SUCCESS,
@@ -32,13 +57,16 @@ function* getLikePosts(action: any) {
   }
 }
 
-function* prefetchLikePosts(action: any) {
+function* prefetchLikePosts(action: FetchPrefetchLikePosts) {
   const {
     payload: { next },
   } = action;
 
   try {
-    const responsePrefetchPosts = yield call(ListAPI.next, next);
+    const responsePrefetchPosts: AxiosResponse<PostsDataState> = yield call(
+      ListAPI.next,
+      next
+    );
 
     yield put({
       type: LikesActionType.PREFETCH_LIKES_LIST_SUCCESS,

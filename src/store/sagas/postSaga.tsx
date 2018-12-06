@@ -1,16 +1,105 @@
 import { fork, takeEvery, put, call, all } from 'redux-saga/effects';
-import { PostActionType } from '../modules/post';
+import {
+  PostActionType,
+  CommentDataState,
+  PostSequenceState,
+  PostDataState,
+} from '../modules/post';
 import { ErrorActionType } from '../modules/error';
 import * as PostAPI from '../../lib/api/post';
 import * as CommentAPI from '../../lib/api/comment';
+import { Action } from 'redux';
+import { AxiosResponse } from 'axios';
 
-function* readPost(action: any) {
+export interface FetchReadPost
+  extends Action<PostActionType.READ_POST_REQUEST> {
+  payload: {
+    postId: string;
+  };
+}
+
+export interface FetchLike extends Action<PostActionType.LIKE> {
+  payload: {
+    postId: string;
+  };
+}
+
+export interface FetchUnLike extends Action<PostActionType.UNLIKE> {
+  payload: {
+    postId: string;
+  };
+}
+
+export interface FetchPostSequences
+  extends Action<PostActionType.POST_SEQUENCES_REQUEST> {
+  payload: {
+    postId: string;
+  };
+}
+
+export interface FetchDeletePost extends Action<PostActionType.DELETE_POST> {
+  payload: {
+    postId: string;
+  };
+}
+
+export interface FetchWriteComment
+  extends Action<PostActionType.WRITE_COMMENT_REQUEST> {
+  payload: {
+    postId: string;
+    text: string;
+    reply: string;
+  };
+}
+
+export interface FetchReadComments
+  extends Action<PostActionType.READ_COMMENTS_REQUEST> {
+  payload: {
+    postId: string;
+  };
+}
+
+export interface FetchReadSubComments
+  extends Action<PostActionType.READ_SUBCOMMENTS_REQUEST> {
+  payload: {
+    postId: string;
+    commentId: string;
+    parentId: string;
+  };
+}
+
+export interface FetchDeleteComment
+  extends Action<PostActionType.DELETE_COMMENT_REQUEST> {
+  payload: {
+    postId: string;
+    commentId: string;
+  };
+}
+
+export interface FetchEditComment
+  extends Action<PostActionType.EDIT_COMMENT_REQUEST> {
+  payload: {
+    postId: string;
+    commentId: string;
+    text: string;
+  };
+}
+
+export interface LikeState {
+  liked: boolean;
+  likes: number;
+}
+
+function* readPost(action: FetchReadPost) {
   const {
     payload: { postId },
   } = action;
 
   try {
-    const responseReadPost = yield call(PostAPI.readPost, postId);
+    const responseReadPost: AxiosResponse<PostDataState> = yield call(
+      PostAPI.readPost,
+      postId
+    );
 
     yield put({
       type: PostActionType.READ_POST_SUCCESS,
@@ -29,7 +118,7 @@ function* readPost(action: any) {
   }
 }
 
-function* like(action: any) {
+function* like(action: FetchLike) {
   const {
     payload: { postId },
   } = action;
@@ -39,7 +128,10 @@ function* like(action: any) {
   });
 
   try {
-    const responseLike = yield call(PostAPI.like, postId);
+    const responseLike: AxiosResponse<LikeState> = yield call(
+      PostAPI.like,
+      postId
+    );
 
     yield put({
       type: PostActionType.LIKE_SUCCESS,
@@ -55,7 +147,7 @@ function* like(action: any) {
   }
 }
 
-function* unlike(action: any) {
+function* unlike(action: FetchUnLike) {
   const {
     payload: { postId },
   } = action;
@@ -65,7 +157,10 @@ function* unlike(action: any) {
   });
 
   try {
-    const responseLike = yield call(PostAPI.unlike, postId);
+    const responseLike: AxiosResponse<LikeState> = yield call(
+      PostAPI.unlike,
+      postId
+    );
 
     yield put({
       type: PostActionType.UNLIKE_SUCCESS,
@@ -81,13 +176,16 @@ function* unlike(action: any) {
   }
 }
 
-function* postSequences(action: any) {
+function* postSequences(action: FetchPostSequences) {
   const {
     payload: { postId },
   } = action;
 
   try {
-    const responseSequences = yield call(PostAPI.sequences, postId);
+    const responseSequences: AxiosResponse<PostSequenceState[]> = yield call(
+      PostAPI.sequences,
+      postId
+    );
 
     yield put({
       type: PostActionType.POST_SEQUENCES_SUCCESS,
@@ -106,7 +204,7 @@ function* postSequences(action: any) {
   }
 }
 
-function* deletePost(action: any) {
+function* deletePost(action: FetchDeletePost) {
   const {
     payload: { postId },
   } = action;
@@ -125,17 +223,20 @@ function* deletePost(action: any) {
   }
 }
 
-function* writeComment(action: any) {
+function* writeComment(action: FetchWriteComment) {
   const {
     payload: { postId, text, reply },
   } = action;
 
   try {
-    const responseWriteComment = yield call(CommentAPI.writeComment, {
-      postId,
-      text,
-      reply,
-    });
+    const responseWriteComment: AxiosResponse<any> = yield call(
+      CommentAPI.writeComment,
+      {
+        postId,
+        text,
+        reply,
+      }
+    );
 
     yield put({
       type: PostActionType.WRITE_COMMENT_SUCCESS,
@@ -154,13 +255,16 @@ function* writeComment(action: any) {
   }
 }
 
-function* readComment(action: any) {
+function* readComment(action: FetchReadComments) {
   const {
     payload: { postId },
   } = action;
 
   try {
-    const responseReadComment = yield call(CommentAPI.getComment, postId);
+    const responseReadComment: AxiosResponse<CommentDataState[]> = yield call(
+      CommentAPI.getComment,
+      postId
+    );
 
     yield put({
       type: PostActionType.READ_COMMENTS_SUCCESS,
@@ -179,13 +283,15 @@ function* readComment(action: any) {
   }
 }
 
-function* readSubComment(action: any) {
+function* readSubComment(action: FetchReadSubComments) {
   const {
     payload: { postId, commentId, parentId },
   } = action;
 
   try {
-    const responseReadSubComment = yield call(CommentAPI.getReply, {
+    const responseReadSubComment: AxiosResponse<
+      CommentDataState[]
+    > = yield call(CommentAPI.getReply, {
       postId,
       commentId,
     });
@@ -210,7 +316,7 @@ function* readSubComment(action: any) {
   }
 }
 
-function* deleteComment(action: any) {
+function* deleteComment(action: FetchDeleteComment) {
   const {
     payload: { postId, commentId },
   } = action;
@@ -232,17 +338,20 @@ function* deleteComment(action: any) {
   }
 }
 
-function* editComment(action: any) {
+function* editComment(action: FetchEditComment) {
   const {
     payload: { postId, commentId, text },
   } = action;
 
   try {
-    const responseEditComment = yield call(CommentAPI.updateComment, {
-      postId,
-      commentId,
-      text,
-    });
+    const responseEditComment: AxiosResponse<any> = yield call(
+      CommentAPI.updateComment,
+      {
+        postId,
+        commentId,
+        text,
+      }
+    );
 
     yield put({
       type: PostActionType.EDIT_COMMENT_SUCCESS,
