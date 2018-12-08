@@ -1,0 +1,189 @@
+@import 'utils';
+
+.video-card {
+    margin-bottom: 4rem;
+    .video-head {
+        display: flex;
+        align-items: center;
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #494c62;
+            margin: 0;
+            font-family: inherit;
+        }
+    }
+
+    .separator {
+        margin-top: 1rem;
+        background: #e0e0e0;
+        height: 2px;
+        width: 100%;
+        position: relative;
+        .blue-segment {
+            width: 7rem;
+            height: 4px;
+            position: absolute;
+            background: $oc-blue-6;
+            top: -1px;
+        }
+    }
+
+    .video-content {
+        padding-top: 24px;
+        .inner {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .video-wrapper {
+                margin-right: 4px;
+                display: inline-block;
+                width: 210px;
+                margin-bottom: 24px;
+                flex-direction: column;
+                .video {
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    background: transparent;
+
+                    .video-thumbnail {
+                        display: inline-block;
+                        flex: none;
+                        position: relative;
+                        width: 210px;
+                        height: 118px;
+                        .inner {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            bottom: 0;
+                            left: 0;
+                            height: 100%;
+                            margin-left: auto;
+                            margin-right: auto;
+                            display: block;
+                            overflow: hidden;
+                            cursor: pointer;
+                            .thumbnail {
+                                background-color: transparent;
+                                display: block;
+                                position: absolute;
+                                transform: translateY(-50%);
+                                top: 50%;
+                                left: 0;
+                                width: 100%;
+                                opacity: 1;
+                                transition: none;
+                                flex: none;
+                                img {
+                                    display: block;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    border-radius: none;
+                                }
+                            }
+
+                            .overlays {
+                                display: block;
+                                background-color: hsl(0, 0%, 6.7%);
+                                position: absolute;
+                                bottom: 0;
+                                right: 0;
+                                margin: 4px;
+                                color: hsl(0, 0%, 100%);
+                                opacity: .8;
+                                padding: 2px 4px;
+                                border-radius: 2px;
+                                letter-spacing: .5px;
+                                font-size: 0.7rem;
+                                font-weight: 500;
+                                line-height: 1.2rem;
+                                display: inline-flex;
+                                flex-direction: row;
+                                align-items: center;
+                            }
+                        }
+                    }
+
+                    .video-details {
+                        position: relative;
+                        cursor: pointer;
+                        display: flex;
+                        flex-direction: column;
+                        .details {
+                            padding-right: 24px;
+                            .title {
+                                color: $oc-gray-7;
+                                margin: 8px 0 8px;
+                                a {
+                                    display: -webkit-box;
+                                    max-height: 3.2rem;
+                                    -webkit-box-orient: vertical;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: normal;
+                                    -webkit-line-clamp: 2;
+                                    font-size: 1.1rem;
+                                    font-weight: 500;
+                                    line-height: 1.6rem;
+                                }
+                            }
+
+                            .info {
+                                display: flex;
+                                flex-direction: column;
+                                .inner {
+                                    flex-wrap: wrap;
+                                    .name {
+                                        max-height: 1.8rem;
+                                        overflow: hidden;
+                                        font-size: .875rem;
+                                        font-weight: 400;
+                                        line-height: 1.8rem;
+                                        text-transform: none;
+                                        display: flex;
+                                        align-items: center;
+                                        overflow-x: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        display: flex;
+                                        color: $oc-gray-5;
+                                        a {
+                                            margin-left: 0;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            white-space: nowrap;
+                                            display: block;
+                                            margin-right: 0.6rem;
+                                            padding-right: 0.1em;
+                                            cursor: pointer;
+                                        }
+                                    }
+
+                                    .views {
+                                        line-height: 1.8rem;
+                                        max-height: 3.6rem;
+                                        overflow: hidden;
+                                        font-size: 0.875rem;
+                                        font-weight: 400;
+                                        text-transform: none;
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        color: $oc-gray-5;
+                                        max-width: 100%;
+                                        span {
+                                            display: inline-block;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

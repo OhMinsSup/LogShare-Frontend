@@ -36,7 +36,6 @@ const App = () => (
         component={User}
       />
       <Route exact path="/video" component={Video} />
-      <Route exact path="/video/(development)" component={Video} />
       <Route component={NotFound} />
     </Switch>
     <Core />

@@ -42,15 +42,12 @@ class LandingTemplateContainer extends React.Component<Props> {
           <Route exact path="/" component={RecentPostCards} />
           <Route exact path="/recent" component={RecentPostCards} />
           <Route exact path="/trending" component={TrendingPostCards} />
-          <Route exact path="/seris" component={Series} />
           <Route exact path="/users" component={UsersCards} />
         </Switch>
       </CommonTemplate>
     );
   }
 }
-
-const Series = () => <div>Series</div>;
 
 const mapStateToProps = (state: StoreState) => ({});
 
