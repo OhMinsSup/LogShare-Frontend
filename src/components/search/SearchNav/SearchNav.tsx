@@ -7,8 +7,8 @@ const cx = classNames.bind(styles);
 const SearchNavItem: React.StatelessComponent<{
   text: string;
   active: boolean;
-  type: 'post' | 'user';
-  onTab(type: 'post' | 'user'): void;
+  type: 'post' | 'user' | 'video';
+  onTab(type: 'post' | 'user' | 'video'): void;
 }> = ({ text, active, type, onTab }) => {
   return (
     <div className={cx('nav-item', { active })} onClick={() => onTab(type)}>
@@ -22,7 +22,7 @@ SearchNavItem.defaultProps = {
 };
 
 const SearchNav: React.StatelessComponent<{
-  type: 'post' | 'user';
+  type: 'post' | 'user' | 'video';
   onTab(type: 'post' | 'user'): void;
 }> = ({ type, onTab }) => {
   return (
@@ -37,6 +37,12 @@ const SearchNav: React.StatelessComponent<{
         text="사용자"
         active={type === 'user'}
         type="user"
+        onTab={onTab}
+      />
+      <SearchNavItem
+        text="영상"
+        active={type === 'video'}
+        type="video"
         onTab={onTab}
       />
     </div>

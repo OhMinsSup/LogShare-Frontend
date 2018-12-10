@@ -29,9 +29,12 @@ const User: React.StatelessComponent<{
       <Route exact path="/@:username/likes" component={LikesPostCards} />
       <Route exact path="/@:username/follower" component={UserFollowingCards} />
       <Route exact path="/@:username/following" component={UserFollowerCards} />
+      <Route exact path="/@:username/video" component={Test} />
     </Switch>
     <UserProfileEditContainter />
   </CommonTemplate>
 );
+
+const Test = () => <div>테스트</div>;
 
 export default User;

@@ -7,29 +7,34 @@ import CommonMenu from 'src/components/base/CommonMenu';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type Props = StateProps & DispatchProps;
+type OwnProps = { resize: boolean };
+type Props = StateProps & DispatchProps & OwnProps;
 
 class CommonMenuContainer extends React.Component<Props> {
+  constructor(props: Props) {
+    super(props);
+
+    const { BaseActions } = this.props;
+
+    BaseActions.setCommonMenu(false);
+  }
+
   public onClick = () => {
     const { BaseActions } = this.props;
 
     BaseActions.setCommonMenu(false);
   };
 
-  public componentDidUpdate(preProps: Props) {
-    const { BaseActions } = this.props;
-
-    if (this.props.width >= 890) {
-      BaseActions.setCommonMenu(false);
-    }
-  }
-
   public render() {
-    const { menu, nextUrl } = this.props;
+    const { menu, nextUrl, resize } = this.props;
     if (!menu) return null;
 
     return (
-      <CommonMenu visible={nextUrl ? 'visible' : ''} onClick={this.onClick} />
+      <CommonMenu
+        visible={nextUrl ? 'visible' : ''}
+        resize={resize}
+        onClick={this.onClick}
+      />
     );
   }
 }
@@ -44,7 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(CommonMenuContainer);

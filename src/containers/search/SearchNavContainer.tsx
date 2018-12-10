@@ -18,7 +18,7 @@ class SearchNavContainer extends React.Component<Props> {
     SearchActions.changeInput({ value });
   };
 
-  public onTab = (type: 'post' | 'user') => {
+  public onTab = (type: 'post' | 'user' | 'video') => {
     const { SearchActions } = this.props;
 
     SearchActions.changeSearchType({ type });

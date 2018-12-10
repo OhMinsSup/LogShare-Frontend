@@ -6,7 +6,7 @@ import {
 import { GenericResponseAction } from 'src/lib/common';
 
 export type changeSearchTypePayload = {
-  type: 'post' | 'user';
+  type: 'post' | 'user' | 'video';
 };
 export type SearchValuePayload = {
   value: string;

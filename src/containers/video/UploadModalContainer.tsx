@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CategoryMenu from 'src/components/video/CategoryMenu';
+import UploadModal from 'src/components/video/UploadModal';
 import { connect } from 'react-redux';
 import { StoreState } from 'src/store/modules';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -9,18 +9,24 @@ type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type Props = StateProps & DispatchProps;
 
-class CategoryMenuContainer extends React.Component<Props> {
+class UploadModalContainer extends React.Component<Props> {
+  public onUploadModal = () => {
+    const { BaseActions } = this.props;
+
+    BaseActions.setUploadModal(false);
+  };
+
   public render() {
-    const { visible } = this.props;
+    const { upload_modal } = this.props;
 
-    if (!visible) return null;
-
-    return <CategoryMenu />;
+    return (
+      <UploadModal open={upload_modal} onUploadModal={this.onUploadModal} />
+    );
   }
 }
 
 const mapStateToProps = ({ base }: StoreState) => ({
-  visible: base.category.visible,
+  upload_modal: base.upload_modal.visible,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -30,4 +36,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
-)(CategoryMenuContainer);
+)(UploadModalContainer);

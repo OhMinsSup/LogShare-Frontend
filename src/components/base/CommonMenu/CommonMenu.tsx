@@ -6,7 +6,6 @@ import {
   MdHome,
   MdPerson,
   MdVideoLibrary,
-  MdApps,
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
@@ -27,10 +26,11 @@ const CommonMenuItem: React.StatelessComponent<{
 
 const CommonMenu: React.StatelessComponent<{
   visible: string;
+  resize: boolean;
   onClick(): void;
-}> = ({ visible, onClick }) => {
+}> = ({ visible, onClick, resize }) => {
   return (
-    <div className={cx('common-menu', visible)}>
+    <div className={cx('common-menu', visible, resize ? 'resize' : 'disize')}>
       <CommonMenuItem to="/" icon={<MdHome />} text="홈" onClick={onClick} />
       <CommonMenuItem
         to="/recent"
@@ -54,12 +54,6 @@ const CommonMenu: React.StatelessComponent<{
         to="/video"
         icon={<MdVideoLibrary />}
         text="영상"
-        onClick={onClick}
-      />
-      <CommonMenuItem
-        to="/video"
-        icon={<MdApps />}
-        text="범주"
         onClick={onClick}
       />
     </div>

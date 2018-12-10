@@ -31,6 +31,11 @@ const UserNav: React.StatelessComponent<{
         text="좋아요"
         active={url === `/@${username}/likes`}
       />
+      <UserNavItem
+        to={`/@${username}/video`}
+        text="영상"
+        active={url === `/@${username}/video`}
+      />
     </ul>
   </div>
 );

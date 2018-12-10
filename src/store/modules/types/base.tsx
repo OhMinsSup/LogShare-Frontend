@@ -23,3 +23,6 @@ export type RssAction = GenericResponseAction<
 export type SetCategoryMenuAction = ReturnType<
   typeof baseCreators.setCategoryMenu
 >;
+export type SetUploadModalAction = ReturnType<
+  typeof baseCreators.setUploadModal
+>;

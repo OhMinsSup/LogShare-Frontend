@@ -29,12 +29,20 @@
         position: relative;
         background: white;
         width: 400px;
+
+        @include media("<=420px") {
+            width: 350px;
+        }
         .content-body {
             height: 50vh;
             overflow-y: scroll;
             margin-bottom: 0;
             background: white;
             display: block;
+
+            @include media("<=420px") {
+                overflow-x: scroll;
+            }
         }
 
         .content-footer {

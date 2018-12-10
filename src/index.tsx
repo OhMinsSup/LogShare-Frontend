@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import Root from './Root';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/main.scss';
+import 'react-circular-progressbar/dist/styles.css';
 
 const render = (window as any).__REDUX_STATE__
   ? ReactDOM.hydrate

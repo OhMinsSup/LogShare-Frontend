@@ -9,7 +9,6 @@ import { baseCreators } from 'src/store/modules/base';
 import { match } from 'react-router';
 import NoticeModalContainer from './NoticeModalContainer';
 import { noticeCreators } from 'src/store/modules/notice';
-import CategoryMenuContainer from '../video/CategoryMenuContainer';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -22,16 +21,6 @@ class HeaderContainer extends React.Component<Props> {
   public onMenu = () => {
     const { BaseActions, userMenu } = this.props;
     userMenu ? BaseActions.hideUserMenu() : BaseActions.showUserMenu();
-  };
-
-  public onCategory = (e: any) => {
-    const { BaseActions, category } = this.props;
-
-    if (category) {
-      BaseActions.setCategoryMenu(false);
-    } else {
-      BaseActions.setCategoryMenu(true);
-    }
   };
 
   public onNotice = () => {
@@ -61,22 +50,24 @@ class HeaderContainer extends React.Component<Props> {
 
   public render() {
     const { user, width, match, count } = this.props;
-    const { onMenu, onCommonMenur, onNotice, onCategory } = this;
+    const { onMenu, onCommonMenur, onNotice } = this;
 
     return (
       <Header
-        categoryMenu={<CategoryMenuContainer />}
         user={user}
         width={width}
         path={match.path}
         count={count.length}
         menu={<UserMenuContainer />}
-        commonMenu={<CommonMenuContainer />}
+        commonMenu={
+          <CommonMenuContainer
+            resize={match.path === '/video/viewer/:id' ? true : false}
+          />
+        }
         notice={<NoticeModalContainer />}
         onMenu={onMenu}
         onCommonMenur={onCommonMenur}
         onNotice={onNotice}
-        onCategory={onCategory}
       />
     );
   }
@@ -89,7 +80,6 @@ const mapStateToProps = ({ user, base, notice }: StoreState) => ({
   commonMenu: base.common_menu.visible,
   visible: notice.notice_modal.visible,
   count: notice.noticeMessage,
-  category: base.category.visible,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

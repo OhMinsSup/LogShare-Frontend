@@ -1,0 +1,218 @@
+@import 'utils';
+
+.upload-modal {
+    width: 800px;
+    display: flex;
+    position: relative;
+    background: white;
+    border-radius: 2px;
+    max-height: calc(100vh - 32px);
+    outline: none;
+    @include material-shadow(4, 0.125);
+
+    @include media("<=890px") {
+        width: 500px;
+    }
+    .wrapper {
+        width: 100%;
+        flex: 1 1 auto;
+        flex-direction: column;
+        .header {
+            display: flex;
+            flex-direction: row;
+            padding: 1rem;
+            .upload-title {
+                h3 {
+                    color: $oc-gray-6;
+                    font-weight: 500;
+                    font-size: 1rem;
+                    line-height: 1.2px;
+                    letter-spacing: -.4px;
+                }
+            }
+
+            .upload-button {
+                margin-left: auto;
+            }
+        }
+
+        .content {
+            width: 100%;
+            height: 250px;
+            padding: 0.85rem;
+            flex-direction: row;
+            justify-content: center;
+
+            @include media ("<=890px") {
+                height: 500px;
+            }
+
+            .wrapper {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+
+                @include media ("<=890px") {
+                    flex-direction: column;
+                }
+                .left-content {
+                    width: 50%;
+                    justify-content: space-between;
+                    display: flex;
+                    flex-direction: row;
+                    border-right: 2px solid rgb(245, 245, 245);
+
+                    @include media ("<=890px") {
+                        width: 100%;
+                        justify-content: center;
+                        border-right: 0;
+                        height: 100%;
+                    }
+                    .inner {
+                        flex: 1 1 auto;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        width: 370px;
+                        .content {
+                            width: 370px;
+                            max-height: 200px;
+                            background: transparent;
+                            svg {
+                                color: $oc-gray-8;
+                                width: 100%;
+                                height: 100px;
+                                border: 2px solid $oc-gray-7;
+                                max-width: 100%;
+                            }
+                            @include media ("<=890px") {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+
+                        .progress-bar {
+                            height: 5rem;
+                            margin-bottom: 3rem;
+                            .progress {
+                                width: 100%;
+                                height: 100%;
+                                position: relative;
+                                top: -3rem;
+                            }
+
+                            @include media ("<=890px") {
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
+                }
+
+                .right-content {
+                    width: 50%;
+                    display: flex;
+                    flex-direction: row;
+
+                    @include media ("<=890px") {
+                        width: 100%;
+                        height: 100%;
+                        justify-content: center;
+                    }
+                    .inner {
+                        flex: 1 1 auto;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                        .content {
+                            width: 370px;
+                            max-height: 200px;
+                            background: transparent;
+
+                            @include media ("<=890px") {
+                                width: 100%;
+                            }
+                            .input-item {
+                                margin-bottom: 3px;
+                                box-sizing: border-box;
+                                .input-title {
+                                    cursor: pointer;
+                                    display: block;
+                                    .title {
+                                        font-weight: 600;
+                                        color: $oc-blue-6;
+                                        padding: 0.4rem;
+                                        text-align: left;
+                                        font-size: 12px;
+                                        line-height: 1.1;
+                                        letter-spacing: 1px;
+                                    }
+                                }
+                                .input {
+                                    box-sizing: border-box;
+                                    textarea {
+                                        width: 100%;
+                                        margin: 0;
+                                        box-sizing: border-box;
+                                        color: black;
+                                        background-color: white;
+                                        font-size: 16px;
+                                        line-height: 1.5;
+                                        letter-spacing: -.4px;
+                                        overflow: auto;
+                                        vertical-align: top;
+                                        border-radius: 4px;
+                                        border-style: solid;
+                                        border-width: 1px;
+                                        padding: 10px 14px;
+                                        resize: none;
+                                        cursor: text;
+                                        flex-direction: column;
+                                        display: inline-block;
+                                        text-align: start;
+                                        font: 400 13.3333px Arial;
+                                    }
+                                }
+
+                                .select {
+                                    -webkit-appearance: none;
+                                    -moz-appearance: none;
+                                    -ms-appearance: none;
+                                    appearance: none;
+                                    outline: 0;
+                                    box-shadow: none;
+                                    border: 1px solid $oc-gray-5;
+                                    background: white;
+                                    width: 100%;
+                                    height: 100%;
+                                    margin: 0;
+                                    padding: 0 0 0 .5em;
+                                    color: $oc-gray-8;
+                                    cursor: pointer;
+                                }
+
+                                select {
+                                    position: relative;
+                                    display: block;
+                                    width: 21.5rem;
+                                    height: 3em;
+                                    line-height: 3;
+                                    background: #2c3e50;
+                                    overflow: hidden;
+                                    border-radius: .25em;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .button-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.25rem;
+            margin-bottom: 1rem;
+        }
+    }
+}

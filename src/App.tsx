@@ -15,13 +15,18 @@ import {
   Video,
 } from './pages';
 import ChatbotContainer from './containers/etc/ChatbotContainer';
+import UploadModalContainer from './containers/video/UploadModalContainer';
 
 const App = () => (
   <React.Fragment>
     <meta property="fb:app_id" content="1565906873518620" />
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/(recent|trending|seris|users)" component={Home} />
+      <Route
+        exact
+        path="/(recent|trending|seris|users|video)"
+        component={Home}
+      />
       <Route exact path="/auth/(register|login)" component={Auth} />
       <Route exact path="/callback" component={Callback} />
       <Route exact path="/write" component={Write} />
@@ -32,14 +37,15 @@ const App = () => (
       <Route exact path="/@:username" component={User} />
       <Route
         exact
-        path="/@:username/(posts|following|follower|likes)"
+        path="/@:username/(posts|following|follower|likes|video)"
         component={User}
       />
-      <Route exact path="/video" component={Video} />
+      <Route exact path="/video/viewer/:id" component={Video} />
       <Route component={NotFound} />
     </Switch>
     <Core />
     <ChatbotContainer />
+    <UploadModalContainer />
   </React.Fragment>
 );
 

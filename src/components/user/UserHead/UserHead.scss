@@ -104,6 +104,12 @@
                         border: 1px solid white;
                         color: white;
                     }
+
+                    &:hover {
+                        background: $oc-blue-5;
+                        color: white;
+                        font-weight: 700;
+                    }
                 }
             }
         }

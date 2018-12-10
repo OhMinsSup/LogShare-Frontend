@@ -4,6 +4,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { StoreState } from 'src/store/modules';
 import UserMenu from 'src/components/base/UserMenu';
 import { userCreators } from 'src/store/modules/user';
+import { baseCreators } from 'src/store/modules/base';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -12,16 +13,28 @@ type Props = StateProps & DispatchProps;
 class UserMenuContainer extends React.Component<Props> {
   public onLogout = () => {
     const { UserActions } = this.props;
-
     UserActions.logout();
+  };
+
+  public onUploadModal = () => {
+    const { BaseActions } = this.props;
+
+    BaseActions.setUploadModal(true);
+    BaseActions.hideUserMenu();
   };
 
   public render() {
     const { userMenu, username } = this.props;
-    const { onLogout } = this;
+    const { onLogout, onUploadModal } = this;
     if (!userMenu) return null;
 
-    return <UserMenu onLogout={onLogout} username={username} />;
+    return (
+      <UserMenu
+        onLogout={onLogout}
+        username={username}
+        onUploadModal={onUploadModal}
+      />
+    );
   }
 }
 
@@ -32,6 +45,7 @@ const mapStateToProps = ({ base, user }: StoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   UserActions: bindActionCreators(userCreators, dispatch),
+  BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps>(

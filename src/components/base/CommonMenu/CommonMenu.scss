@@ -3,7 +3,6 @@
 .common-menu {
     position: absolute;
     top: 2.25rem;
-    left: 0px;
     transform: translate3d(1px, 38px, 0px);
     will-change: transform;
     border-radius: 6px;
@@ -33,6 +32,14 @@
 
     &.visible {
         top: 2rem;
+    }
+
+    &.resize {
+        top: 2rem;
+    }
+
+    &.disize {
+
     }
 
     .action-nav {

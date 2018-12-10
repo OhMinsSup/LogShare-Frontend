@@ -24,7 +24,24 @@ class PrimarySidebarContainer extends React.Component<Props> {
     const { tags, loading } = this.props;
     if (loading) return <FakeTags tags={tags} />;
 
-    return <PrimarySidebar tags={tags} />;
+    return (
+      <React.Fragment>
+        <PrimarySidebar tags={tags} />
+        <div>
+          <div>추천</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+          <div>추천 유저가 뭘까??</div>
+        </div>
+      </React.Fragment>
+    );
   }
 }
 

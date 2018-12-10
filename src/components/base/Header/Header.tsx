@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import Button from 'src/components/common/Button';
 import { Link } from 'react-router-dom';
-import { MdSearch, MdNotificationsNone, MdMenu, MdApps } from 'react-icons/md';
+import { MdSearch, MdNotificationsNone, MdMenu } from 'react-icons/md';
 import { UserSubState } from 'src/store/modules/user';
 import defaultThumbnail from '../../../static/default.jpg';
 
@@ -14,14 +14,12 @@ const Header: React.StatelessComponent<{
   user: UserSubState | null;
   notice: React.ReactNode;
   menu: React.ReactNode;
-  categoryMenu: React.ReactNode;
   width: number;
   path: string;
   count: number;
   onCommonMenur(): void;
   onNotice(): void;
   onMenu(): void;
-  onCategory(e: any): void;
 }> = ({
   user,
   menu,
@@ -33,8 +31,6 @@ const Header: React.StatelessComponent<{
   path,
   notice,
   onNotice,
-  categoryMenu,
-  onCategory,
 }) => (
   <div className={cx('header')}>
     <div className={cx('left-items')}>
@@ -43,7 +39,7 @@ const Header: React.StatelessComponent<{
           <MdMenu />
         </button>
       )}
-      {path === '/post/:id' ? (
+      {path === '/post/:id' || path === '/video/viewer/:id' ? (
         <React.Fragment>
           {width <= 890 ? null : (
             <button className={cx('menu')} onClick={onCommonMenur}>
@@ -72,12 +68,6 @@ const Header: React.StatelessComponent<{
         <MdSearch />
       </Link>
       {notice}
-
-      <button className={cx('category')} onClick={onCategory}>
-        <MdApps />
-        <span>범주</span>
-      </button>
-      {categoryMenu}
     </div>
     <div className={cx('right-items')}>
       {user ? (

@@ -116,7 +116,8 @@
         padding: 27px 0;
         margin-right: 64px;
         display: block;
-        width: 310px;
+        height: 300px;
+        width: 300px;
 
         @include media("<=1442px") {
             width: 280px;

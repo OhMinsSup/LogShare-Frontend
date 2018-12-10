@@ -61,7 +61,7 @@ export interface SearchUserDataState {
 }
 
 export interface SearchState {
-  type: 'post' | 'user';
+  type: 'post' | 'user' | 'video';
   loading: boolean;
   value: string;
   posts: SearchPostDataState[];
