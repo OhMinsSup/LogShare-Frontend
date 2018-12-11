@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 const styles = require('./Video.scss');
 const cx = classNames.bind(styles);
 
-const Video: React.StatelessComponent<{}> = () => {
+const Video: React.StatelessComponent<{
+  subViewer?: boolean;
+}> = ({ subViewer }) => {
   const thumbnail =
     'https://i.ytimg.com/vi/nt4g6yMPoLE/hqdefault.jpg?sqp=-oaymwEiCNIBEHZIWvKriqkDFQgBFQAAAAAYASUAAMhCPQCAokN4AQ==&rs=AOn4CLBBKWnWfZzu_QHhnndT92ep6Bb8Ag';
   return (
-    <div className={cx('video-wrapper')}>
+    <div className={cx('video-wrapper', subViewer ? 'subViewer' : 'nonViewer')}>
       {thumbnail && (
         <Link to="/" className={cx('thumbnail-wrapper')}>
           {thumbnail && <img src={thumbnail} />}

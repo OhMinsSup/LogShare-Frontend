@@ -18,6 +18,17 @@
         width: calc(100% - 1.75rem);
     }
 
+    &.subViewer {
+        width: 100%;
+        @include media("<=xx-large") {
+            margin: 0;            
+        }
+    }
+
+    &.nonViewer {
+
+    }
+
     & > .thumbnail-wrapper {
         width: 100%;
         padding-top: 52.63%;

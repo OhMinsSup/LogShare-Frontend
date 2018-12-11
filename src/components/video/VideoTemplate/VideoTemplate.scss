@@ -5,14 +5,19 @@
         padding: 1rem;
     }
     .video-area {
-        @include media("<large") {
-            padding-left: 2rem;
-            padding-right: 2rem;
-            width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        margin-left: 5rem;
+        max-width: calc(48px * (16 / 9 + 3 * 24px + 300px));
+        min-width: calc(1280px + 402px + 0px + (3 * 24px));
+        @include media("<=1290px") {
+            margin-left: 0;
         }
-        @include media("<medium") {
-            padding-left: 1rem;
-            padding-right: 1rem;
+
+        @include media("<=xx-large") {
+            flex-direction: column;
+            min-width: 0;
         }
     }
 }

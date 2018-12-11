@@ -1,0 +1,81 @@
+@import 'utils';
+
+.featured-post-sidebar {
+    padding: 24px 16px;
+    margin-bottom: 20px;
+
+    .header {
+        margin-bottom: 0.5rem;
+        margin-left: 0.5rem;
+        position: relative;
+        box-sizing: border-box;
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .left-item {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                svg {
+                    font-size: 1.5rem;
+                    color: $oc-blue-6;
+                }
+                span {
+                    margin-top: 0.2rem;
+                    margin-left: 0.5rem;
+                    font-weight: 600;
+                    color: $oc-gray-7;
+                }
+            }
+            .right-item {
+                span {
+                    font-weight: 500;
+                    font-size: 0.875rem;
+                    color: $oc-gray-5;
+                    cursor: pointer;
+                    &:hover {
+                        color: $oc-gray-7;
+                    }
+                }
+            }
+        }
+    }
+
+    .contents {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .post {
+            display: flex;
+            flex-direction: column;
+            min-height: 48px;
+            margin-top: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+            h2 {
+                display: block;
+                margin: 0;
+                font-family: "Noto Sans KR";
+                font-size: 1rem;
+                line-height: 2rem;
+                max-height: 4rem;
+                font-weight: 600;
+                overflow: hidden;
+            }
+
+            .info {
+                font-size: 0.875rem;
+                margin-top: 0.5rem;
+                color: #8aa6c1;
+                span+span::before {
+                  color: $oc-gray-5;
+                  padding-left: 0.25rem;
+                  padding-right: 0.25rem;
+                  content: "\00B7";
+                }
+            }
+        }
+    }
+}

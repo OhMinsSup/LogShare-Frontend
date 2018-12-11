@@ -1,10 +1,12 @@
 import * as React from 'react';
-import PrimarySidebar from 'src/components/base/PrimarySidebar';
+import TagSidebar from 'src/components/base/TagSidebar';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { StoreState } from 'src/store/modules';
 import { tagsCreators } from 'src/store/modules/list/tags';
 import FakeTags from 'src/components/common/FakeTags/FakeTags';
+import FeaturedUserSidebar from 'src/components/base/FeaturedUserSidebar';
+import FeaturedPostSidebar from 'src/components/base/FeaturedPostSidebar';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -22,24 +24,20 @@ class PrimarySidebarContainer extends React.Component<Props> {
 
   public render() {
     const { tags, loading } = this.props;
-    if (loading) return <FakeTags tags={tags} />;
+    if (loading)
+      return (
+        <React.Fragment>
+          <FeaturedUserSidebar />
+          <FeaturedPostSidebar />
+          <FakeTags tags={tags} />
+        </React.Fragment>
+      );
 
     return (
       <React.Fragment>
-        <PrimarySidebar tags={tags} />
-        <div>
-          <div>추천</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-          <div>추천 유저가 뭘까??</div>
-        </div>
+        <FeaturedUserSidebar />
+        <FeaturedPostSidebar />
+        <TagSidebar tags={tags} />
       </React.Fragment>
     );
   }

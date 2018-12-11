@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { MdLabel } from 'react-icons/md';
 import { TagsDataState } from 'src/store/modules/list/tags';
 
-const styles = require('./PrimarySidebar.scss');
+const styles = require('./TagSidebar.scss');
 const cx = classNames.bind(styles);
 
-const PrimarySidebar: React.StatelessComponent<{
+const TagSidebar: React.StatelessComponent<{
   tags: TagsDataState[];
 }> = ({ tags }) => (
-  <div className={cx('primary-sidebar')}>
+  <div className={cx('tag-sidebar')}>
     <div className={cx('header')}>
       <div className={cx('wrapper')}>
         <MdLabel />
@@ -31,4 +31,4 @@ const PrimarySidebar: React.StatelessComponent<{
   </div>
 );
 
-export default PrimarySidebar;
+export default TagSidebar;
