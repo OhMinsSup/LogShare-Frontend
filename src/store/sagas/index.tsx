@@ -13,6 +13,8 @@ import followSaga from './followSaga';
 import noticeSaga from './noticeSaga';
 import noticesSaga from './noticesSaga';
 import searchSaga from './searchSaga';
+import featuredSaga from './featuredSaga';
+import videosSaga from './videosSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -30,5 +32,7 @@ export default function* rootSaga() {
     fork(noticeSaga),
     fork(noticesSaga),
     fork(searchSaga),
+    fork(featuredSaga),
+    fork(videosSaga),
   ]);
 }

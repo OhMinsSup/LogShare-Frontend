@@ -1,44 +1,117 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 
 const styles = require('./Video.scss');
 const cx = classNames.bind(styles);
 
-const Video: React.StatelessComponent<{
+type Props = {
+  videoId: string;
+  title: string;
+  play_time: string;
+  video_thumbnail: string;
+  username: string;
+  thumbnail: string;
+  video_url: string;
+  views: number;
+  createdAt: string;
   subViewer?: boolean;
-}> = ({ subViewer }) => {
-  const thumbnail =
-    'https://i.ytimg.com/vi/nt4g6yMPoLE/hqdefault.jpg?sqp=-oaymwEiCNIBEHZIWvKriqkDFQgBFQAAAAAYASUAAMhCPQCAokN4AQ==&rs=AOn4CLBBKWnWfZzu_QHhnndT92ep6Bb8Ag';
-  return (
-    <div className={cx('video-wrapper', subViewer ? 'subViewer' : 'nonViewer')}>
-      {thumbnail && (
-        <Link to="/" className={cx('thumbnail-wrapper')}>
-          {thumbnail && <img src={thumbnail} />}
-          <div className={cx('overlays')}>5:52</div>
-          <div className={cx('white-mask')} />
-        </Link>
-      )}
-      <div className={cx('video-content')}>
-        <div className={cx('between')}>
-          <img
-            className={cx('thumbnail')}
-            src="https://thumb.velog.io/resize?url=https://images.velog.io/profiles/yesdoing/thumbnails/1538470361.899.png&width=128"
-          />
-          <Link to="/" className={cx('username')}>
-            veloss
-          </Link>
-        </div>
-        <h3>
-          <Link to="/">Violet Evergarden - Best OST Covers</Link>
-        </h3>
-        <div className={cx('subinfo')}>
-          <span>조회수 7만회</span>
-          <span>7개월 전</span>
-        </div>
-      </div>
-    </div>
-  );
 };
 
+type State = {
+  hover: boolean;
+};
+
+class Video extends React.Component<Props, State> {
+  public state: State = {
+    hover: false,
+  };
+
+  constructor(props: Props) {
+    super(props);
+    this.getStillImage();
+  }
+
+  public getStillImage = () => {
+    const { video_url } = this.props;
+    console.log(video_url);
+  };
+
+  public onMouseOver = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e) {
+      this.setState({
+        hover: true,
+      });
+    }
+  };
+
+  public onMouseOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e) {
+      this.setState({
+        hover: false,
+      });
+    }
+  };
+
+  public render() {
+    const {
+      subViewer,
+      videoId,
+      video_thumbnail,
+      video_url,
+      play_time,
+      username,
+      thumbnail,
+      createdAt,
+      views,
+      title,
+    } = this.props;
+    const { hover } = this.state;
+
+    return (
+      <div
+        className={cx('video-wrapper', subViewer ? 'subViewer' : 'nonViewer')}
+      >
+        <Link
+          to={`/video/viewer/${videoId}`}
+          className={cx('thumbnail-wrapper')}
+          onMouseOver={this.onMouseOver}
+          onMouseOut={this.onMouseOut}
+        >
+          {hover ? (
+            <React.Fragment>
+              <video controls muted={true} autoPlay={true}>
+                <source src={video_url} type="video/mp4" />
+              </video>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <img src={video_thumbnail} />
+              <div className={cx('overlays')}>
+                {play_time ? play_time : '00:00'}
+              </div>
+              <div className={cx('white-mask')} />
+            </React.Fragment>
+          )}
+        </Link>
+        <div className={cx('video-content')}>
+          <div className={cx('between')}>
+            <img className={cx('thumbnail')} src={thumbnail} />
+            <Link to={`/@${username}`} className={cx('username')}>
+              {username}
+            </Link>
+          </div>
+          <h3>
+            <Link to="/">{title}</Link>
+          </h3>
+          <div className={cx('subinfo')}>
+            <span>조회수 {views ? views : 0}회</span>
+            <span>{moment(createdAt).format('LL')}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 export default Video;

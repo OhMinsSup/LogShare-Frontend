@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { StoreState } from 'src/store/modules';
 import { tagsCreators } from 'src/store/modules/list/tags';
-import FakeTags from 'src/components/common/FakeTags/FakeTags';
+import FakeItem from 'src/components/common/FakeItem';
 import FeaturedUserSidebar from 'src/components/base/FeaturedUserSidebar';
 import FeaturedPostSidebar from 'src/components/base/FeaturedPostSidebar';
+import { featuredCreators } from 'src/store/modules/list/featured';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -14,8 +15,10 @@ type Props = StateProps & DispatchProps;
 
 class PrimarySidebarContainer extends React.Component<Props> {
   public initialize = () => {
-    const { ListActions } = this.props;
-    ListActions.getTags();
+    const { TagsActions, FeaturedActions } = this.props;
+    TagsActions.getTags();
+    FeaturedActions.getfeaturedPosts();
+    FeaturedActions.getfeaturedUsers();
   };
 
   public componentDidMount() {
@@ -23,36 +26,51 @@ class PrimarySidebarContainer extends React.Component<Props> {
   }
 
   public render() {
-    const { tags, loading } = this.props;
-    if (loading)
+    const {
+      tags,
+      tagLoading,
+      postLoading,
+      userLoading,
+      posts,
+      users,
+    } = this.props;
+
+    if (tagLoading || postLoading || userLoading) {
       return (
         <React.Fragment>
-          <FeaturedUserSidebar />
-          <FeaturedPostSidebar />
-          <FakeTags tags={tags} />
+          <FakeItem item={users} />
+          <FakeItem item={posts} />
+          <FakeItem item={tags} />
         </React.Fragment>
       );
+    }
 
     return (
       <React.Fragment>
-        <FeaturedUserSidebar />
-        <FeaturedPostSidebar />
+        <FeaturedUserSidebar user={users} />
+        <FeaturedPostSidebar post={posts} />
         <TagSidebar tags={tags} />
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ list }: StoreState) => ({
+const mapStateToProps = ({ list, user }: StoreState) => ({
+  posts: list.featured.posts.post,
+  users: list.featured.users.user,
   tags: list.tags.tags,
-  loading: list.tags.loading,
+  tagLoading: list.tags.loading,
+  logged: !!user.user,
+  postLoading: list.featured.posts.loading,
+  userLoading: list.featured.users.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ListActions: bindActionCreators(tagsCreators, dispatch),
+  TagsActions: bindActionCreators(tagsCreators, dispatch),
+  FeaturedActions: bindActionCreators(featuredCreators, dispatch),
 });
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
 )(PrimarySidebarContainer);

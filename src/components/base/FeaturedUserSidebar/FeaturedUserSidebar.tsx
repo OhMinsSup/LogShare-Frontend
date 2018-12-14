@@ -2,12 +2,13 @@ import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import { MdLabel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { FeaturedUsersSubState } from 'src/store/modules/list/featured';
 
 const styles = require('./FeaturedUserSidebar.scss');
 const cx = classNames.bind(styles);
 
 const FeaturedUserSidebar: React.StatelessComponent<{
-  user?: any[];
+  user: FeaturedUsersSubState[];
 }> = ({ user }) => (
   <div className={cx('featured-user-sidebar')}>
     <div className={cx('header')}>
@@ -16,22 +17,23 @@ const FeaturedUserSidebar: React.StatelessComponent<{
           <MdLabel />
           <span>추천 유저</span>
         </div>
-        <div className={cx('right-item')}>
-          <span>더보기</span>
-        </div>
       </div>
     </div>
     <div className={cx('contents')}>
       {user &&
         user.map((user, index) => {
           return (
-            <Link to="/" className={cx('user')} key={index}>
+            <Link
+              to={`/@${user.profile.username}`}
+              className={cx('user')}
+              key={index}
+            >
               <div className={cx('thumbnail-wrapper')}>
-                <img src={user.thumbnail} />
+                <img src={user.profile.thumbnail} />
               </div>
               <div className={cx('username-wrapper')}>
-                <strong>{user.username}</strong>
-                <span>{user.shortBio}</span>
+                <strong>{user.profile.username}</strong>
+                <span>{user.profile.shortBio}</span>
               </div>
             </Link>
           );
@@ -39,40 +41,5 @@ const FeaturedUserSidebar: React.StatelessComponent<{
     </div>
   </div>
 );
-
-FeaturedUserSidebar.defaultProps = {
-  user: [
-    {
-      username: 'Veloss',
-      shortBio: '개발자 희망생',
-      thumbnail:
-        'https://pbs.twimg.com/profile_images/816642663982067713/IA8mjnjE_bigger.jpg',
-    },
-    {
-      username: 'Veloss',
-      shortBio: '개발자 희망생',
-      thumbnail:
-        'https://pbs.twimg.com/profile_images/816642663982067713/IA8mjnjE_bigger.jpg',
-    },
-    {
-      username: 'Veloss',
-      shortBio: '개발자 희망생',
-      thumbnail:
-        'https://pbs.twimg.com/profile_images/816642663982067713/IA8mjnjE_bigger.jpg',
-    },
-    {
-      username: 'Veloss',
-      shortBio: '개발자 희망생',
-      thumbnail:
-        'https://pbs.twimg.com/profile_images/816642663982067713/IA8mjnjE_bigger.jpg',
-    },
-    {
-      username: 'Veloss',
-      shortBio: '개발자 희망생',
-      thumbnail:
-        'https://pbs.twimg.com/profile_images/816642663982067713/IA8mjnjE_bigger.jpg',
-    },
-  ],
-};
 
 export default FeaturedUserSidebar;

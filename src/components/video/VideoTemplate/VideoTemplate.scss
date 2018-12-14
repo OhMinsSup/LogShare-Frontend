@@ -15,7 +15,7 @@
             margin-left: 0;
         }
 
-        @include media("<=xx-large") {
+        @include media("<=large") {
             flex-direction: column;
             min-width: 0;
         }

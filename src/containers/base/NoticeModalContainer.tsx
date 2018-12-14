@@ -51,6 +51,7 @@ class NoticeModalContainer extends React.Component<Props> {
 
 const mapStateToProps = ({ notice, user }: StoreState) => ({
   username: user.user && user.user.username,
+  logged: !!user.user,
   visible: notice.notice_modal.visible,
   noticeMessage: notice.noticeMessage,
 });

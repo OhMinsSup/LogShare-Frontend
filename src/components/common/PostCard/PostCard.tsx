@@ -46,7 +46,7 @@ const PostCard: React.StatelessComponent<{
           <Link to={`/post/${postId}`}>{title}</Link>
         </h3>
         <div className={cx('subinfo')}>
-          <span>{moment(createdAt).format('ll')}</span>
+          <span>{moment(createdAt).format('LL')}</span>
           <span>{info.comments} 개의 댓글</span>
           <span>{info.likes} 개의 좋아요</span>
         </div>

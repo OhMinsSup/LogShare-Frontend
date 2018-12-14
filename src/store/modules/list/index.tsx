@@ -6,6 +6,8 @@ import likes, { LikesState } from './likes';
 import follows, { FollowsState } from './follows';
 import users, { UsersState } from './users';
 import notices, { NoticesState } from './notices';
+import featured, { FeaturedState } from './featured';
+import videos, { VideosState } from './videos';
 
 export default combineReducers({
   posts: posts,
@@ -14,7 +16,9 @@ export default combineReducers({
   likes: likes,
   follows: follows,
   users: users,
+  featured: featured,
   notices: notices,
+  videos: videos,
 });
 
 export interface ListState {
@@ -24,5 +28,7 @@ export interface ListState {
   likes: LikesState;
   follows: FollowsState;
   users: UsersState;
+  videos: VideosState;
+  featured: FeaturedState;
   notices: NoticesState;
 }

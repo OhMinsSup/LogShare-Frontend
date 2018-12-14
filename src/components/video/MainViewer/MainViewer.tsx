@@ -72,9 +72,6 @@ class MainViewer extends React.Component<{}> {
                   <div className={cx('username')}>@{'veloss'}</div>
                 </div>
                 <div className={cx('content-head')}>
-                  <h3>
-                    <Link to="/">타이틀</Link>
-                  </h3>
                   <div className={cx('subinfo')}>
                     <span>
                       {moment('2018-12-03T01:24:16.932Z').format('LLL')}

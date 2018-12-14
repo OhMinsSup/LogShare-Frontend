@@ -56,7 +56,7 @@ const FakePostCard: React.StatelessComponent<{
     <div className={cx('card-content')}>
       {!oneColumn && (
         <div className={cx('user-thumbnail-wrapper')}>
-          <img />
+          <div />
         </div>
       )}
       <div className={cx('content-head')}>

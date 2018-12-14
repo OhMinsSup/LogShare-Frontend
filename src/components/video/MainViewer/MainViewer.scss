@@ -14,12 +14,8 @@
         max-width: calc((100vh - (56px + 24px + 136px)) * (16 / 9));
         min-width: calc(480px * 16 / 9);
         .inner {
-            padding-top: calc(9 / 16 * 100%);
             .player-container {
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                left: 0;
+                position: relative;
                 .inner {
                     display: block;
                     width: 100%;
@@ -191,16 +187,6 @@
                         }
                     }
                     .content-head {
-                        h3 {
-                            display: block;
-                            margin: 0;
-                            font-family: "Noto Sans KR";
-                            font-size: 1.25rem;
-                            line-height: 2rem;
-                            max-height: 4rem;
-                            font-weight: 600;
-                            overflow: hidden;
-                        }
                         .subinfo {
                             font-size: 0.875rem;
                             margin-top: 0.5rem;

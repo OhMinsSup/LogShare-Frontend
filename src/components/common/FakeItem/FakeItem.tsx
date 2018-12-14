@@ -2,21 +2,21 @@ import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import { createArray } from 'src/lib/common';
 
-const styles = require('./FakeTags.scss');
+const styles = require('./FakeItem.scss');
 const cx = classNames.bind(styles);
 
-const FakeTags: React.StatelessComponent<{
-  tags: any[];
-}> = ({ tags }) => (
+const FakeItem: React.StatelessComponent<{
+  item: any[];
+}> = ({ item }) => (
   <div className={cx('fake-sidebar')}>
     <div className={cx('header')} />
     <div className={cx('separator')} />
     <div className={cx('contents')}>
-      {createArray(tags.length === 0 ? 10 : tags.length).map(tag => (
-        <div key={tag} className={cx('tag-item')} />
+      {createArray(item.length === 0 ? 10 : item.length).map(item => (
+        <div key={item} className={cx('item')} />
       ))}
     </div>
   </div>
 );
 
-export default FakeTags;
+export default FakeItem;
