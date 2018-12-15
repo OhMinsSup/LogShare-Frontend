@@ -9,6 +9,12 @@ export type UserRssPayload = {
   username: string | null;
   history: History;
 };
+export type ProgressLodingAction = GenericResponseAction<
+  {
+    loding: boolean;
+  },
+  string
+>;
 export type SetWidthAction = ReturnType<typeof baseCreators.setWidth>;
 export type SetCommonMenuAction = ReturnType<typeof baseCreators.setCommonMenu>;
 export type SetProfileUpdateModalAction = ReturnType<

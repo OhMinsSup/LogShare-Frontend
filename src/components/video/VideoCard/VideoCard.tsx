@@ -36,6 +36,7 @@ const VideoCard: React.StatelessComponent<{
                   play_time,
                   user: { username, thumbnail },
                   info: { views },
+                  format,
                   createdAt,
                 } = video;
                 return (
@@ -48,6 +49,7 @@ const VideoCard: React.StatelessComponent<{
                     play_time={play_time}
                     username={username}
                     views={views}
+                    format={format}
                     thumbnail={thumbnail}
                     createdAt={createdAt}
                   />

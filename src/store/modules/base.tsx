@@ -3,6 +3,7 @@ import produce from 'immer';
 import * as BaseType from './types/base';
 
 export enum BaseActionType {
+  PROGRESS_BAR_LODING = 'base/PROGRESS_BAR_LODING',
   SHOW_USER_MENU = 'base/SHOW_USER_MENU',
   HIDE_USER_MENU = 'base/HIDE_USER_MENU',
   SET_WIDTH = 'base/SET_WIDTH',
@@ -53,6 +54,9 @@ export interface BaseState {
   upload_modal: {
     visible: boolean;
   };
+  progress_bar: {
+    loding: boolean;
+  };
 }
 
 const initialState: BaseState = {
@@ -73,6 +77,9 @@ const initialState: BaseState = {
   },
   upload_modal: {
     visible: false,
+  },
+  progress_bar: {
+    loding: false,
   },
 };
 
@@ -128,6 +135,15 @@ export default handleActions<BaseState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.upload_modal.visible = action.payload;
+      });
+    },
+    [BaseActionType.PROGRESS_BAR_LODING]: (
+      state,
+      action: BaseType.ProgressLodingAction
+    ) => {
+      return produce(state, draft => {
+        if (!action.payload) return;
+        draft.progress_bar.loding = action.payload.loding;
       });
     },
   },

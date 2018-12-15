@@ -15,6 +15,7 @@ type Props = {
   thumbnail: string;
   video_url: string;
   views: number;
+  format: string;
   createdAt: string;
   subViewer?: boolean;
 };
@@ -65,6 +66,7 @@ class Video extends React.Component<Props, State> {
       thumbnail,
       createdAt,
       views,
+      format,
       title,
     } = this.props;
     const { hover } = this.state;
@@ -80,11 +82,14 @@ class Video extends React.Component<Props, State> {
           onMouseOut={this.onMouseOut}
         >
           {hover ? (
-            <React.Fragment>
+            <Link to={`/video/viewer/${videoId}`}>
               <video controls muted={true} autoPlay={true}>
-                <source src={video_url} type="video/mp4" />
+                <source
+                  src={video_url}
+                  type={`video/${!format ? 'mp4' : format}`}
+                />
               </video>
-            </React.Fragment>
+            </Link>
           ) : (
             <React.Fragment>
               <img src={video_thumbnail} />
@@ -103,7 +108,7 @@ class Video extends React.Component<Props, State> {
             </Link>
           </div>
           <h3>
-            <Link to="/">{title}</Link>
+            <Link to={`/video/viewer/${videoId}`}>{title}</Link>
           </h3>
           <div className={cx('subinfo')}>
             <span>조회수 {views ? views : 0}회</span>

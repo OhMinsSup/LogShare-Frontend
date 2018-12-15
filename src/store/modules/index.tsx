@@ -8,6 +8,7 @@ import list, { ListState } from './list';
 import follow, { FollowState } from './follow';
 import notice, { NoticeState } from './notice';
 import search, { SearchState } from './search';
+import video, { VideoState } from './video';
 import error, { ErrorState } from './error';
 
 export default combineReducers({
@@ -20,6 +21,7 @@ export default combineReducers({
   follow: follow,
   notice: notice,
   search: search,
+  video: video,
   error: error,
 });
 
@@ -32,6 +34,7 @@ export interface StoreState {
   list: ListState;
   notice: NoticeState;
   follow: FollowState;
+  video: VideoState;
   search: SearchState;
   error: ErrorState;
 }

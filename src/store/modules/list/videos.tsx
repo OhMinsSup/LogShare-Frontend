@@ -36,6 +36,7 @@ export interface VideosSubState {
   video_thumbnail: string;
   video_url: string;
   createdAt: string;
+  format: string;
   info: {
     likes: number;
     comments: number;

@@ -4,6 +4,12 @@ export type GenericResponseAction<D, M> = {
   meta: M;
 };
 
+export interface ICustomWindow extends Window {
+  progress?: number;
+}
+
+(window as ICustomWindow).progress = 0;
+
 export const getScrollTop = () => {
   if (!document.body) return 0;
   const scrollTop = document.documentElement
