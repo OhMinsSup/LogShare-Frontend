@@ -28,3 +28,5 @@ export const createVideo = ({
     time,
     format,
   });
+
+export const getVideo = (videoId: string) => axios.get(`/video/${videoId}`);

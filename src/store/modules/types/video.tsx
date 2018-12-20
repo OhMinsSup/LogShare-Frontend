@@ -1,7 +1,11 @@
 import { GenericResponseAction } from 'src/lib/common';
+import { SideVideoState, MainVideoState } from '../video';
 
 export type CreateUploadUrlVideoPayload = {
   file: File;
+};
+export type GetVideoPayload = {
+  videoId: string;
 };
 
 export type SubmitPayload = {
@@ -28,6 +32,18 @@ export type CreateUploadUrlVideoAction = GenericResponseAction<
     thumbnail?: string;
     time?: string;
     format?: string;
+  },
+  string
+>;
+export type SideVideosAction = GenericResponseAction<
+  {
+    videosWithData: SideVideoState[];
+  },
+  string
+>;
+export type MainVideoAction = GenericResponseAction<
+  {
+    video: MainVideoState;
   },
   string
 >;

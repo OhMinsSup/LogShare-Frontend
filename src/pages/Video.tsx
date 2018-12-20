@@ -8,7 +8,7 @@ const Video: React.StatelessComponent<{
   match: match<{ tag: string; id: string; username: string }>;
 }> = ({ match }) => (
   <VideoTemplate header={<HeaderContainer match={match} />}>
-    <VideoViewer />
+    <VideoViewer match={match} />
   </VideoTemplate>
 );
 

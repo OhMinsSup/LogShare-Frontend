@@ -5,7 +5,7 @@ import { createArray } from 'src/lib/common';
 const styles = require('./FakeVideoCards.scss');
 const cx = classNames.bind(styles);
 
-const FakeVideoCard: React.StatelessComponent<{}> = () => (
+const FakeVideoCard = () => (
   <div className={cx('video-card', 'fake-video-card')}>
     <div className={cx('thumbnail-wrapper')}>
       <img className={cx('thumbnail')} />

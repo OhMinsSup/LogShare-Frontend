@@ -41,6 +41,7 @@ class UploadModalContainer extends React.Component<Props> {
   public onSubmit = (title: string, description: string, category: string) => {
     const {
       VideoActions,
+      BaseActions,
       url_thumbnail,
       url_video,
       time,
@@ -48,35 +49,29 @@ class UploadModalContainer extends React.Component<Props> {
       thumbnail,
     } = this.props;
 
-    if (url_thumbnail) {
-      videoCreators.submit({
-        title,
-        description,
-        category,
-        time,
-        format,
-        url: url_video,
-        thumbnail: url_thumbnail,
-      });
-      return;
-    }
-
     VideoActions.submit({
       title,
       description,
       category,
-      thumbnail,
+      thumbnail: url_thumbnail ? url_thumbnail : thumbnail,
       url: url_video,
       format,
       time,
     });
+
+    BaseActions.setUploadModal(false);
   };
 
   public render() {
-    const { upload_modal, progres_loding, thumbnail } = this.props;
+    const {
+      upload_modal,
+      progres_loding,
+      thumbnail,
+      url_thumbnail,
+    } = this.props;
     return (
       <UploadModal
-        thumbnail={thumbnail}
+        thumbnail={url_thumbnail ? url_thumbnail : thumbnail}
         open={upload_modal}
         loding={progres_loding}
         onSubmit={this.onSubmit}

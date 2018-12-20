@@ -31,7 +31,7 @@ export interface VideosSubState {
   videoId: string;
   title: string;
   play_time: string;
-  description: string | null;
+  description: string;
   category: string;
   video_thumbnail: string;
   video_url: string;

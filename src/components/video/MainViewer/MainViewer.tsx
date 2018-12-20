@@ -4,14 +4,23 @@ import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter } from 'react-icons/fa';
 import VideoLikeButton from '../VideoLikeButton';
-import defaultThumbnail from '../../../static/default.jpg';
 import Button from 'src/components/common/Button';
+import { MainVideoState } from 'src/store/modules/video';
 
 const styles = require('./MainViewer.scss');
 const cx = classNames.bind(styles);
 
-class MainViewer extends React.Component<{}> {
+type Props = {
+  main_video: MainVideoState;
+  logged: boolean;
+};
+
+type State = {};
+
+class MainViewer extends React.Component<Props, State> {
   public render() {
+    const { main_video, logged } = this.props;
+
     return (
       <div className={cx('main-viewer')}>
         <div className={cx('player')}>
@@ -22,7 +31,7 @@ class MainViewer extends React.Component<{}> {
                   <div className={cx('wrapper')}>
                     <video controls>
                       <source
-                        src="https://res.cloudinary.com/planeshare/video/upload/v1544270562/LogShare/video-upload/%ED%97%AC%EB%A1%9C%EC%9A%B0%EB%B0%A9/360p_%EB%B0%95%ED%9A%A8%EC%8B%A0_2016_LIVE_I_AM_A_DREAMER_HOME.mp4"
+                        src={main_video.video_url.toString()}
                         type="video/mp4"
                       />
                     </video>
@@ -35,16 +44,16 @@ class MainViewer extends React.Component<{}> {
         <div className={cx('info')}>
           <div className={cx('inner')}>
             <div className={cx('category')}>
-              <Link to="/">#카테고리</Link>
+              <Link to="/">#{main_video.category}</Link>
             </div>
-            <h1>Violet Evergarden - Best OST Covers</h1>
-            <span>조회수 1,944,076회</span>
+            <h1>{main_video.title}</h1>
+            <span>조회수 {main_video.info.views}회</span>
             <div className={cx('btn-wrapper')}>
               <Button theme="default">팔로우</Button>
               <VideoLikeButton
-                liked={false}
-                likes={5}
-                disabled={false}
+                liked={main_video.liked}
+                likes={main_video.info.likes}
+                disabled={logged}
                 onClick={() => console.log('dsss')}
               />
               <button
@@ -68,20 +77,18 @@ class MainViewer extends React.Component<{}> {
             <div className={cx('top')}>
               <div className={cx('info')}>
                 <div className={cx('user-wrapper')}>
-                  <img src={defaultThumbnail} />
-                  <div className={cx('username')}>@{'veloss'}</div>
+                  <img src={main_video.user.thumbnail} />
+                  <div className={cx('username')}>
+                    @{main_video.user.username}
+                  </div>
                 </div>
                 <div className={cx('content-head')}>
                   <div className={cx('subinfo')}>
-                    <span>
-                      {moment('2018-12-03T01:24:16.932Z').format('LLL')}
-                    </span>
+                    <span>{moment(main_video.createdAt).format('LLL')}</span>
                   </div>
                 </div>
                 <div className={cx('description')}>
-                  Violet Evergarden - Original Soundtrack (Best Covers)
-                  紫羅蘭永恆花園 - 原聲帶 Covers
-                  ヴァイオレット・エヴァーガーデン - OST Covers
+                  {main_video.description}
                 </div>
               </div>
             </div>

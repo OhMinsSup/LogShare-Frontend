@@ -89,6 +89,14 @@ class UploadModal extends React.Component<Props, State> {
     };
   }
 
+  public initialState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      category: '개발',
+    });
+  };
+
   public onChangeInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value, name } = e.target;
 
@@ -110,6 +118,7 @@ class UploadModal extends React.Component<Props, State> {
     const { title, description, category } = this.state;
 
     onSubmit(title, description, category);
+    this.initialState();
   };
 
   public render() {

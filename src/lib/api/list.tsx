@@ -22,3 +22,4 @@ export const listUsers = () => axios.get('/common/user');
 export const noticesMessage = () => axios.get('/common/notice/');
 export const featuredPost = () => axios.get(`/post/list/featured`);
 export const featuredUser = () => axios.get(`/common/user/featured`);
+export const sideVideos = () => axios.get('/video/list/side');

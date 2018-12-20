@@ -31,13 +31,7 @@ class Video extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.getStillImage();
   }
-
-  public getStillImage = () => {
-    const { video_url } = this.props;
-    console.log(video_url);
-  };
 
   public onMouseOver = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (e) {
@@ -82,14 +76,14 @@ class Video extends React.Component<Props, State> {
           onMouseOut={this.onMouseOut}
         >
           {hover ? (
-            <Link to={`/video/viewer/${videoId}`}>
+            <div>
               <video controls muted={true} autoPlay={true}>
                 <source
                   src={video_url}
                   type={`video/${!format ? 'mp4' : format}`}
                 />
               </video>
-            </Link>
+            </div>
           ) : (
             <React.Fragment>
               <img src={video_thumbnail} />
