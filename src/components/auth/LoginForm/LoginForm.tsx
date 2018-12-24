@@ -27,6 +27,8 @@ const LoginForm: React.StatelessComponent<{
     <div className={cx('social-wrapper')}>
       <div className={cx('social-button')}>
         <SocialLoginButton type="google" onSocialLogin={onSocialLogin} />
+        <SocialLoginButton type="github" onSocialLogin={onSocialLogin} />
+        <SocialLoginButton type="twitter" onSocialLogin={onSocialLogin} />
         <SocialLoginButton type="facebook" onSocialLogin={onSocialLogin} />
       </div>
     </div>

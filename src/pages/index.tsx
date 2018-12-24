@@ -6,4 +6,3 @@ export { default as Tag } from './Tag';
 export { default as User } from './User';
 export { default as Notice } from './Notice';
 export { default as Search } from './Search';
-export { default as Video } from './Video';

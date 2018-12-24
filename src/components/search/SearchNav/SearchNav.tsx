@@ -39,12 +39,6 @@ const SearchNav: React.StatelessComponent<{
         type="user"
         onTab={onTab}
       />
-      <SearchNavItem
-        text="영상"
-        active={type === 'video'}
-        type="video"
-        onTab={onTab}
-      />
     </div>
   );
 };

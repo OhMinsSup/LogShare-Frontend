@@ -4,7 +4,6 @@ import { TagsDataState } from '../list/tags';
 import { MessageSubState } from '../list/notices';
 import { UsersSubState } from '../list/users';
 import { FeaturedUsersSubState, FeaturedPostsSubState } from '../list/featured';
-import { VideosSubState } from '../list/videos';
 
 export type ListPostsPayload = {
   username?: string | null;
@@ -25,15 +24,6 @@ export type PostsListAction = GenericResponseAction<
   {
     posts: {
       postWithData: PostsSubState[];
-      next: string;
-    };
-  },
-  string
->;
-export type VideosListAction = GenericResponseAction<
-  {
-    videos: {
-      videosWithData: VideosSubState[];
       next: string;
     };
   },

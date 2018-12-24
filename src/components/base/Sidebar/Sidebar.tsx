@@ -6,7 +6,6 @@ import {
   MdAccessTime,
   MdPerson,
   MdRssFeed,
-  MdVideoLibrary,
 } from 'react-icons/md';
 import SidebarNavItem from '../SidebarNavItem';
 
@@ -43,12 +42,6 @@ const Sidebar: React.StatelessComponent<{
             icon={<MdPerson />}
             active={url === `/users`}
             to={`/users`}
-          />
-          <SidebarNavItem
-            text="영상"
-            icon={<MdVideoLibrary />}
-            active={url === `/video`}
-            to={`/video`}
           />
         </ul>
       </div>

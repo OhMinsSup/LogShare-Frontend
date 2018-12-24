@@ -50,7 +50,28 @@
       background: $oc-red-9;
     }
   }
-  
+  &.github {
+    border: 1px solid $oc-gray-4;
+    background: $oc-gray-2;
+    color: $oc-gray-9;
+    &:hover {
+      background: $oc-gray-0;
+    }
+    &:active {
+      background: $oc-gray-3;
+    }
+  }
+  &.twitter {
+    border: 1px solid $oc-blue-3;
+    background: $oc-blue-4;
+    &:hover {
+      background: $oc-blue-3;
+    }
+    &:active {
+      background: $oc-blue-4;
+    }
+  }
+
   & + & {
     margin-top: 1.5rem;
   }

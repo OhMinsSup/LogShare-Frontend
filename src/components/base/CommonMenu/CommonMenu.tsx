@@ -1,12 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
-import {
-  MdTrendingUp,
-  MdAccessTime,
-  MdHome,
-  MdPerson,
-  MdVideoLibrary,
-} from 'react-icons/md';
+import { MdTrendingUp, MdAccessTime, MdHome, MdPerson } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 const styles = require('./CommonMenu.scss');
@@ -48,12 +42,6 @@ const CommonMenu: React.StatelessComponent<{
         to="/users"
         icon={<MdPerson />}
         text="유저"
-        onClick={onClick}
-      />
-      <CommonMenuItem
-        to="/video"
-        icon={<MdVideoLibrary />}
-        text="영상"
         onClick={onClick}
       />
     </div>

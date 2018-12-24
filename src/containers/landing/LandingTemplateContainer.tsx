@@ -12,7 +12,6 @@ import { StoreState } from 'src/store/modules';
 import UsersCards from '../list/UsersCards';
 import CommonTemplate from 'src/components/common/CommonTemplate';
 import { History } from 'history';
-import VideoCards from '../list/VideoCards';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -44,7 +43,6 @@ class LandingTemplateContainer extends React.Component<Props> {
           <Route exact path="/recent" component={RecentPostCards} />
           <Route exact path="/trending" component={TrendingPostCards} />
           <Route exact path="/users" component={UsersCards} />
-          <Route exact path="/video" component={VideoCards} />
         </Switch>
       </CommonTemplate>
     );
