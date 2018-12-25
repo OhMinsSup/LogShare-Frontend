@@ -52,6 +52,21 @@
         }
     }
 
+    &.outline-red {
+        border-radius: 4px;
+        border: 1px solid $oc-red-7;
+        color: $oc-red-7;
+        background: white;
+        font-weight: 400;
+        transition: all ease-in 0.125s;
+        &:hover {
+          border: 1px solid $oc-red-4;
+          color: white;
+          background: $oc-red-7;
+          cursor: pointer;
+        }
+    }
+
     &.paper {
         @include material-shadow(2, 0.3);
         background: white;

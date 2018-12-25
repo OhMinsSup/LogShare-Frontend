@@ -16,25 +16,12 @@ class UserMenuContainer extends React.Component<Props> {
     UserActions.logout();
   };
 
-  public onUploadModal = () => {
-    const { BaseActions } = this.props;
-
-    BaseActions.setUploadModal(true);
-    BaseActions.hideUserMenu();
-  };
-
   public render() {
     const { userMenu, username } = this.props;
-    const { onLogout, onUploadModal } = this;
+    const { onLogout } = this;
     if (!userMenu) return null;
 
-    return (
-      <UserMenu
-        onLogout={onLogout}
-        username={username}
-        onUploadModal={onUploadModal}
-      />
-    );
+    return <UserMenu onLogout={onLogout} username={username} />;
   }
 }
 

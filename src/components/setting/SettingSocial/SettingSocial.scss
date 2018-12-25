@@ -1,0 +1,19 @@
+@import "utils";
+
+.setting-social {
+  h5 {
+    color: $oc-gray-9;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .info {
+    margin-top: 1.25rem;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+}

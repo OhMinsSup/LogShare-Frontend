@@ -75,6 +75,12 @@ const UserHead: React.StatelessComponent<{
               프로필 수정하기
             </button>
           ) : null}
+          {currentUsername === profile.profile.username ? (
+            <Link className={cx('btn')} to="/setting">
+              <FaCog />
+              설정
+            </Link>
+          ) : null}
           {currentUsername === profile.profile.username ? null : (
             <button
               className={cx('btn', follow ? 'disappear' : 'appear')}

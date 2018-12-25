@@ -6,7 +6,14 @@ const styles = require('./Button.scss');
 const cx = classNames.bind(styles);
 
 const Button: React.StatelessComponent<{
-  theme: 'default' | 'outline' | 'paper' | 'noline' | 'flex' | 'submit';
+  theme:
+    | 'default'
+    | 'outline'
+    | 'paper'
+    | 'noline'
+    | 'flex'
+    | 'submit'
+    | 'outline-red';
   to?: string | null;
   children: React.ReactNode;
   className?: string;

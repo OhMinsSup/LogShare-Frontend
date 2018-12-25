@@ -1,0 +1,14 @@
+@import 'utils';
+
+.setting-template {
+    margin-bottom: 0.875rem;
+    display: block;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(224, 224, 224);
+    border-image: initial;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out 0s;
+    padding: 2rem;
+}

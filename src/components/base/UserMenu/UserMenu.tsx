@@ -8,8 +8,7 @@ const cx = classNames.bind(styles);
 const UserMenu: React.StatelessComponent<{
   username: string | null;
   onLogout(): void;
-  onUploadModal(): void;
-}> = ({ onLogout, username, onUploadModal }) => {
+}> = ({ onLogout, username }) => {
   return (
     <div className={cx('user-menu-wrapper')}>
       <div className={cx('user-menu-positioner')}>
@@ -18,9 +17,15 @@ const UserMenu: React.StatelessComponent<{
           <div className={cx('menu-items')}>
             <UserMenuItem to={`/@${username}`}>내 페이지</UserMenuItem>
             <div className={cx('separator')} />
-            <UserMenuItem onClick={onUploadModal}>영상 올리기</UserMenuItem>
             <UserMenuItem to="/write">포스트 작성</UserMenuItem>
+            <UserMenuItem to={`/@${username}/posts`}>최신 포스트</UserMenuItem>
+            <UserMenuItem to={`/@${username}/likes`}>
+              좋아요 포스트
+            </UserMenuItem>
+            <UserMenuItem to={`/@${username}/follower`}>팔로우</UserMenuItem>
+            <UserMenuItem to={`/@${username}/following`}>팔로잉</UserMenuItem>
             <div className={cx('separator')} />
+            <UserMenuItem to={`/setting`}>설정</UserMenuItem>
             <UserMenuItem onClick={onLogout}>로그아웃</UserMenuItem>
           </div>
         </div>

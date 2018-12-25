@@ -3,7 +3,17 @@ import { Switch, Route } from 'react-router-dom';
 import Callback from './containers/etc/Callback';
 import Core from './containers/etc/Core';
 import NotFound from './components/error/NotFound';
-import { Home, Auth, Write, Post, Tag, User, Notice, Search } from './pages';
+import {
+  Home,
+  Auth,
+  Write,
+  Post,
+  Tag,
+  User,
+  Notice,
+  Search,
+  Setting,
+} from './pages';
 import ChatbotContainer from './containers/etc/ChatbotContainer';
 
 const App = () => (
@@ -29,6 +39,7 @@ const App = () => (
         path="/@:username/(posts|following|follower|likes)"
         component={User}
       />
+      <Route exact path="/setting" component={Setting} />
       <Route component={NotFound} />
     </Switch>
     <Core />

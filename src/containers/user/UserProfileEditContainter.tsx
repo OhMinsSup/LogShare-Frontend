@@ -69,6 +69,7 @@ class UserProfileEditContainter extends React.Component<Props> {
 
   public render() {
     const { profileModal, editProfile } = this.props;
+    console.log(profileModal);
     if (!profileModal) return null;
 
     return (
@@ -95,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
   mapStateToProps,
   mapDispatchToProps
 )(UserProfileEditContainter);

@@ -1,0 +1,38 @@
+@import 'utils';
+
+.form-check {
+    display: block;
+    position: relative;
+    margin-top: 6px;
+    padding-left: 1.25rem;
+    label {
+        display: inline-block;
+        cursor: pointer;
+        margin-bottom: 0;
+        input[type=checkbox], input[type=radio] {
+            box-sizing: border-box;
+            padding: 0;
+            margin-top: 0.2rem;
+        }
+        input {
+            position: absolute;
+            margin-top: .3rem;
+            margin-left: -1.25rem;
+            overflow: visible;
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+        .info {
+            padding-left: 1.24rem;
+            font-size: 0.9rem;
+            color: $oc-gray-6;
+        }
+    }
+
+    input[type=checkbox], input[type=radio] {
+        box-sizing: border-box;
+        padding: 0;
+    }
+}

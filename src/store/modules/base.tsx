@@ -10,16 +10,11 @@ export enum BaseActionType {
   SET_COMMON_MENU = 'base/SET_COMMON_MENU',
   SET_PROFILE_UPDATE_MODAL = 'base/SET_PROFILE_UPDATE_MODAL',
   SET_CATEGORY_MENU = 'base/SET_CATEGORY_MENU',
-  SET_UPLOAD_MODAL = 'base/SET_UPLOAD_MODAL',
 }
 
 export const baseCreators = {
   showUserMenu: createAction(BaseActionType.SHOW_USER_MENU),
   hideUserMenu: createAction(BaseActionType.HIDE_USER_MENU),
-  setUploadModal: createAction(
-    BaseActionType.SET_PROFILE_UPDATE_MODAL,
-    (visible: boolean) => visible
-  ),
   setWidth: createAction(BaseActionType.SET_WIDTH, (width: number) => width),
   setCommonMenu: createAction(
     BaseActionType.SET_COMMON_MENU,
@@ -126,15 +121,6 @@ export default handleActions<BaseState, any>(
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.category.visible = action.payload;
-      });
-    },
-    [BaseActionType.SET_PROFILE_UPDATE_MODAL]: (
-      state,
-      action: BaseType.SetUploadModalAction
-    ) => {
-      return produce(state, draft => {
-        if (action.payload === undefined) return;
-        draft.upload_modal.visible = action.payload;
       });
     },
     [BaseActionType.PROGRESS_BAR_LODING]: (
