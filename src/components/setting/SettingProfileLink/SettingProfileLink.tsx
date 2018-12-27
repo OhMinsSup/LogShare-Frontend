@@ -10,7 +10,7 @@ const SettingProfileLink: React.StatelessComponent<{
   value: string;
   disabled: boolean;
   templateURL?: string;
-  onChange?: (e: any) => any;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }> = ({ label, name, value, templateURL, onChange, disabled }) => (
   <div className={cx('setting-profile-link')}>
     <div className={cx('label')}>{label}</div>

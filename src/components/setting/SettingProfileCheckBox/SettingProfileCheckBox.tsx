@@ -6,10 +6,18 @@ const cx = classNames.bind(styles);
 
 const SettingProfileCheckBox: React.StatelessComponent<{
   info: string;
-}> = ({ info }) => (
+  name: string;
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ info, checked, name, onChange }) => (
   <div className={cx('form-check')}>
     <label>
-      <input type="checkbox" />
+      <input
+        type="checkbox"
+        name={name}
+        checked={checked}
+        onChange={onChange}
+      />
       <span className={cx('info')}>{info}</span>
     </label>
   </div>

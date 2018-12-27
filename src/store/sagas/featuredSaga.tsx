@@ -11,12 +11,12 @@ import { AxiosResponse } from 'axios';
 
 export interface FetchGetFeaturedPosts
   extends Action<FeaturedActionType.GET_FEATURED_POSTS_LIST_REQUEST> {
-  payload: {};
+  payload?: any;
 }
 
 export interface FetchGetFeaturedUsers
   extends Action<FeaturedActionType.GET_FEATURED_USERS_LIST_REQUEST> {
-  payload: {};
+  payload?: any;
 }
 
 export interface PostsDataState {

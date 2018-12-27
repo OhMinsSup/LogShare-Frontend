@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "build-ssr",
+        "module": "esnext",
+        "target": "es6",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "jsx": "react",
+        "moduleResolution": "node",
+        "baseUrl": "src",
+    },
+    "exclude": [
+        "node_modules"       
+    ]
+}

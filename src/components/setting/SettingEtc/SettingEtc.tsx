@@ -5,11 +5,15 @@ import Button from 'src/components/common/Button';
 const styles = require('./SettingEtc.scss');
 const cx = classNames.bind(styles);
 
-const SettingEtc: React.StatelessComponent<{}> = ({}) => (
+const SettingEtc: React.StatelessComponent<{
+  onOpen: () => void;
+}> = ({ onOpen }) => (
   <div className={cx('settings-etc')}>
     <h5>회원 탈퇴및 기타</h5>
     <section>
-      <Button theme="outline-red">회원 탈퇴</Button>
+      <Button theme="outline-red" onClick={onOpen}>
+        회원 탈퇴
+      </Button>
     </section>
   </div>
 );
