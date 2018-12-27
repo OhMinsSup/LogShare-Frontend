@@ -11,6 +11,9 @@ export enum SettingActionType {
 
   UPDATE_EMAIL_PERMISSIONS_REQUEST = 'setting/UPDATE_EMAIL_PERMISSIONS_REQUEST',
   UPDATE_EMAIL_PERMISSIONS_SUCCESS = 'setting/UPDATE_EMAIL_PERMISSIONS_SUCCESS',
+
+  UNREGISTER_REQUEST = 'setting/UNREGISTER_REQUEST',
+  UNREGISTER_SUCCESS = 'setting/UNREGISTER_SUCCESS',
 }
 
 export const settingCreators = {
@@ -23,6 +26,7 @@ export const settingCreators = {
     SettingActionType.UPDATE_EMAIL_PERMISSIONS_REQUEST,
     (payload: SettingType.UpdateEmailPermissionsPayload) => payload
   ),
+  unregister: createAction(SettingActionType.UNREGISTER_REQUEST),
 };
 
 export interface ProfileState {

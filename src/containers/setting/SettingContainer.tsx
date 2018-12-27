@@ -55,6 +55,11 @@ class SettingContainer extends React.Component<Props, State> {
     SettingActions.updateEmailPermissions({ email_promotion: checked });
   };
 
+  public onUnRegister = () => {
+    const { SettingActions } = this.props;
+    SettingActions.unregister();
+  };
+
   public initialize = () => {
     const { SettingActions } = this.props;
     SettingActions.getProfileInfo();
@@ -88,7 +93,7 @@ class SettingContainer extends React.Component<Props, State> {
           description="회원을 탈퇴하시면 모든 정보가 삭제됩니다. 그래도 탈퇴 하시겠습니다?"
           open={open}
           onCancel={this.onCancel}
-          onConfirm={() => console.log('ddd')}
+          onConfirm={this.onUnRegister}
         />
       </SettingTemplate>
     );

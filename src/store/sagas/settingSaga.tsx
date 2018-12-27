@@ -4,6 +4,7 @@ import { SettingActionType, ProfileState } from '../modules/setting';
 import { ErrorActionType } from '../modules/error';
 import * as SettingAPI from '../../lib/api/setting';
 import { AxiosResponse } from 'axios';
+import storage from 'src/lib/storage';
 
 export interface FetchGetProfileInfo
   extends Action<SettingActionType.GET_PROFILE_INFO_REQUEST> {
@@ -26,6 +27,11 @@ export interface FetchUpdateEmailPermissions
   };
 }
 
+export interface FetchUnRegister
+  extends Action<SettingActionType.UNREGISTER_REQUEST> {
+  payload?: any;
+}
+
 export interface GetProfileInfoDataState {
   profile: ProfileState;
 }
@@ -34,6 +40,35 @@ export interface UpdateProfileLinksDataState {
   github: string;
   twiiter: string;
   facebook: string;
+}
+
+export interface UnregisterTokenDataState {
+  unregister_token: string;
+}
+
+function* unRegister(action: FetchUnRegister) {
+  try {
+    const responseToken: AxiosResponse<UnregisterTokenDataState> = yield call(
+      SettingAPI.unregisterToken
+    );
+
+    const {
+      data: { unregister_token },
+    } = responseToken;
+
+    yield call(SettingAPI.unregister, unregister_token);
+
+    storage.remove('__log_share__');
+    window.location.href = '/';
+  } catch (e) {
+    yield put({
+      type: ErrorActionType.ERROR,
+      payload: {
+        error: true,
+        code: e.response.status,
+      },
+    });
+  }
 }
 
 function* updateEmailPermissions(action: FetchUpdateEmailPermissions) {
@@ -138,10 +173,15 @@ function* watchUpdateEmailPermissions() {
   );
 }
 
+function* watchUnRegister() {
+  yield takeEvery(SettingActionType.UNREGISTER_REQUEST, unRegister);
+}
+
 export default function* settingSaga() {
   yield all([
     fork(watchGetProfileInfo),
     fork(watchUpdateProfileLinks),
     fork(watchUpdateEmailPermissions),
+    fork(watchUnRegister),
   ]);
 }
