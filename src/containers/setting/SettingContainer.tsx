@@ -65,25 +65,26 @@ class SettingContainer extends React.Component<Props, State> {
     SettingActions.getProfileInfo();
   };
 
+  public componentDidUpdate(preProps: Props) {
+    if (preProps.askSetting !== this.props.askSetting) {
+      this.initialize();
+    }
+  }
+
   public componentDidMount() {
     this.initialize();
   }
 
   public render() {
-    const { username, email, profile, askSetting } = this.props;
+    const { username, email, profile } = this.props;
     const { open } = this.state;
     return (
       <SettingTemplate>
         <SettingHeader username={username} />
         <SettingGeneral username={username} email={email} />
-        <SettingSocial
-          profile={profile}
-          onSave={this.onSave}
-          askSetting={askSetting}
-        />
+        <SettingSocial profile={profile} onSave={this.onSave} />
         <SettingNotifications
           email_promotion={profile.email_promotion}
-          askSetting={askSetting}
           onChecked={this.onChecked}
         />
         <SettingsEtc onOpen={this.onOpen} />

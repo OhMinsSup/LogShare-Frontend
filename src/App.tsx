@@ -14,7 +14,6 @@ import {
   Search,
   Setting,
 } from './pages';
-import ChatbotContainer from './containers/etc/ChatbotContainer';
 
 const App = () => (
   <React.Fragment>
@@ -43,7 +42,6 @@ const App = () => (
       <Route component={NotFound} />
     </Switch>
     <Core />
-    <ChatbotContainer />
   </React.Fragment>
 );
 

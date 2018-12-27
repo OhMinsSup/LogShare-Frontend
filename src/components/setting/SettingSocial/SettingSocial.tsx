@@ -9,7 +9,6 @@ const cx = classNames.bind(styles);
 
 type Props = {
   profile: ProfileState;
-  askSetting: boolean;
   onSave: (github: string, facebook: string, twitter: string) => void;
 };
 
@@ -42,10 +41,7 @@ class SettingSocial extends React.Component<Props, State> {
   };
 
   public componentDidUpdate(prevProps: Props) {
-    if (
-      prevProps.profile !== this.props.profile ||
-      prevProps.askSetting !== this.props.askSetting
-    ) {
+    if (prevProps.profile !== this.props.profile) {
       this.feedInputs();
     }
   }

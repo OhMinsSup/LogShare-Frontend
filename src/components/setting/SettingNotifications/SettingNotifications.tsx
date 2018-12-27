@@ -7,7 +7,6 @@ const cx = classNames.bind(styles);
 
 type Props = {
   email_promotion: boolean;
-  askSetting: boolean;
   onChecked: (checked: boolean) => void;
 };
 
@@ -42,10 +41,7 @@ class SettingNotifications extends React.Component<Props, State> {
   };
 
   public componentDidUpdate(prevProps: Props) {
-    if (
-      prevProps.email_promotion !== this.props.email_promotion ||
-      prevProps.askSetting !== this.props.askSetting
-    ) {
+    if (prevProps.email_promotion !== this.props.email_promotion) {
       this.feedChecked();
     }
   }
