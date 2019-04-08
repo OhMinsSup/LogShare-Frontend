@@ -1,10 +1,9 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
-export const follow = (username: string) =>
-  axios.post(`/common/follow/@${username}`);
+export const follow = (username: string) => axios.post(`/follow/@${username}`);
 
 export const unfollow = (username: string) =>
-  axios.delete(`/common/follow/@${username}`);
+  axios.delete(`/follow/@${username}`);
 
 export const getFollow = (username: string) =>
-  axios.get(`/common/follow/@${username}`);
+  axios.get(`/follow/@${username}`);

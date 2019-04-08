@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 import * as queryString from 'query-string';
 
 export const readPost = (postId: string) => axios.get(`/post/${postId}`);

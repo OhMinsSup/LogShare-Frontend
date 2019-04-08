@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
-export const checkNotice = () => axios.post('/common/notice/');
-export const simpleNoticeMesssage = () => axios.get('/common/notice/simple');
+export const checkNotice = () => axios.post('/notice/');
+export const simpleNoticeMesssage = () => axios.get('/notice/simple');
 export const sendMessage = (message: string) =>
-  axios.post('/common/notice/send-message', { message });
+  axios.post('/notice/send-message', { message });

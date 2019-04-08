@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
 type CheckExistsPayload = { key: string; value: string };
 type LocalLoginPayload = { email: string; password: string };

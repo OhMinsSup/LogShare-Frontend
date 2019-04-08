@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
 type ProfileLinksPayload = {
   github: string;
@@ -15,6 +15,6 @@ export const updateProfileLinks = ({
   axios.post('/common/profile-links', { github, facebook, twitter });
 export const updateEmailPermissions = (email_promotion: boolean) =>
   axios.post('/common/email-permission', { email_promotion });
-export const unregisterToken = () => axios.get('/unregister-token');
+export const unregisterToken = () => axios.get('/auth/unregister-token');
 export const unregister = (unregister_token: string) =>
-  axios.post('/unregister', { unregister_token });
+  axios.post('/auth/unregister', { unregister_token });

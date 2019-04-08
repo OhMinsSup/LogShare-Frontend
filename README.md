@@ -1,5 +1,7 @@
 # LogShare-Frontend
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/63fc989e-e76b-4bf4-ae7b-f64400532ae8/deploy-status)](https://app.netlify.com/sites/sharp-shannon-9ed821/deploys)
+
 LogShares는 블로그형 sns 서비스 입니다. hashnode 서비스를 참고해서 제작
 프론트 엔드에서는 React, Redux, immer, Redux-saga, Typescript, Webpack, Prettier 기술들을 사용하였습니다.
 

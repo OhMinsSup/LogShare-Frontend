@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
 type EditProfilePayload = {
   thumbnail: string;
@@ -8,11 +8,11 @@ type EditProfilePayload = {
 };
 
 export const getUserInfo = (username: string) =>
-  axios.get(`/common/user/info/@${username}`);
+  axios.get(`/user/info/@${username}`);
 export const editProfile = ({
   username,
   thumbnail,
   cover,
   shortBio,
 }: EditProfilePayload) =>
-  axios.post('/common/user/profile', { username, thumbnail, cover, shortBio });
+  axios.post('/user/profile', { username, thumbnail, cover, shortBio });

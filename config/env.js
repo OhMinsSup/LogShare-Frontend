@@ -78,6 +78,10 @@ function getClientEnvironment(publicUrl) {
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         APP_ENV: process.env.APP_ENV || 'browser',
+        API_HOST:
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:4000'
+            : 'https://logshare-backend.herokuapp.com',
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin

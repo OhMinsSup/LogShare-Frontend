@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
-export const getTag = () => axios.get('/common/tags/');
-export const getTagInfo = (tag: string) => axios.get(`/common/tags/${tag}`);
+export const getTag = () => axios.get('/tags/');
+export const getTagInfo = (tag: string) => axios.get(`/tags/${tag}`);
 export const next = (next: string) => axios.get(next);

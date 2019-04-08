@@ -93,14 +93,6 @@ class LoginFormContainer extends React.Component<Props> {
       );
       return;
     }
-
-    if (provider === 'twitter') {
-      const redirectUri = `http://localhost:4000/auth/callback/twitter?next=${nextUrl}`;
-      alert(
-        `현재 로그인 기능을 준비중입니다. 다른 로그인 방법으로 로그인 부탁드립니다. ${redirectUri}`
-      );
-      return;
-    }
   };
 
   public initialize = () => {

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../defaultClient';
 
 export const listPosts = (username?: string) => {
   if (username) return axios.get(`/post/list/@${username}`);
@@ -10,16 +10,11 @@ export const likePosts = (username: string) =>
   axios.get(`/post/list/likes/@${username}`);
 
 export const followingUsers = (username: string) =>
-  axios.get(`/common/follow/@${username}/following`);
+  axios.get(`/follow/@${username}/following`);
 export const followerUsers = (username: string) =>
-  axios.get(`/common/follow/@${username}/follower`);
-export const listVideos = (username?: string | null) => {
-  if (username) return axios.get(`/video/list/@${username}`);
-  return axios.get('/video/list/public');
-};
+  axios.get(`/follow/@${username}/follower`);
 
-export const listUsers = () => axios.get('/common/user');
-export const noticesMessage = () => axios.get('/common/notice/');
+export const listUsers = () => axios.get('/user');
+export const noticesMessage = () => axios.get('/notice/');
 export const featuredPost = () => axios.get(`/post/list/featured`);
-export const featuredUser = () => axios.get(`/common/user/featured`);
-export const sideVideos = () => axios.get('/video/list/side');
+export const featuredUser = () => axios.get(`/user/featured`);
