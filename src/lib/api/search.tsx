@@ -1,4 +1,13 @@
 import axios from '../defaultClient';
+import * as qs from 'query-string';
 
-export const searchPost = (value: string) => axios.get(`/search/post/${value}`);
-export const searchUser = (value: string) => axios.get(`/search/user/${value}`);
+export interface SearchParams {
+  q: string;
+  username?: string;
+  page?: number;
+}
+
+export const search = ({ q, username, page }: SearchParams) => {
+  const query = qs.stringify({ q, username, page });
+  return axios.get(`/search?${query}`);
+};

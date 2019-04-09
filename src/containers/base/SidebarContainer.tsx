@@ -20,11 +20,11 @@ class SidebarContainer extends React.Component<Props> {
     const { username } = this.props;
 
     if (type === 'user') {
-      const userUrl = `http://localhost:4000/common/rss/@${username}`;
+      const userUrl = `https://logshare-backend.herokuapp.com/rss/@${username}`;
       window.open(userUrl);
       return;
     } else if (type === 'entire') {
-      const entireUrl = `http://localhost:4000/common/rss`;
+      const entireUrl = `https://logshare-backend.herokuapp.com/rss`;
       window.open(entireUrl);
       return;
     }

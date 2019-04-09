@@ -1,98 +1,110 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import {
-  SearchActionType,
-  SearchPostDataState,
-  SearchUserDataState,
-} from '../modules/search';
+import * as searchAPI from '../../lib/api/search';
+import { SearchActionType } from '../modules/search';
 import { ErrorActionType } from '../modules/error';
-import * as SearchAPI from '../../lib/api/search';
 import { Action } from 'redux';
-import { AxiosResponse } from 'axios';
 
-export interface FetchSearchPosts
-  extends Action<SearchActionType.SEARCH_POSTS_LIST_REQUEST> {
-  payload: {
-    value: string;
-  };
+export interface FetchPublicSearch
+  extends Action<SearchActionType.PUBLIC_SEARCH_REQUEST> {
+  payload: { q: string; username?: string; page?: number };
 }
 
-export interface FetchSearchUsers
-  extends Action<SearchActionType.SEARCH_USERS_LIST_REQUEST> {
-  payload: {
-    value: string;
-  };
+export interface FetchNextPublicSearch
+  extends Action<SearchActionType.NEXT_PUBLIC_SEARCH_REQUEST> {
+  payload: { q: string; username?: string; page?: number };
 }
 
-function* searchPosts(action: FetchSearchPosts) {
-  const {
-    payload: { value },
-  } = action;
+function* publicSearch(action: FetchPublicSearch) {
+  const { q, username, page } = action.payload;
 
   yield put({
-    type: SearchActionType.SEARCH_POSTS_LIST_PENDING,
+    type: SearchActionType.PUBLIC_SEARCH_PENDING,
+    payload: action.payload,
   });
 
   try {
-    const responseSearchPosts: AxiosResponse<
-      SearchPostDataState[]
-    > = yield call(SearchAPI.searchPost, value);
+    const search = yield call(searchAPI.search, { q, username, page });
+
+    if (search.data.error && !search.data.ok) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          ok: true,
+          error: '검색한 데이터를 가져오지 못했습니다.',
+        },
+      });
+      return;
+    }
 
     yield put({
-      type: SearchActionType.SEARCH_POSTS_LIST_SUCCESS,
+      type: SearchActionType.PUBLIC_SEARCH_SUCCESS,
       payload: {
-        posts: responseSearchPosts.data,
+        result: search.data.searchResult,
+        count: search.data.count,
       },
     });
   } catch (e) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        error: true,
-        code: e.response.status,
+        ok: true,
+        error: e,
       },
     });
   }
 }
 
-function* searchUsers(action: FetchSearchUsers) {
-  const {
-    payload: { value },
-  } = action;
+function* nextPublicSearch(action: FetchNextPublicSearch) {
+  const { q, username, page } = action.payload;
 
   yield put({
-    type: SearchActionType.SEARCH_USERS_LIST_PENDING,
+    type: SearchActionType.NEXT_PUBLIC_SEARCH_PENDING,
+    payload: action.payload,
   });
 
   try {
-    const responseSearchUsers: AxiosResponse<
-      SearchUserDataState[]
-    > = yield call(SearchAPI.searchUser, value);
+    const search = yield call(searchAPI.search, { q, username, page });
+
+    if (search.data.error && !search.data.ok) {
+      yield put({
+        type: ErrorActionType.ERROR,
+        payload: {
+          ok: true,
+          error: '검색한 데이터를 가져오지 못했습니다.',
+        },
+      });
+      return;
+    }
 
     yield put({
-      type: SearchActionType.SEARCH_USERS_LIST_SUCCESS,
+      type: SearchActionType.NEXT_PUBLIC_SEARCH_SUCCESS,
       payload: {
-        users: responseSearchUsers.data,
+        result: search.data.searchResult,
+        count: search.data.count,
       },
     });
   } catch (e) {
     yield put({
       type: ErrorActionType.ERROR,
       payload: {
-        error: true,
-        code: e.response.status,
+        ok: true,
+        error: e,
       },
     });
   }
 }
 
-function* watchSearchUsers() {
-  yield takeEvery(SearchActionType.SEARCH_USERS_LIST_REQUEST, searchUsers);
+function* watchPublicSearch() {
+  yield takeEvery(SearchActionType.PUBLIC_SEARCH_REQUEST, publicSearch);
 }
 
-function* watchSearchPosts() {
-  yield takeEvery(SearchActionType.SEARCH_POSTS_LIST_REQUEST, searchPosts);
+function* watchNextPublicSearch() {
+  yield takeEvery(
+    SearchActionType.NEXT_PUBLIC_SEARCH_REQUEST,
+    nextPublicSearch
+  );
 }
 
-export default function* postsSaga() {
-  yield all([fork(watchSearchPosts), fork(watchSearchUsers)]);
+export default function* search() {
+  yield all([fork(watchPublicSearch), fork(watchNextPublicSearch)]);
 }

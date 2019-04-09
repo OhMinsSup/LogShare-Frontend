@@ -44,7 +44,9 @@ class LikesPostCards extends React.Component<Props> {
         params: { username },
       },
     } = this.props;
-    ListActions.getLikePosts({ username });
+    console.log(username);
+
+    ListActions.getLikePosts({ userId: '' });
   };
 
   public listenScroll = () => {
@@ -56,7 +58,7 @@ class LikesPostCards extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    this.initialize();
+    // this.initialize();
     this.listenScroll();
   }
 

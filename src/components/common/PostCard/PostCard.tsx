@@ -8,7 +8,7 @@ import defaultThumbnail from '../../../static/default.jpg';
 const styles = require('./PostCard.scss');
 const cx = classNames.bind(styles);
 
-const PostCard: React.StatelessComponent<{
+const PostCard: React.SFC<{
   postId: string;
   title: string;
   body: string;
@@ -37,11 +37,13 @@ const PostCard: React.StatelessComponent<{
       <div className={cx('white-mask')} />
     </Link>
     <div className={cx('card-content')}>
-      <div className={cx('user-thumbnail-wrapper')}>
+      <Link to={`/@${user.username}`} className={cx('user-thumbnail-wrapper')}>
         <img src={user.thumbnail || defaultThumbnail} />
-      </div>
+      </Link>
       <div className={cx('content-head')}>
-        <div className={cx('username')}>@{user.username}</div>
+        <Link to={`/@${user.username}`} className={cx('username')}>
+          @{user.username}
+        </Link>
         <h3>
           <Link to={`/post/${postId}`}>{title}</Link>
         </h3>

@@ -1,0 +1,31 @@
+@import "utils";
+
+.search-box {
+  border-radius: 30px;
+  border: 1px solid $oc-blue-6;
+  display: flex;
+  align-items: center;
+  color: $oc-blue-6;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+  flex-shrink: none;
+  svg {
+    font-size: 2rem;
+  }
+  input {
+    min-width: 0;
+    color: inherit;
+    background: none;
+    outline: none;
+    border: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    flex: 1;
+
+    @include media("<medium") {
+      font-size: 1.25rem;
+    }
+  }
+}

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { isEmail, isLength } from 'validator';
 import * as queryString from 'query-string';
 import { Location } from 'history';
-import { GITHUB_ID } from 'src/lib/common';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -70,26 +69,25 @@ class LoginFormContainer extends React.Component<Props> {
 
   public onSocialLogin = (provider: string) => {
     const nextUrl = this.props.nextUrl || '/recent';
-    console.log(nextUrl);
-
     if (provider === 'google') {
-      const goolgeLoginUrl = `http://localhost:4000/auth/callback/google/login?next=${nextUrl}`;
+      const goolgeLoginUrl = `${process.env.API_HOST ||
+        ''}/auth/callback/google/login?next=${nextUrl}`;
       window.location.replace(goolgeLoginUrl);
       return;
     }
 
     if (provider === 'facebook') {
-      const facebookLoginUrl = `http://localhost:4000/auth/callback/facebook/login?next=${nextUrl}`;
+      const facebookLoginUrl = `${process.env.API_HOST ||
+        ''}/auth/callback/facebook/login?next=${nextUrl}`;
       window.location.replace(facebookLoginUrl);
       return;
     }
 
     if (provider === 'github') {
-      const redirectUri = `http://localhost:4000/auth/callback/github?next=${nextUrl}`;
-
+      const redirectUri = `${process.env.API_HOST ||
+        ''}/auth/callback/github?next=${nextUrl}`;
       window.location.replace(
-        `https://github.com/login/oauth/authorize?scope=user:email&client_id=${GITHUB_ID ||
-          ''}&redirect_uri=${redirectUri}`
+        `https://github.com/login/oauth/authorize?scope=user:email&client_id=696481c51bccd84ac835&redirect_uri=${redirectUri}`
       );
       return;
     }

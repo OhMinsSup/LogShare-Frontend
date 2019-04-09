@@ -6,7 +6,8 @@ import { UsersSubState } from '../list/users';
 import { FeaturedUsersSubState, FeaturedPostsSubState } from '../list/featured';
 
 export type ListPostsPayload = {
-  username?: string | null;
+  userId: string | null;
+  // username?: string | null;
 };
 export type ListVideoPayload = {
   username?: string | null;

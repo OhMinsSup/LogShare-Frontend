@@ -63,7 +63,7 @@ class UserFollowingCards extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    this.initialize();
+    //  this.initialize();
     this.listenScroll();
   }
 

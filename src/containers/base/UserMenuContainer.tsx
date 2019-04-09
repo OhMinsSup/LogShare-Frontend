@@ -13,6 +13,8 @@ type Props = StateProps & DispatchProps;
 class UserMenuContainer extends React.Component<Props> {
   public onLogout = () => {
     const { UserActions } = this.props;
+    console.log('dsd');
+
     UserActions.logout();
   };
 

@@ -3,7 +3,6 @@ import * as classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import defaultThumbnail from '../../../static/default.jpg';
 import Button from '../Button';
-import { defaultCoverBg } from 'src/lib/common';
 
 const style = require('./UserCard.scss');
 const cx = classNames.bind(style);
@@ -19,7 +18,11 @@ const UserCard: React.StatelessComponent<{
     <Link
       to={`/@${username}`}
       className={cx('profile-card-bg')}
-      style={{ backgroundImage: `url(${cover || defaultCoverBg})` }}
+      style={
+        cover
+          ? { backgroundImage: `url(${cover})` }
+          : { backgroundColor: '#228be6' }
+      }
     />
     <div className={cx('profile-content')}>
       <Link to={`/@${username}`} className={cx('user-thumbnail')}>

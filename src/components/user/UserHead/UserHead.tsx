@@ -6,7 +6,6 @@ import { FaCog } from 'react-icons/fa';
 import { MdEmail, MdEventNote } from 'react-icons/md';
 import defaultThumbnail from '../../../static/default.jpg';
 import { UserProfileState } from 'src/store/modules/user';
-import { defaultCoverBg } from 'src/lib/common';
 
 const styles = require('./UserHead.scss');
 const cx = classNames.bind(styles);
@@ -43,9 +42,11 @@ const UserHead: React.StatelessComponent<{
   <div className={cx('user-head')}>
     <div
       className={cx('cover-photo')}
-      style={{
-        backgroundImage: `url(${profile.profile.cover || defaultCoverBg})`,
-      }}
+      style={
+        profile.profile.cover
+          ? { backgroundImage: `url(${profile.profile.cover})` }
+          : { backgroundColor: '#228be6' }
+      }
     />
     <div className={cx('head-meta')}>
       <div className={cx('profile-top-section')}>

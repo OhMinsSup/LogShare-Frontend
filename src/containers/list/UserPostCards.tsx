@@ -39,12 +39,12 @@ class UserPostCards extends React.Component<Props> {
 
   public initialize = () => {
     const {
-      ListActions,
+      //   ListActions,
       match: {
-        params: { username },
+        //     params: { username },
       },
     } = this.props;
-    ListActions.getPosts({ username });
+    //   ListActions.getPosts({ username });
   };
 
   public listenScroll = () => {
@@ -56,7 +56,7 @@ class UserPostCards extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    this.initialize();
+    // this.initialize();
     this.listenScroll();
   }
 

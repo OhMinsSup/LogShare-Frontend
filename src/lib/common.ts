@@ -55,8 +55,3 @@ export const shareFacebook = (href: string) => {
 };
 
 export const createArray = (length: number) => Array.from(Array(length).keys());
-
-export const defaultCoverBg =
-  'https://cdn.hashnode.com/res/hashnode/image/hashnode-assets/misc/upload/w_700,h_240,c_thumb/v1520405545406/S1-4hZadG.jpeg';
-
-export const GITHUB_ID = '696481c51bccd84ac835';

@@ -3,7 +3,6 @@ import * as classNames from 'classnames/bind';
 import { MdClose, MdModeEdit } from 'react-icons/md';
 import defaultThumbnail from '../../../static/default.jpg';
 import TextareaAutosize from 'react-autosize-textarea';
-import { defaultCoverBg } from 'src/lib/common';
 import { UserEditProfileState } from 'src/store/modules/user';
 
 const styles = require('./UserProfileSettingCard.scss');
@@ -58,7 +57,7 @@ const UserProfileSettingCard: React.StatelessComponent<{
             </button>
           </div>
           <div className={cx('cover-bg')}>
-            <img src={editProfile.cover || defaultCoverBg} />
+            <img src={editProfile.cover && editProfile.cover} />
             <button onClick={onUploadClickCover}>
               <MdModeEdit />
             </button>

@@ -15,10 +15,10 @@ type Props = StateProps & DispatchProps;
 
 class PrimarySidebarContainer extends React.Component<Props> {
   public initialize = () => {
-    const { TagsActions, FeaturedActions } = this.props;
-    TagsActions.getTags();
-    FeaturedActions.getfeaturedPosts();
-    FeaturedActions.getfeaturedUsers();
+    //   const { TagsActions, FeaturedActions } = this.props;
+    //   TagsActions.getTags();
+    //   FeaturedActions.getfeaturedPosts();
+    //   FeaturedActions.getfeaturedUsers();
   };
 
   public componentDidMount() {

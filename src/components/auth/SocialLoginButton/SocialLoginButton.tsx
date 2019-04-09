@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
-import { FaFacebookF, FaGoogle, FaGithub, FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaGoogle, FaGithub } from 'react-icons/fa';
 
 const styles = require('./SocialLoginButton.scss');
 const cx = classNames.bind(styles);
@@ -15,13 +15,10 @@ const providers = {
   github: {
     icon: FaGithub,
   },
-  twitter: {
-    icon: FaTwitter,
-  },
 };
 
 const SocialLoginButton: React.StatelessComponent<{
-  type: 'facebook' | 'google' | 'github' | 'twitter';
+  type: 'facebook' | 'google' | 'github';
   onSocialLogin(provider: string): void;
 }> = props => {
   const { type, onSocialLogin } = props;

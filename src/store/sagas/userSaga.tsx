@@ -198,11 +198,12 @@ function* setUser() {
   window.location.href = '/';
 }
 
-function* logOut() {
-  yield take(UserActionType.LOGOUT);
+function* logOut(action: any) {
+  console.log('요청');
 
   try {
     yield call(AuthAPI.logout);
+    console.log('요청');
 
     storage.remove('__log_share__');
     window.location.href = '/';
@@ -276,10 +277,14 @@ function* watchGetUserProfileInfo() {
   );
 }
 
+function* watchLogout() {
+  yield takeEvery(UserActionType.LOGOUT, logOut);
+}
+
 export default function* userSaga() {
   yield all([
     fork(setUser),
-    fork(logOut),
+    fork(watchLogout),
     fork(watchGetUserProfileInfo),
     fork(watchCreateUploadUrlCover),
     fork(watchCreateUploadUrlUserThumbnail),

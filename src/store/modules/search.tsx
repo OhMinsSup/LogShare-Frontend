@@ -1,38 +1,61 @@
 import { handleActions, createAction } from 'redux-actions';
 import produce from 'immer';
-import * as SearchType from './types/search';
+import { PostsSubState } from './list/posts';
 
 export enum SearchActionType {
-  CHANGE_INPUT = 'search/CHANGE_INPUT',
-  CHANGE_SEARCH_TYPE = 'search/CHANGE_SEARCH_TYPE',
+  PUBLIC_SEARCH_REQUEST = 'search/PUBLIC_SEARCH_REQUEST',
+  PUBLIC_SEARCH_PENDING = 'search/PUBLIC_SEARCH_PENDING',
+  PUBLIC_SEARCH_SUCCESS = 'search/PUBLIC_SEARCH_SUCCESS',
 
-  SEARCH_POSTS_LIST_REQUEST = 'search/SEARCH_POSTS_LIST_REQUEST',
-  SEARCH_POSTS_LIST_PENDING = 'search/SEARCH_POSTS_LIST_PENDING',
-  SEARCH_POSTS_LIST_SUCCESS = 'search/SEARCH_POSTS_LIST_SUCCESS',
+  NEXT_PUBLIC_SEARCH_REQUEST = 'search/NEXT_PUBLIC_SEARCH_REQUEST',
+  NEXT_PUBLIC_SEARCH_PENDING = 'search/NEXT_PUBLIC_SEARCH_PENDING',
+  NEXT_PUBLIC_SEARCH_SUCCESS = 'search/NEXT_PUBLIC_SEARCH_SUCCESS',
 
-  SEARCH_USERS_LIST_REQUEST = 'search/SEARCH_USERS_LIST_REQUEST',
-  SEARCH_USERS_LIST_PENDING = 'search/SEARCH_USERS_LIST_PENDING',
-  SEARCH_USERS_LIST_SUCCESS = 'search/SEARCH_USERS_LIST_SUCCESS',
+  INITIALIZE = 'search/INITIALIZE',
 }
 
 export const searchCreators = {
-  changeInput: createAction(
-    SearchActionType.CHANGE_INPUT,
-    (payload: SearchType.ChangeInputPayload) => payload
+  publicSearchRequest: createAction(
+    SearchActionType.PUBLIC_SEARCH_REQUEST,
+    (payload: { q: string; username?: string; page?: number }) => payload
   ),
-  changeSearchType: createAction(
-    SearchActionType.CHANGE_SEARCH_TYPE,
-    (payload: SearchType.changeSearchTypePayload) => payload
+  publicSearchPending: createAction(
+    SearchActionType.PUBLIC_SEARCH_PENDING,
+    (payload: { q: string; username?: string; page?: number }) => payload
   ),
-  searchPost: createAction(
-    SearchActionType.SEARCH_POSTS_LIST_REQUEST,
-    (payload: SearchType.SearchValuePayload) => payload
+  publicSearchSuccess: createAction(
+    SearchActionType.PUBLIC_SEARCH_SUCCESS,
+    (payload: { result: PostsSubState[]; count: number }) => payload
   ),
-  searchUser: createAction(
-    SearchActionType.SEARCH_USERS_LIST_REQUEST,
-    (payload: SearchType.SearchValuePayload) => payload
+
+  nextPublicSearchRequest: createAction(
+    SearchActionType.NEXT_PUBLIC_SEARCH_REQUEST,
+    (payload: { q: string; username?: string; page?: number }) => payload
   ),
+  nextPublicSearchPending: createAction(
+    SearchActionType.NEXT_PUBLIC_SEARCH_PENDING,
+    (payload: { q: string; username?: string; page?: number }) => payload
+  ),
+  nextPublicSearchSuccess: createAction(
+    SearchActionType.NEXT_PUBLIC_SEARCH_SUCCESS,
+    (payload: { result: PostsSubState[]; count: number }) => payload
+  ),
+
+  initialize: createAction(SearchActionType.INITIALIZE),
 };
+
+type PublicSearchPending = ReturnType<
+  typeof searchCreators.publicSearchPending
+>;
+type PublicSearchSuccess = ReturnType<
+  typeof searchCreators.publicSearchSuccess
+>;
+type NextPublicSearchPending = ReturnType<
+  typeof searchCreators.nextPublicSearchPending
+>;
+type NextPublicSearchSuccess = ReturnType<
+  typeof searchCreators.nextPublicSearchSuccess
+>;
 
 export interface SearchPostDataState {
   postId: string;
@@ -52,84 +75,81 @@ export interface SearchPostDataState {
   };
 }
 
-export interface SearchUserDataState {
-  username: string;
-  thumbnail: string;
-  cover: string;
-  shortBio: string;
-  _id: string;
-}
-
 export interface SearchState {
-  type: 'post' | 'user' | 'video';
-  loading: boolean;
-  value: string;
-  posts: SearchPostDataState[];
-  users: SearchUserDataState[];
+  results: {
+    count: number;
+    data: PostsSubState[];
+  } | null;
+  // public pending
+  ppending: boolean;
+  // next pending
+  npending: boolean;
+  currentPage: number;
+  currentKeyword: string;
 }
 
-const initialState: SearchState = {
-  type: 'post',
-  value: '',
-  loading: false,
-  posts: [],
-  users: [],
+const initialState: Readonly<SearchState> = {
+  results: null,
+  ppending: false,
+  npending: false,
+  currentPage: 1,
+  currentKeyword: '',
 };
 
 export default handleActions<SearchState, any>(
   {
-    [SearchActionType.CHANGE_INPUT]: (
+    [SearchActionType.INITIALIZE]: state => {
+      return {
+        ...state,
+        initialState,
+      };
+    },
+    [SearchActionType.PUBLIC_SEARCH_PENDING]: (
       state,
-      action: SearchType.ChangeInputAction
+      action: PublicSearchPending
     ) => {
       return produce(state, draft => {
-        if (action.payload === undefined) return;
-        draft.value = action.payload.value;
+        if (typeof action.payload === 'undefined') return;
+        draft.currentPage = 1;
+        draft.currentKeyword = action.payload.q;
+        draft.ppending = true;
       });
     },
-    [SearchActionType.CHANGE_SEARCH_TYPE]: (
+    [SearchActionType.PUBLIC_SEARCH_SUCCESS]: (
       state,
-      action: SearchType.ChangeSearchTypeAction
+      action: PublicSearchSuccess
     ) => {
       return produce(state, draft => {
-        if (action.payload === undefined) return;
-        draft.type = action.payload.type;
+        if (typeof action.payload === 'undefined') return;
+        draft.ppending = false;
+        draft.results = {
+          data: action.payload.result,
+          count: action.payload.count,
+        };
       });
     },
-    [SearchActionType.SEARCH_USERS_LIST_PENDING]: state => {
-      return produce(state, draft => {
-        draft.loading = true;
-      });
-    },
-    [SearchActionType.SEARCH_POSTS_LIST_PENDING]: state => {
-      return produce(state, draft => {
-        draft.loading = true;
-      });
-    },
-    [SearchActionType.SEARCH_POSTS_LIST_SUCCESS]: (
+    [SearchActionType.NEXT_PUBLIC_SEARCH_PENDING]: (
       state,
-      action: SearchType.SearchPostsAction
+      action: NextPublicSearchPending
     ) => {
       return produce(state, draft => {
-        if (action.payload === undefined) return;
-        const {
-          payload: { posts },
-        } = action;
-        draft.posts = posts;
-        draft.loading = false;
+        if (typeof action.payload === 'undefined') return;
+        const { payload } = action;
+        if (!payload.page) return;
+        draft.currentPage = payload.page;
+        draft.npending = true;
       });
     },
-    [SearchActionType.SEARCH_USERS_LIST_SUCCESS]: (
+    [SearchActionType.NEXT_PUBLIC_SEARCH_SUCCESS]: (
       state,
-      action: SearchType.SearchUsersAction
+      action: NextPublicSearchSuccess
     ) => {
       return produce(state, draft => {
-        if (action.payload === undefined) return;
-        const {
-          payload: { users },
-        } = action;
-        draft.users = users;
-        draft.loading = false;
+        if (typeof action.payload === 'undefined') return;
+        if (!draft.results) return;
+        draft.npending = false;
+        draft.results.data = draft.results.data.concat(action.payload.result);
+        draft.results.count = action.payload.count;
       });
     },
   },
