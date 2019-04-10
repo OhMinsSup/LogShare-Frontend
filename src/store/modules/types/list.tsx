@@ -1,13 +1,11 @@
 import { GenericResponseAction } from 'src/lib/common';
 import { PostsSubState } from '../list/posts';
-import { TagsDataState } from '../list/tags';
 import { MessageSubState } from '../list/notices';
 import { UsersSubState } from '../list/users';
 import { FeaturedUsersSubState, FeaturedPostsSubState } from '../list/featured';
 
 export type ListPostsPayload = {
-  userId: string | null;
-  // username?: string | null;
+  username: string | null;
 };
 export type ListVideoPayload = {
   username?: string | null;
@@ -36,12 +34,6 @@ export type UsersListAction = GenericResponseAction<
       usersWithData: UsersSubState[];
       next: string;
     };
-  },
-  string
->;
-export type TagsListAction = GenericResponseAction<
-  {
-    tags: TagsDataState[];
   },
   string
 >;

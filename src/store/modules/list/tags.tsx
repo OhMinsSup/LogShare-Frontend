@@ -3,10 +3,6 @@ import produce from 'immer';
 import * as ListType from '../types/list';
 
 export enum TagsActionType {
-  GET_TAGS_REQUEST = 'list/tags/GET_TAGS_REQUEST',
-  GET_TAGS_PENDING = 'list/tags/GET_TAGS_PENDING',
-  GET_TAGS_SUCCESS = 'list/tags/GET_TAGS_SUCCESS',
-
   REVEAL_TAGS_POSTS_PREFETCHED = 'list/tags/REVEAL_TAGS_POSTS_PREFETCHED',
 
   GET_TAGS_POSTS_LIST_REQUEST = 'list/tags/GET_TAGS_POSTS_LIST_REQUEST',
@@ -18,7 +14,6 @@ export enum TagsActionType {
 }
 
 export const tagsCreators = {
-  getTags: createAction(TagsActionType.GET_TAGS_REQUEST),
   getTagsPosts: createAction(
     TagsActionType.GET_TAGS_POSTS_LIST_REQUEST,
     (payload: ListType.TagsPostsPayload) => payload
@@ -38,6 +33,7 @@ export interface PostsSubState {
   body: string;
   post_thumbnail: string | null;
   createdAt: string;
+  tag: string[];
   info: {
     likes: number;
     comments: number;
@@ -58,15 +54,7 @@ export interface ListingSetState {
   loading: boolean;
 }
 
-export interface TagsDataState {
-  tagId: string;
-  name: string;
-  count: number;
-}
-
 export interface TagsState {
-  tags: TagsDataState[];
-  loading: boolean;
   tags_posts: ListingSetState;
 }
 
@@ -79,30 +67,11 @@ const initialListingSet: ListingSetState = {
 };
 
 const initialState: TagsState = {
-  tags: [],
-  loading: false,
   tags_posts: initialListingSet,
 };
 
 export default handleActions<TagsState, any>(
   {
-    [TagsActionType.GET_TAGS_PENDING]: state => {
-      return produce(state, draft => {
-        draft.loading = true;
-      });
-    },
-    [TagsActionType.GET_TAGS_SUCCESS]: (
-      state,
-      action: ListType.TagsListAction
-    ) => {
-      return produce(state, draft => {
-        const {
-          payload: { tags },
-        } = action;
-        draft.tags = tags;
-        draft.loading = false;
-      });
-    },
     [TagsActionType.REVEAL_TAGS_POSTS_PREFETCHED]: state => {
       return produce(state, draft => {
         const { post, prefetched } = draft.tags_posts;

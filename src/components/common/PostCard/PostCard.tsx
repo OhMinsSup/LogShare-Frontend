@@ -14,6 +14,7 @@ const PostCard: React.SFC<{
   body: string;
   post_thumbnail: string | null;
   createdAt: string;
+  tag: string[];
   user: {
     username: string;
     thumbnail: string;
@@ -24,7 +25,7 @@ const PostCard: React.SFC<{
     likes: number;
     comments: number;
   };
-}> = ({ post_thumbnail, postId, body, title, createdAt, user, info }) => (
+}> = ({ post_thumbnail, postId, body, title, createdAt, user, info, tag }) => (
   <div className={cx('post-card')}>
     <Link to={`/post/${postId}`} className={cx('thumbnail-wrapper')}>
       {post_thumbnail ? (
@@ -51,6 +52,13 @@ const PostCard: React.SFC<{
           <span>{moment(createdAt).format('LL')}</span>
           <span>{info.comments} 개의 댓글</span>
           <span>{info.likes} 개의 좋아요</span>
+        </div>
+        <div className={cx('tags')}>
+          {tag.map((t, i) => (
+            <Link key={i} to={`/tags/${t}`}>
+              {t}
+            </Link>
+          ))}
         </div>
       </div>
       <div className={cx('description')}>{body}</div>

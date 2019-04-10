@@ -83,7 +83,7 @@
         }
       }
       .content-head {
-        height: 6rem;
+        height: 8.5rem;
         padding-bottom: 1.5rem;
         border-bottom: 1px solid $oc-gray-2;
         .username {
@@ -113,6 +113,27 @@
             content: "\00B7";
           }
         }
+
+        .tags {
+          margin-top: 0.5rem;
+          a {
+            margin: 0.375rem;
+            display: inline-flex;
+            background: $oc-gray-0;
+            border: 1px solid $oc-gray-3;
+            color: $oc-gray-7;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            line-height: 0.75rem;
+            border-radius: 4px;
+            &:hover {
+              cursor: pointer;
+              background: $oc-gray-1;
+            }
+          }
+        }
+
       }
       .description {
         margin-top: 1.5rem;

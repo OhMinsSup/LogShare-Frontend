@@ -1,22 +1,25 @@
 import * as React from 'react';
-import TagSidebar from 'src/components/base/TagSidebar';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { StoreState } from 'src/store/modules';
-import { tagsCreators } from 'src/store/modules/list/tags';
-import FakeItem from 'src/components/common/FakeItem';
 import FeaturedUserSidebar from 'src/components/base/FeaturedUserSidebar';
 import FeaturedPostSidebar from 'src/components/base/FeaturedPostSidebar';
 import { featuredCreators } from 'src/store/modules/list/featured';
+import HomeInfo from 'src/components/base/HoemInfo';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type Props = StateProps & DispatchProps;
 
 class PrimarySidebarContainer extends React.Component<Props> {
+  public onRss = () => {
+    const entireUrl = `https://logshare-backend.herokuapp.com/rss`;
+    window.open(entireUrl);
+    return;
+  };
+
   public initialize = () => {
-    //   const { TagsActions, FeaturedActions } = this.props;
-    //   TagsActions.getTags();
+    //   const { FeaturedActions } = this.props;
     //   FeaturedActions.getfeaturedPosts();
     //   FeaturedActions.getfeaturedUsers();
   };
@@ -26,30 +29,12 @@ class PrimarySidebarContainer extends React.Component<Props> {
   }
 
   public render() {
-    const {
-      tags,
-      tagLoading,
-      postLoading,
-      userLoading,
-      posts,
-      users,
-    } = this.props;
-
-    if (tagLoading || postLoading || userLoading) {
-      return (
-        <React.Fragment>
-          <FakeItem item={users} />
-          <FakeItem item={posts} />
-          <FakeItem item={tags} />
-        </React.Fragment>
-      );
-    }
-
+    const { posts, users } = this.props;
     return (
       <React.Fragment>
         <FeaturedUserSidebar user={users} />
         <FeaturedPostSidebar post={posts} />
-        <TagSidebar tags={tags} />
+        <HomeInfo onRss={this.onRss} />
       </React.Fragment>
     );
   }
@@ -58,15 +43,10 @@ class PrimarySidebarContainer extends React.Component<Props> {
 const mapStateToProps = ({ list, user }: StoreState) => ({
   posts: list.featured.posts.post,
   users: list.featured.users.user,
-  tags: list.tags.tags,
-  tagLoading: list.tags.loading,
   logged: !!user.user,
-  postLoading: list.featured.posts.loading,
-  userLoading: list.featured.users.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  TagsActions: bindActionCreators(tagsCreators, dispatch),
   FeaturedActions: bindActionCreators(featuredCreators, dispatch),
 });
 

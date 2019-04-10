@@ -1,0 +1,35 @@
+@import 'utils';
+
+.home-info {
+    border-top: 1px solid $oc-gray-4;
+    padding: 24px 16px;
+    margin-bottom: 20px;
+    .info-header {
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-flex;
+        h4 {
+            position: relative;
+            margin: 0;
+        }
+        svg {
+            color: $oc-red-6;
+            position: relative;
+            left: 0.25rem;        
+            margin: 0.2rem;
+        }
+    }
+    .rss-area {
+        margin: 1.5rem 0;
+        padding-left: 0;
+        list-style: none;
+        .item {
+            display: inline-block;
+            margin-right: .5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: $oc-blue-6;
+            cursor: pointer;
+        }
+    }
+}

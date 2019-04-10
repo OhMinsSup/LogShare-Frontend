@@ -1,5 +1,5 @@
 import { fork, takeEvery, all, put, call } from 'redux-saga/effects';
-import { TagsActionType, TagsDataState } from '../modules/list/tags';
+import { TagsActionType } from '../modules/list/tags';
 import { ErrorActionType } from '../modules/error';
 import * as TagAPI from '../../lib/api/tag';
 import { Action } from 'redux';
@@ -28,33 +28,6 @@ export interface FetchPrefetchTagsPosts
 export interface PostsDataState {
   postWithData: PostsSubState[];
   next: string;
-}
-
-function* getTags(action: FetchGetTags) {
-  yield put({
-    type: TagsActionType.GET_TAGS_PENDING,
-  });
-
-  try {
-    const responseGetTags: AxiosResponse<TagsDataState[]> = yield call(
-      TagAPI.getTag
-    );
-
-    yield put({
-      type: TagsActionType.GET_TAGS_SUCCESS,
-      payload: {
-        tags: responseGetTags.data,
-      },
-    });
-  } catch (e) {
-    yield put({
-      type: ErrorActionType.ERROR,
-      payload: {
-        error: true,
-        code: e.response.status,
-      },
-    });
-  }
 }
 
 function* getTagsPosts(action: FetchGetTagsPosts) {
@@ -128,14 +101,6 @@ function* watchPrefetchTagsPosts() {
   );
 }
 
-function* watchGetTags() {
-  yield takeEvery(TagsActionType.GET_TAGS_REQUEST, getTags);
-}
-
 export default function* tagsSaga() {
-  yield all([
-    fork(watchGetTags),
-    fork(watchGetTagsPosts),
-    fork(watchPrefetchTagsPosts),
-  ]);
+  yield all([fork(watchGetTagsPosts), fork(watchPrefetchTagsPosts)]);
 }

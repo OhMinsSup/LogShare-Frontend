@@ -33,6 +33,7 @@ export interface PostsSubState {
   body: string;
   post_thumbnail: string | null;
   createdAt: string;
+  tag: string[];
   info: {
     likes: number;
     comments: number;

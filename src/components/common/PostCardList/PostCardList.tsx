@@ -10,7 +10,16 @@ const PostCardList: React.StatelessComponent<{
   posts: PostsSubState[];
 }> = ({ posts }) => {
   const postsList = posts.map((post, index) => {
-    const { title, postId, post_thumbnail, body, info, user, createdAt } = post;
+    const {
+      title,
+      postId,
+      post_thumbnail,
+      body,
+      info,
+      user,
+      createdAt,
+      tag,
+    } = post;
 
     return (
       <PostCard
@@ -18,6 +27,7 @@ const PostCardList: React.StatelessComponent<{
         postId={postId}
         createdAt={createdAt}
         post_thumbnail={post_thumbnail}
+        tag={tag}
         body={body}
         info={info}
         user={user}

@@ -23,6 +23,7 @@ const SearchResults: React.SFC<Props> = ({ results, onSearchNext }) => {
         post_thumbnail={result.post_thumbnail}
         body={result.body}
         info={result.info}
+        tag={result.tag}
         user={result.user}
         key={index}
       />

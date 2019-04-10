@@ -35,6 +35,7 @@ export interface PostsSubState {
     likes: number;
     comments: number;
   };
+  tag: string[];
   user: {
     username: string;
     thumbnail: string;

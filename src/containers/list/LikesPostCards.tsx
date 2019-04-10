@@ -44,9 +44,8 @@ class LikesPostCards extends React.Component<Props> {
         params: { username },
       },
     } = this.props;
-    console.log(username);
 
-    ListActions.getLikePosts({ userId: '' });
+    ListActions.getLikePosts({ username });
   };
 
   public listenScroll = () => {

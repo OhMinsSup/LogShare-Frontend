@@ -16,26 +16,12 @@ type OwnProps = {
 type Props = StateProps & DispatchProps & OwnProps;
 
 class SidebarContainer extends React.Component<Props> {
-  public onRss = (type: 'user' | 'entire') => {
-    const { username } = this.props;
-
-    if (type === 'user') {
-      const userUrl = `https://logshare-backend.herokuapp.com/rss/@${username}`;
-      window.open(userUrl);
-      return;
-    } else if (type === 'entire') {
-      const entireUrl = `https://logshare-backend.herokuapp.com/rss`;
-      window.open(entireUrl);
-      return;
-    }
-  };
-
   public render() {
     const {
       match: { url },
     } = this.props;
 
-    return <Sidebar url={url} onRss={this.onRss} />;
+    return <Sidebar url={url} />;
   }
 }
 
