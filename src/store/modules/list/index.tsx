@@ -6,19 +6,19 @@ import likes, { LikesState } from './likes';
 import follows, { FollowsState } from './follows';
 import users, { UsersState } from './users';
 import notices, { NoticesState } from './notices';
-import featured, { FeaturedState } from './featured';
 import userPosts, { UserPostsState } from './userPosts';
+import feeds, { FeedsState } from './feeds';
 
 export default combineReducers({
-  posts: posts,
-  trending: trending,
-  tags: tags,
-  likes: likes,
-  follows: follows,
-  users: users,
-  featured: featured,
-  notices: notices,
-  userPosts: userPosts,
+  posts,
+  trending,
+  tags,
+  likes,
+  follows,
+  users,
+  notices,
+  userPosts,
+  feeds,
 });
 
 export interface ListState {
@@ -28,7 +28,7 @@ export interface ListState {
   likes: LikesState;
   follows: FollowsState;
   users: UsersState;
-  featured: FeaturedState;
   notices: NoticesState;
   userPosts: UserPostsState;
+  feeds: FeedsState;
 }

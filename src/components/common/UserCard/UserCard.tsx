@@ -14,8 +14,6 @@ const UserCard: React.StatelessComponent<{
   cover: string;
   onClick(username: string): void;
 }> = ({ username, shortBio, thumbnail, onClick, cover }) => {
-  console.log(cover);
-
   return (
     <div className={cx('user-card')}>
       <Link

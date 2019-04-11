@@ -2,10 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { StoreState } from 'src/store/modules';
-import FeaturedUserSidebar from 'src/components/base/FeaturedUserSidebar';
-import FeaturedPostSidebar from 'src/components/base/FeaturedPostSidebar';
-import { featuredCreators } from 'src/store/modules/list/featured';
 import HomeInfo from 'src/components/base/HomeInfo';
+import FeedPosts from 'src/components/base/FeaturedPostSidebar';
+import FeedUsers from 'src/components/base/FeedUsers';
+import { feedsCreators } from 'src/store/modules/list/feeds';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -31,9 +31,9 @@ class PrimarySidebarContainer extends React.Component<Props> {
   };
 
   public initialize = () => {
-    //   const { FeaturedActions } = this.props;
-    //   FeaturedActions.getfeaturedPosts();
-    //   FeaturedActions.getfeaturedUsers();
+    const { FeedsActions } = this.props;
+    FeedsActions.getFeedsPost();
+    FeedsActions.getFeedsUser();
   };
 
   public componentDidMount() {
@@ -41,11 +41,11 @@ class PrimarySidebarContainer extends React.Component<Props> {
   }
 
   public render() {
-    const { posts, users } = this.props;
+    const { users, posts } = this.props;
     return (
       <React.Fragment>
-        <FeaturedUserSidebar user={users} />
-        <FeaturedPostSidebar post={posts} />
+        <FeedUsers user={users} />
+        <FeedPosts post={posts} />
         <HomeInfo
           onRss={this.onRss}
           onFacebook={this.onFacebook}
@@ -56,14 +56,14 @@ class PrimarySidebarContainer extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = ({ list, user }: StoreState) => ({
-  posts: list.featured.posts.post,
-  users: list.featured.users.user,
+const mapStateToProps = ({ user, list }: StoreState) => ({
+  users: list.feeds.users,
+  posts: list.feeds.posts,
   logged: !!user.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  FeaturedActions: bindActionCreators(featuredCreators, dispatch),
+  FeedsActions: bindActionCreators(feedsCreators, dispatch),
 });
 
 export default connect<StateProps, DispatchProps>(

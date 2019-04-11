@@ -1,0 +1,141 @@
+@import 'utils';
+
+.feed-posts {
+    padding: 24px 16px;
+    margin-bottom: 20px;
+
+    .header {
+        margin-bottom: 0.5rem;
+        margin-left: 0.5rem;
+        position: relative;
+        box-sizing: border-box;
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .left-item {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                svg {
+                    font-size: 1.5rem;
+                    color: $oc-blue-6;
+                }
+                span {
+                    margin-top: 0.2rem;
+                    margin-left: 0.5rem;
+                    font-weight: 600;
+                    color: $oc-gray-7;
+                }
+            }
+            .right-item {
+                span {
+                    font-weight: 500;
+                    font-size: 0.875rem;
+                    color: $oc-gray-5;
+                    cursor: pointer;
+                    &:hover {
+                        color: $oc-gray-7;
+                    }
+                }
+            }
+        }
+    }
+
+    .contents {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+        .post {
+            margin-bottom: 1.5rem;
+            .post-thumbnail {
+                width: 100%;
+                height: 147px;
+                background-color: #f5f5f5;
+                background-size: cover;
+                background-position: center center;
+                border-radius: 4px;
+                margin-bottom: .5rem;
+                position: relative;
+                font-weight: 500;
+                font-size: 1rem;
+                display: block;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                word-break: break-word;
+                text-decoration: none;
+                ::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                    border: 1px solid rgba(0,0,0,.1);
+                    z-index: 1;
+                    border-radius: 4px;
+                }
+            }
+
+            .title {
+                color: #000;
+                margin-bottom: .25rem;
+                font-weight: 500;
+                font-size: 1rem;
+                display: block;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                word-break: break-word;
+            }
+            
+            .post-meta {
+                color: #4d4d4d;
+                font-weight: 600;
+                margin: .5rem 0;
+                font-size: .875rem;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                word-break: break-word;
+                align-items: center!important;
+                display: flex;
+                flex-direction: row;
+                .item-wrapper {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 1rem;
+                    color: #4d4d4d;
+                    svg {
+                        display: block;
+                        height: 18px;
+                        margin-right: .35rem;
+                        overflow: hidden;
+                    }
+                }
+            }
+
+            .tags {
+                margin-top: 0.5rem;
+                a {
+                  margin: 0.375rem;
+                  display: inline-flex;
+                  background: $oc-gray-0;
+                  border: 1px solid $oc-gray-3;
+                  color: $oc-gray-7;
+                  padding: 0.5rem;
+                  font-size: 0.75rem;
+                  font-weight: 500;
+                  line-height: 0.75rem;
+                  border-radius: 4px;
+                  &:hover {
+                    cursor: pointer;
+                    background: $oc-gray-1;
+                  }
+                }
+            }
+        }
+    }
+}
