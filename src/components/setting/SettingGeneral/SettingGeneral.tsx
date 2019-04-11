@@ -29,7 +29,7 @@ const SettingGeneral: React.StatelessComponent<{
         <SettingProfileLink
           label="LogShare 주소"
           name="address"
-          value={`http://localhost:3000/@${username}`}
+          value={`https://logshare.netlify.com/@${username}`}
           disabled={true}
         />
       </div>

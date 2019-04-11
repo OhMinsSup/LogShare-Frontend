@@ -38,7 +38,7 @@ class RecentPostCards extends React.Component<Props> {
   public initialize = () => {
     const { ListActions, posts } = this.props;
     if (posts && posts.length > 0) return;
-    ListActions.getPosts({ username: null });
+    ListActions.getPosts();
   };
 
   public listenScroll = () => {

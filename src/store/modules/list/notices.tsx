@@ -26,6 +26,7 @@ export const noticesCreators = {
 
 export interface MessageSubState {
   message: string;
+  username: string;
   thumbnail: string;
   createdAt: string;
 }

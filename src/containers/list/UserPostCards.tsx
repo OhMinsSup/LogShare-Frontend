@@ -3,11 +3,11 @@ import PostCardList from 'src/components/common/PostCardList';
 import { connect } from 'react-redux';
 import { throttle } from 'lodash';
 import { Dispatch, bindActionCreators, compose } from 'redux';
-import { postsCreators } from 'src/store/modules/list/posts';
 import { StoreState } from 'src/store/modules';
 import { getScrollBottom } from 'src/lib/common';
 import FakePostCards from 'src/components/common/FakePostCards';
 import { withRouter, match } from 'react-router-dom';
+import { userPostsCreators } from 'src/store/modules/list/userPosts';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -28,23 +28,23 @@ class UserPostCards extends React.Component<Props> {
     if (!posts || posts.length === 0) return;
 
     if (this.props.prefetched) {
-      ListActions.revealPostsPrefetched();
+      ListActions.revealUserPostsPrefetched();
     }
 
     if (next === this.prev) return;
     this.prev = next;
 
-    ListActions.prefetchPosts({ next });
+    ListActions.prefetchUserPosts({ next });
   };
 
   public initialize = () => {
     const {
-      //   ListActions,
+      ListActions,
       match: {
-        //     params: { username },
+        params: { username },
       },
     } = this.props;
-    //   ListActions.getPosts({ username });
+    ListActions.getUserPosts({ username });
   };
 
   public listenScroll = () => {
@@ -56,7 +56,7 @@ class UserPostCards extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    // this.initialize();
+    this.initialize();
     this.listenScroll();
   }
 
@@ -82,15 +82,15 @@ class UserPostCards extends React.Component<Props> {
 }
 
 const mapStateToProps = ({ list, user }: StoreState) => ({
-  posts: list.posts.posts.post,
+  posts: list.userPosts.userPosts.post,
   askProfile: user.askProfile,
-  prefetched: list.posts.posts.prefetched,
-  next: list.posts.posts.next,
-  loading: list.posts.posts.loading,
+  prefetched: list.userPosts.userPosts.prefetched,
+  next: list.userPosts.userPosts.next,
+  loading: list.userPosts.userPosts.loading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ListActions: bindActionCreators(postsCreators, dispatch),
+  ListActions: bindActionCreators(userPostsCreators, dispatch),
 });
 
 export default compose(

@@ -21,8 +21,8 @@ class NoticeModalContainer extends React.Component<Props> {
   };
 
   public initialize = () => {
-    // const { NoticeActions } = this.props;
-    // NoticeActions.simpleMessageList();
+    const { NoticeActions } = this.props;
+    NoticeActions.alreadyMessageList();
   };
 
   public componentDidMount() {

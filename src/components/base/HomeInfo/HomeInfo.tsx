@@ -1,13 +1,20 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
-import { FaHeart, FaRssSquare } from 'react-icons/fa';
+import {
+  FaHeart,
+  FaRssSquare,
+  FaGithub,
+  FaFacebookSquare,
+} from 'react-icons/fa';
 
 const styled = require('./HomeInfo.scss');
 const cx = classNames.bind(styled);
 
 const HomeInfo: React.SFC<{
   onRss: () => void;
-}> = ({ onRss }) => {
+  onGithub: () => void;
+  onFacebook: () => void;
+}> = ({ onRss, onFacebook, onGithub }) => {
   return (
     <div className={cx('home-info')}>
       <div className={cx('info-header')}>
@@ -15,8 +22,14 @@ const HomeInfo: React.SFC<{
         <FaHeart />
       </div>
       <ul className={cx('rss-area')}>
-        <li className={cx('item')} onClick={onRss}>
+        <li className={cx('item', 'rss')} onClick={onRss}>
           <FaRssSquare />
+        </li>
+        <li className={cx('item', 'github')} onClick={onGithub}>
+          <FaGithub />
+        </li>
+        <li className={cx('item', 'facebook')} onClick={onFacebook}>
+          <FaFacebookSquare />
         </li>
       </ul>
     </div>

@@ -10,9 +10,10 @@ const cx = classNames.bind(style);
 const NoticeItem: React.StatelessComponent<{
   thumbnail: string;
   message: string;
+  username: string;
   createdAt: string;
-}> = ({ thumbnail, message, createdAt }) => (
-  <Link to="/" className={cx('notif-wrapper')}>
+}> = ({ thumbnail, username, message, createdAt }) => (
+  <Link to={`/@${username}`} className={cx('notif-wrapper')}>
     <div className={cx('notice-thumbnail')}>
       <img src={thumbnail || defaultThumbnail} />
     </div>

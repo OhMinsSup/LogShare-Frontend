@@ -36,7 +36,8 @@ class TrendingPostCards extends React.Component<Props> {
   };
 
   public initialize = async () => {
-    const { ListActions } = this.props;
+    const { ListActions, posts } = this.props;
+    if (posts && posts.length > 0) return;
     ListActions.getTrending();
   };
 

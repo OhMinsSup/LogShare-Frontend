@@ -11,6 +11,7 @@ import SettingsEtc from 'src/components/setting/SettingEtc';
 import QuestionModal from 'src/components/common/QuestionModal';
 import { settingCreators } from 'src/store/modules/setting';
 
+type OwnProps = {};
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type Props = StateProps & DispatchProps;
@@ -112,7 +113,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   SettingActions: bindActionCreators(settingCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps, StoreState>(
   mapStateToProps,
   mapDispatchToProps
 )(SettingContainer);

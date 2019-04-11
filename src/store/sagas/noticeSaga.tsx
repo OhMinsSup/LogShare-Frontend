@@ -19,7 +19,7 @@ export interface FetchCheckNoticeRoom
 }
 
 export interface FetchSimpleNoticeMessage
-  extends Action<NoticeActionType.SIMPLE_MESSAGE_LIST_REQUEST> {
+  extends Action<NoticeActionType.ALREADY_MESSAGE_LIST_REQUEST> {
   payload?: any;
 }
 
@@ -80,14 +80,14 @@ function* checkNoticeRoom(action: FetchCheckNoticeRoom) {
   }
 }
 
-function* simpleNoticeMessage(action: FetchSimpleNoticeMessage) {
+function* alreadyNoticeMessage(action: FetchSimpleNoticeMessage) {
   try {
     const responseSimpleNoticeList: AxiosResponse<NoticeDataState> = yield call(
-      NoticeAPI.simpleNoticeMesssage
+      NoticeAPI.alreadyNoticeMesssage
     );
 
     yield put({
-      type: NoticeActionType.SIMPLE_MESSAGE_LIST_SUCCESS,
+      type: NoticeActionType.ALREADY_MESSAGE_LIST_SUCCESS,
       payload: {
         notices: responseSimpleNoticeList.data.message,
       },
@@ -107,10 +107,10 @@ function* watchSendMessage() {
   yield takeEvery(NoticeActionType.SEND_MESSAGE_REQUEST, sendMessage);
 }
 
-function* watchSimpleNoticeMessage() {
+function* watchAlreadyNoticeMessage() {
   yield takeEvery(
-    NoticeActionType.SIMPLE_MESSAGE_LIST_REQUEST,
-    simpleNoticeMessage
+    NoticeActionType.ALREADY_MESSAGE_LIST_REQUEST,
+    alreadyNoticeMessage
   );
 }
 
@@ -121,7 +121,7 @@ function* watchCheckNoticeRoom() {
 export default function* followsSaga() {
   yield all([
     fork(watchCheckNoticeRoom),
-    fork(watchSimpleNoticeMessage),
+    fork(watchAlreadyNoticeMessage),
     fork(watchSendMessage),
   ]);
 }

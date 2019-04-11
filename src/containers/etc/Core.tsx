@@ -24,7 +24,7 @@ class Core extends React.Component<Props> {
 
   public checkUser = () => {
     const authResult = storage.get('__log_share__');
-    const { UserActions /* NoticeActions */ } = this.props;
+    const { UserActions, NoticeActions } = this.props;
 
     if (!authResult) {
       UserActions.process(null);
@@ -32,7 +32,7 @@ class Core extends React.Component<Props> {
     }
 
     UserActions.process({ authResult });
-    //  NoticeActions.checkNoticeRoom();
+    NoticeActions.checkNoticeRoom();
   };
 
   public setWidth = () => {

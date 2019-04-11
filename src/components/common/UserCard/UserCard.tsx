@@ -13,42 +13,48 @@ const UserCard: React.StatelessComponent<{
   shortBio: string;
   cover: string;
   onClick(username: string): void;
-}> = ({ username, shortBio, thumbnail, onClick, cover }) => (
-  <div className={cx('user-card')}>
-    <Link
-      to={`/@${username}`}
-      className={cx('profile-card-bg')}
-      style={
-        cover
-          ? { backgroundImage: `url(${cover})` }
-          : { backgroundColor: '#228be6' }
-      }
-    />
-    <div className={cx('profile-content')}>
-      <Link to={`/@${username}`} className={cx('user-thumbnail')}>
-        <img src={thumbnail || defaultThumbnail} className={cx('thumbnail')} />
-      </Link>
-      <div className={cx('user-action')}>
-        <div className={cx('action')}>
-          <Button
-            theme="flex"
-            className={cx('btn')}
-            onClick={() => onClick(username)}
-          >
-            블로그
-          </Button>
+}> = ({ username, shortBio, thumbnail, onClick, cover }) => {
+  console.log(cover);
+
+  return (
+    <div className={cx('user-card')}>
+      <Link
+        to={`/@${username}`}
+        className={cx('profile-card-bg')}
+        style={
+          cover
+            ? { backgroundImage: `url(${cover})` }
+            : { backgroundColor: '#228be6' }
+        }
+      />
+      <div className={cx('profile-content')}>
+        <Link to={`/@${username}`} className={cx('user-thumbnail')}>
+          <img
+            src={thumbnail || defaultThumbnail}
+            className={cx('thumbnail')}
+          />
+        </Link>
+        <div className={cx('user-action')}>
+          <div className={cx('action')}>
+            <Button
+              theme="flex"
+              className={cx('btn')}
+              onClick={() => onClick(username)}
+            >
+              블로그
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className={cx('user-info')}>
-        <div className={cx('username-wrapper')}>
-          <Link to={`/@${username}`} className={cx('username')}>
-            {username}
-          </Link>
+        <div className={cx('user-info')}>
+          <div className={cx('username-wrapper')}>
+            <Link to={`/@${username}`} className={cx('username')}>
+              {username}
+            </Link>
+          </div>
+          <p className={cx('short-bio')}>{shortBio}</p>
         </div>
-        <p className={cx('short-bio')}>{shortBio}</p>
       </div>
     </div>
-  </div>
-);
-
+  );
+};
 export default UserCard;

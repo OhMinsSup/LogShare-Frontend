@@ -7,6 +7,7 @@ import follows, { FollowsState } from './follows';
 import users, { UsersState } from './users';
 import notices, { NoticesState } from './notices';
 import featured, { FeaturedState } from './featured';
+import userPosts, { UserPostsState } from './userPosts';
 
 export default combineReducers({
   posts: posts,
@@ -17,6 +18,7 @@ export default combineReducers({
   users: users,
   featured: featured,
   notices: notices,
+  userPosts: userPosts,
 });
 
 export interface ListState {
@@ -28,4 +30,5 @@ export interface ListState {
   users: UsersState;
   featured: FeaturedState;
   notices: NoticesState;
+  userPosts: UserPostsState;
 }

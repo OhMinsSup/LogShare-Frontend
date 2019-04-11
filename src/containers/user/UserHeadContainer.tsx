@@ -30,7 +30,6 @@ class UserHeadContainer extends React.Component<Props> {
 
   public onToggleProfile = () => {
     const { BaseActions } = this.props;
-
     BaseActions.setProfileUpdateModal(true);
   };
 

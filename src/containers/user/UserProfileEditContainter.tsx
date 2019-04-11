@@ -6,6 +6,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { baseCreators } from 'src/store/modules/base';
 import { userCreators } from 'src/store/modules/user';
 
+type OwnProps = {};
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type Props = StateProps & DispatchProps;
@@ -69,7 +70,6 @@ class UserProfileEditContainter extends React.Component<Props> {
 
   public render() {
     const { profileModal, editProfile } = this.props;
-    console.log(profileModal);
     if (!profileModal) return null;
 
     return (
@@ -96,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps, StoreState>(
   mapStateToProps,
   mapDispatchToProps
 )(UserProfileEditContainter);

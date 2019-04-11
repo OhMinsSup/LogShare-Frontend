@@ -3,8 +3,8 @@ import produce from 'immer';
 import * as NoticeType from './types/notice';
 
 export enum NoticeActionType {
-  SIMPLE_MESSAGE_LIST_REQUEST = 'notice/SIMPLE_MESSAGE_LIST_REQUEST',
-  SIMPLE_MESSAGE_LIST_SUCCESS = 'notice/SIMPLE_MESSAGE_LIST_SUCCESS',
+  ALREADY_MESSAGE_LIST_REQUEST = 'notice/ALREADY_MESSAGE_LIST_REQUEST',
+  ALREADY_MESSAGE_LIST_SUCCESS = 'notice/ALREADY_MESSAGE_LIST_SUCCESS',
 
   SEND_MESSAGE_REQUEST = 'notice/SEND_MESSAGE_REQUEST',
 
@@ -19,7 +19,9 @@ export const noticeCreators = {
     NoticeActionType.SEND_MESSAGE_REQUEST,
     (payload: NoticeType.SendMessagePayload) => payload
   ),
-  simpleMessageList: createAction(NoticeActionType.SIMPLE_MESSAGE_LIST_REQUEST),
+  alreadyMessageList: createAction(
+    NoticeActionType.ALREADY_MESSAGE_LIST_REQUEST
+  ),
   checkNoticeRoom: createAction(NoticeActionType.CHECK_NOTICE_ROOM_REQUEST),
   setNoticeRoom: createAction(
     NoticeActionType.SET_NOTICE_ROOM,
@@ -38,6 +40,7 @@ export interface NoticeDataState {
 export interface NoticeMessageState {
   message: string;
   thumbnail: string;
+  username: string;
   createdAt: string;
 }
 
@@ -89,7 +92,7 @@ export default handleActions<NoticeState, any>(
         };
       });
     },
-    [NoticeActionType.SIMPLE_MESSAGE_LIST_SUCCESS]: (
+    [NoticeActionType.ALREADY_MESSAGE_LIST_SUCCESS]: (
       state,
       action: NoticeType.SimpleNoticeMessageAction
     ) => {

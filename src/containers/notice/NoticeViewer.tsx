@@ -35,7 +35,8 @@ class NoticeViewer extends React.Component<Props> {
   };
 
   public initialize = () => {
-    const { ListActions } = this.props;
+    const { ListActions, messages } = this.props;
+    if (messages && messages.length > 0) return;
     ListActions.getNotices();
   };
 
@@ -48,7 +49,7 @@ class NoticeViewer extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    //    this.initialize();
+    this.initialize();
     this.listenScroll();
   }
 

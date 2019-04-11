@@ -5,7 +5,7 @@ import { StoreState } from 'src/store/modules';
 import FeaturedUserSidebar from 'src/components/base/FeaturedUserSidebar';
 import FeaturedPostSidebar from 'src/components/base/FeaturedPostSidebar';
 import { featuredCreators } from 'src/store/modules/list/featured';
-import HomeInfo from 'src/components/base/HoemInfo';
+import HomeInfo from 'src/components/base/HomeInfo';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -14,6 +14,18 @@ type Props = StateProps & DispatchProps;
 class PrimarySidebarContainer extends React.Component<Props> {
   public onRss = () => {
     const entireUrl = `https://logshare-backend.herokuapp.com/rss`;
+    window.open(entireUrl);
+    return;
+  };
+
+  public onGithub = () => {
+    const entireUrl = 'https://github.com/OhMinsSup';
+    window.open(entireUrl);
+    return;
+  };
+
+  public onFacebook = () => {
+    const entireUrl = 'https://www.facebook.com/profile.php?id=100003582999223';
     window.open(entireUrl);
     return;
   };
@@ -34,7 +46,11 @@ class PrimarySidebarContainer extends React.Component<Props> {
       <React.Fragment>
         <FeaturedUserSidebar user={users} />
         <FeaturedPostSidebar post={posts} />
-        <HomeInfo onRss={this.onRss} />
+        <HomeInfo
+          onRss={this.onRss}
+          onFacebook={this.onFacebook}
+          onGithub={this.onGithub}
+        />
       </React.Fragment>
     );
   }

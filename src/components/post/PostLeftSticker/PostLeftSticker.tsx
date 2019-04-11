@@ -56,13 +56,13 @@ class PostLeftSticker extends React.Component<Props, State> {
   public onFacebookShare = () => {
     const { url } = this.props;
     this.onToggleShareButton();
-    shareFacebook(`http://localhost:3000${url}`);
+    shareFacebook(`https://logshare.netlify.com${url}`);
   };
 
   public onTwitterShare = () => {
     const { title, url } = this.props;
     this.onToggleShareButton();
-    shareTwitter(`http://localhost:3000${url}`, title);
+    shareTwitter(`https://logshare.netlify.com${url}`, title);
   };
 
   public componentDidUpdate(prevProps: Props) {

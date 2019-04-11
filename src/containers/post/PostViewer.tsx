@@ -11,7 +11,6 @@ import { Location } from 'history';
 import { match } from 'react-router';
 import QuestionModal from 'src/components/common/QuestionModal';
 import FakePost from 'src/components/common/FakePost';
-import { authCreators } from 'src/store/modules/auth';
 import { noticeCreators } from 'src/store/modules/notice';
 
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -22,7 +21,6 @@ type Props = StateProps & DispatchProps & OwnProps;
 class PostViewer extends React.Component<Props> {
   public onToggleLike = () => {
     const { post, PostActions, NoticeActions, currentUsername } = this.props;
-
     if (!post) return;
 
     if (post.liked) {
@@ -64,13 +62,9 @@ class PostViewer extends React.Component<Props> {
         params: { id },
       },
       PostActions,
-      AuthActions,
     } = this.props;
 
-    AuthActions.setNextUrl(true);
-
     if (!id) return;
-
     PostActions.readPost({ postId: id });
     PostActions.postSequences({ postId: id });
   };
@@ -107,6 +101,7 @@ class PostViewer extends React.Component<Props> {
       match: { url },
       askModal,
     } = this.props;
+    console.log(url);
 
     const { onToggleLike, onAskRemove, onConfirm } = this;
 
@@ -160,7 +155,6 @@ const mapStateToProps = ({ post, user }: StoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   PostActions: bindActionCreators(postCreators, dispatch),
-  AuthActions: bindActionCreators(authCreators, dispatch),
   NoticeActions: bindActionCreators(noticeCreators, dispatch),
 });
 

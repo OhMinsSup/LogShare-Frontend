@@ -10,6 +10,5 @@ export const sequences = (postId: string) => {
   const query = queryString.stringify({
     postId,
   });
-
   return axios.get(`/post/list/sequences?${query}`);
 };

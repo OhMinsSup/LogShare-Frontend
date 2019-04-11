@@ -15,15 +15,9 @@ const UserMenu: React.StatelessComponent<{
         <div className={cx('rotated-square')} />
         <div className={cx('user-menu')}>
           <div className={cx('menu-items')}>
-            <UserMenuItem to={`/@${username}`}>내 페이지</UserMenuItem>
+            <UserMenuItem to={`/@${username}`}>내 블로그</UserMenuItem>
             <div className={cx('separator')} />
             <UserMenuItem to="/write">포스트 작성</UserMenuItem>
-            <UserMenuItem to={`/@${username}/posts`}>최신 포스트</UserMenuItem>
-            <UserMenuItem to={`/@${username}/likes`}>
-              좋아요 포스트
-            </UserMenuItem>
-            <UserMenuItem to={`/@${username}/follower`}>팔로우</UserMenuItem>
-            <UserMenuItem to={`/@${username}/following`}>팔로잉</UserMenuItem>
             <div className={cx('separator')} />
             <UserMenuItem to={`/setting`}>설정</UserMenuItem>
             <UserMenuItem onClick={onLogout}>로그아웃</UserMenuItem>

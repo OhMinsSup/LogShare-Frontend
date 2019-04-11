@@ -1,17 +1,19 @@
 import { put, call, takeEvery, fork, all } from 'redux-saga/effects';
-import { PostsActionType, PostsSubState } from '../modules/list/posts';
 import { ErrorActionType } from '../modules/error';
 import * as ListAPI from '../../lib/api/list';
 import { Action } from 'redux';
 import { AxiosResponse } from 'axios';
+import { UserPostsActionType, PostsSubState } from '../modules/list/userPosts';
 
 export interface FetchGetPosts
-  extends Action<PostsActionType.GET_POSTS_LIST_REQUEST> {
-  payload: any;
+  extends Action<UserPostsActionType.GET_USER_POSTS_LIST_REQUEST> {
+  payload: {
+    username: string;
+  };
 }
 
 export interface FetchPrefetchPosts
-  extends Action<PostsActionType.PREFETCH_POSTS_LIST_REQUEST> {
+  extends Action<UserPostsActionType.PREFETCH_USER_POSTS_LIST_REQUEST> {
   payload: {
     next: string;
   };
@@ -22,18 +24,22 @@ export interface PostsDataState {
   next: string;
 }
 
-function* getPosts(action: FetchGetPosts) {
+function* getUserPosts(action: FetchGetPosts) {
+  const {
+    payload: { username },
+  } = action;
   yield put({
-    type: PostsActionType.GET_POSTS_LIST_PENDING,
+    type: UserPostsActionType.GET_USER_POSTS_LIST_PENDING,
   });
 
   try {
     const responseGetPosts: AxiosResponse<PostsDataState> = yield call(
-      ListAPI.listPosts
+      ListAPI.listPosts,
+      username
     );
 
     yield put({
-      type: PostsActionType.GET_POSTS_LIST_SUCCESS,
+      type: UserPostsActionType.GET_USER_POSTS_LIST_SUCCESS,
       payload: {
         posts: responseGetPosts.data,
       },
@@ -49,7 +55,7 @@ function* getPosts(action: FetchGetPosts) {
   }
 }
 
-function* prefetchPosts(action: FetchPrefetchPosts) {
+function* prefetchUserPosts(action: FetchPrefetchPosts) {
   const {
     payload: { next },
   } = action;
@@ -61,7 +67,7 @@ function* prefetchPosts(action: FetchPrefetchPosts) {
     );
 
     yield put({
-      type: PostsActionType.PREFETCH_POSTS_LIST_SUCCESS,
+      type: UserPostsActionType.PREFETCH_USER_POSTS_LIST_SUCCESS,
       payload: {
         posts: responsePrefetchPosts.data,
       },
@@ -77,14 +83,20 @@ function* prefetchPosts(action: FetchPrefetchPosts) {
   }
 }
 
-function* watchGetPosts() {
-  yield takeEvery(PostsActionType.GET_POSTS_LIST_REQUEST, getPosts);
+function* watchGetUserPosts() {
+  yield takeEvery(
+    UserPostsActionType.GET_USER_POSTS_LIST_REQUEST,
+    getUserPosts
+  );
 }
 
-function* watchPrefetchPosts() {
-  yield takeEvery(PostsActionType.PREFETCH_POSTS_LIST_REQUEST, prefetchPosts);
+function* watchPrefetchUserPosts() {
+  yield takeEvery(
+    UserPostsActionType.PREFETCH_USER_POSTS_LIST_REQUEST,
+    prefetchUserPosts
+  );
 }
 
 export default function* postsSaga() {
-  yield all([fork(watchGetPosts), fork(watchPrefetchPosts)]);
+  yield all([fork(watchGetUserPosts), fork(watchPrefetchUserPosts)]);
 }

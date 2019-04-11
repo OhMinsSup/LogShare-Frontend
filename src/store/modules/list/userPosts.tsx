@@ -2,24 +2,29 @@ import { handleActions, createAction } from 'redux-actions';
 import produce from 'immer';
 import * as ListType from '../types/list';
 
-export enum PostsActionType {
-  REVEAL_POSTS_PREFETCHED = 'list/posts/REVEAL_POSTS_PREFETCHED',
+export enum UserPostsActionType {
+  REVEAL_POSTS_PREFETCHED = 'list/userPosts/REVEAL_POSTS_PREFETCHED',
 
-  GET_POSTS_LIST_REQUEST = 'list/posts/GET_POSTS_LIST_REQUEST',
-  GET_POSTS_LIST_PENDING = 'list/posts/GET_POSTS_LIST_PENDING',
-  GET_POSTS_LIST_SUCCESS = 'list/posts/GET_POSTS_LIST_SUCCESS',
+  GET_USER_POSTS_LIST_REQUEST = 'list/userPosts/GET_USER_POSTS_LIST_REQUEST',
+  GET_USER_POSTS_LIST_PENDING = 'list/userPosts/GET_USER_POSTS_LIST_PENDING',
+  GET_USER_POSTS_LIST_SUCCESS = 'list/userPosts/GET_USER_POSTS_LIST_SUCCESS',
 
-  PREFETCH_POSTS_LIST_REQUEST = 'list/posts/PREFETCH_POSTS_LIST_REQUEST',
-  PREFETCH_POSTS_LIST_SUCCESS = 'list/posts/PREFETCH_POSTS_LIST_SUCCESS',
+  PREFETCH_USER_POSTS_LIST_REQUEST = 'list/userPosts/PREFETCH_USER_POSTS_LIST_REQUEST',
+  PREFETCH_USER_POSTS_LIST_SUCCESS = 'list/userPosts/PREFETCH_USER_POSTS_LIST_SUCCESS',
 }
 
-export const postsCreators = {
-  getPosts: createAction(PostsActionType.GET_POSTS_LIST_REQUEST),
-  prefetchPosts: createAction(
-    PostsActionType.PREFETCH_POSTS_LIST_REQUEST,
+export const userPostsCreators = {
+  getUserPosts: createAction(
+    UserPostsActionType.GET_USER_POSTS_LIST_REQUEST,
+    (payload: ListType.ListPostsPayload) => payload
+  ),
+  prefetchUserPosts: createAction(
+    UserPostsActionType.PREFETCH_USER_POSTS_LIST_REQUEST,
     (payload: ListType.PrefetchListPayload) => payload
   ),
-  revealPostsPrefetched: createAction(PostsActionType.REVEAL_POSTS_PREFETCHED),
+  revealUserPostsPrefetched: createAction(
+    UserPostsActionType.REVEAL_POSTS_PREFETCHED
+  ),
 };
 
 export interface PostsSubState {
@@ -49,8 +54,8 @@ export interface ListingSetState {
   loading: boolean;
 }
 
-export interface PostsState {
-  posts: ListingSetState;
+export interface UserPostsState {
+  userPosts: ListingSetState;
 }
 
 const initialListingSet: ListingSetState = {
@@ -61,27 +66,27 @@ const initialListingSet: ListingSetState = {
   loading: false,
 };
 
-const initialState: PostsState = {
-  posts: initialListingSet,
+const initialState: UserPostsState = {
+  userPosts: initialListingSet,
 };
 
-export default handleActions<PostsState, any>(
+export default handleActions<UserPostsState, any>(
   {
-    [PostsActionType.REVEAL_POSTS_PREFETCHED]: state => {
+    [UserPostsActionType.REVEAL_POSTS_PREFETCHED]: state => {
       return produce(state, draft => {
-        const { post, prefetched } = draft.posts;
+        const { post, prefetched } = draft.userPosts;
         if (post && prefetched) {
           post.push(...prefetched);
-          draft.posts.prefetched = [];
+          draft.userPosts.prefetched = [];
         }
       });
     },
-    [PostsActionType.GET_POSTS_LIST_PENDING]: state => {
+    [UserPostsActionType.GET_USER_POSTS_LIST_PENDING]: state => {
       return produce(state, draft => {
-        draft.posts.loading = true;
+        draft.userPosts.loading = true;
       });
     },
-    [PostsActionType.GET_POSTS_LIST_SUCCESS]: (
+    [UserPostsActionType.GET_USER_POSTS_LIST_SUCCESS]: (
       state,
       action: ListType.PostsListAction
     ) => {
@@ -90,7 +95,7 @@ export default handleActions<PostsState, any>(
         const {
           payload: { posts },
         } = action;
-        draft.posts = {
+        draft.userPosts = {
           post: posts.postWithData,
           prefetched: [],
           end: false,
@@ -99,7 +104,7 @@ export default handleActions<PostsState, any>(
         };
       });
     },
-    [PostsActionType.PREFETCH_POSTS_LIST_SUCCESS]: (
+    [UserPostsActionType.PREFETCH_USER_POSTS_LIST_SUCCESS]: (
       state,
       action: ListType.PostsListAction
     ) => {
@@ -108,10 +113,10 @@ export default handleActions<PostsState, any>(
         const {
           payload: { posts },
         } = action;
-        draft.posts.prefetched = posts.postWithData;
-        draft.posts.next = posts.next;
+        draft.userPosts.prefetched = posts.postWithData;
+        draft.userPosts.next = posts.next;
         if (posts.postWithData && posts.postWithData.length === 0) {
-          draft.posts.end = true;
+          draft.userPosts.end = true;
         }
       });
     },

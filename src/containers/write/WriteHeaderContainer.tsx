@@ -45,6 +45,7 @@ class WriteHeaderContainer extends React.Component<Props> {
       history,
       tags,
     });
+
     NoticeActions.sendMessage({
       message: `${username}님이 새로운 포스트를 작성하였습니다`,
     });

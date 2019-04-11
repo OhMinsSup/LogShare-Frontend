@@ -7,26 +7,26 @@ export const createUrlPost = (file: File) => {
     headers: {
       'Content-Type': file.type,
     },
-    withCredentials: false,
+    withCredentials: true,
   });
 };
 export const createUrlUser = (file: File) => {
   const data = new FormData();
   data.append('thumbnail', file);
-  return axios.post('/file/create-url/common-thumbnail', data, {
+  return axios.post('/file/create-url/thumbnail', data, {
     headers: {
       'Content-Type': file.type,
     },
-    withCredentials: false,
+    withCredentials: true,
   });
 };
 export const createUrlCover = (file: File) => {
   const data = new FormData();
   data.append('cover', file);
-  return axios.post('/file/create-url/common-cover-background', data, {
+  return axios.post('/file/create-url/cover', data, {
     headers: {
       'Content-Type': file.type,
     },
-    withCredentials: false,
+    withCredentials: true,
   });
 };

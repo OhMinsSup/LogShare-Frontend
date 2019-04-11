@@ -15,12 +15,13 @@ const NoticeContent: React.StatelessComponent<{
     </div>
     <div className={cx('notice-body')}>
       {notices.map((notice, index) => {
-        const { message, createdAt, thumbnail } = notice;
+        const { message, createdAt, thumbnail, username } = notice;
 
         return (
           <NoticeItem
             key={index}
             message={message}
+            username={username}
             createdAt={createdAt}
             thumbnail={thumbnail}
           />

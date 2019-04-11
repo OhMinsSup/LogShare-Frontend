@@ -15,6 +15,7 @@ import noticesSaga from './noticesSaga';
 import searchSaga from './searchSaga';
 import featuredSaga from './featuredSaga';
 import settingSaga from './settingSaga';
+import userPostsSaga from './userPostsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -34,5 +35,6 @@ export default function* rootSaga() {
     fork(searchSaga),
     fork(featuredSaga),
     fork(settingSaga),
+    fork(userPostsSaga),
   ]);
 }

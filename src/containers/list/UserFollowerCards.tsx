@@ -50,7 +50,6 @@ class UserFollowerCards extends React.Component<Props> {
         params: { username },
       },
     } = this.props;
-
     ListActions.getFollower({ username });
   };
 
@@ -63,7 +62,7 @@ class UserFollowerCards extends React.Component<Props> {
   };
 
   public componentDidMount() {
-    // this.initialize();
+    this.initialize();
     this.listenScroll();
   }
 

@@ -12,6 +12,7 @@ const UserCardList: React.StatelessComponent<{
 }> = ({ users, onClick }) => {
   const usersList = users.map((user, index) => {
     const { username, shortBio, thumbnail, cover } = user;
+    console.log(user);
 
     return (
       <UserCard

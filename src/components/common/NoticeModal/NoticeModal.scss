@@ -3,26 +3,9 @@
 .notice-modal {
     position: absolute;
     z-index: 1100;
-    margin-top: 16px;
+    margin-top: 10px;
     box-shadow: 0 8px 10px 0 rgba(0,0,0,0.05);
     border: 1px solid #d6d8df;
-
-    ::before {
-        content: "";
-        position: absolute;
-        top: -12px;
-        left: 110px;
-        width: 0;
-        height: 0;
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-        border-bottom: 12px solid #FFF;
-        z-index: 1101;
-
-        @include media ("<870px") {
-            left: 170px;
-        }
-    }
 
     .content {
         z-index: 1101;

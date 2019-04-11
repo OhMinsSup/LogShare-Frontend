@@ -25,11 +25,19 @@
         list-style: none;
         .item {
             display: inline-block;
-            margin-right: .5rem;
+            margin-right: .85rem;
             font-size: 1.2rem;
             font-weight: 600;
-            color: $oc-blue-6;
             cursor: pointer;
+            &.rss {
+                color: $oc-blue-6;
+            }
+            &.github {
+                color: $oc-gray-8;
+            }
+            &.facebook {
+                color: $oc-blue-8;
+            }
         }
     }
 }
