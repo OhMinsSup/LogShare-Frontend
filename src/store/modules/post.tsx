@@ -49,50 +49,56 @@ export const postCreators = {
   ),
   readPost: createAction(
     PostActionType.READ_POST_REQUEST,
-    (payload: PostType.ReadPostPayload) => payload
+    (payload: { postId: string }) => payload
   ),
   like: createAction(
     PostActionType.LIKE,
-    (payload: PostType.LikePayload) => payload
+    (payload: { postId: string }) => payload
   ),
   unlike: createAction(
     PostActionType.UNLIKE,
-    (payload: PostType.LikePayload) => payload
+    (payload: { postId: string }) => payload
   ),
   postSequences: createAction(
     PostActionType.POST_SEQUENCES_REQUEST,
-    (payload: PostType.PostSequencesPayload) => payload
+    (payload: { postId: string }) => payload
   ),
   deletePost: createAction(
     PostActionType.DELETE_POST,
-    (payload: PostType.DeletePostPayload) => payload
+    (payload: { postId: string }) => payload
   ),
   writeComment: createAction(
     PostActionType.WRITE_COMMENT_REQUEST,
-    (payload: PostType.WriteCommentPayload) => payload
+    (payload: { postId: string; text: string; reply: string | null }) => payload
   ),
   editComment: createAction(
     PostActionType.EDIT_COMMENT_REQUEST,
-    (payload: PostType.EditCommentPayload) => payload
+    (payload: { postId: string; commentId: string; text: string }) => payload
   ),
   deleteComment: createAction(
     PostActionType.DELETE_COMMENT_REQUEST,
-    (payload: PostType.DeleteCommentPayload) => payload
+    (payload: { postId: string; commentId: string }) => payload
   ),
   readComments: createAction(
     PostActionType.READ_COMMENTS_REQUEST,
-    (payload: PostType.ReadCommentPayload) => payload
+    (payload: { postId: string }) => payload
   ),
   readSubcomments: createAction(
     PostActionType.READ_SUBCOMMENTS_REQUEST,
-    (payload: PostType.ReadSubCommentPayload) => payload
+    (payload: { postId: string; commentId: string; parentId: string | null }) =>
+      payload
   ),
   openCommentRemove: createAction(
     PostActionType.OPEN_COMMENT_REMOVE,
-    (payload: PostType.OpenCommentRemovePayload) => payload
+    (payload: { commentId: string | null; reply: string | null }) => payload
   ),
   cancelCommentRemove: createAction(PostActionType.CANCEL_COMMENT_REMOVE),
 };
+
+type SetModalAction = ReturnType<typeof postCreators.setModal>;
+type OpenCommentRemoveAction = ReturnType<
+  typeof postCreators.openCommentRemove
+>;
 
 export interface PostDataState {
   postId: string;
@@ -118,11 +124,10 @@ export interface CommentDataState {
   post: string;
   _id: string;
   user: {
-    profile: {
-      username: string;
-      thumbnail: string;
-      shortBio: string;
-    };
+    cover: string;
+    username: string;
+    thumbnail: string;
+    shortBio: string;
     _id: string;
   };
   reply: string;
@@ -178,7 +183,7 @@ export default handleActions<PostState, any>(
   {
     [PostActionType.OPEN_COMMENT_REMOVE]: (
       state,
-      action: PostType.OpenCommentRemoveAction
+      action: OpenCommentRemoveAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -201,7 +206,7 @@ export default handleActions<PostState, any>(
         };
       });
     },
-    [PostActionType.SET_MODAL]: (state, action: PostType.SetModalAction) => {
+    [PostActionType.SET_MODAL]: (state, action: SetModalAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.askModal = action.payload;

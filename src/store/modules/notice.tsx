@@ -17,7 +17,7 @@ export enum NoticeActionType {
 export const noticeCreators = {
   sendMessage: createAction(
     NoticeActionType.SEND_MESSAGE_REQUEST,
-    (payload: NoticeType.SendMessagePayload) => payload
+    (payload: { message: string }) => payload
   ),
   alreadyMessageList: createAction(
     NoticeActionType.ALREADY_MESSAGE_LIST_REQUEST
@@ -28,6 +28,8 @@ export const noticeCreators = {
     (visible: boolean) => visible
   ),
 };
+
+type SetNoticeRoomAction = ReturnType<typeof noticeCreators.setNoticeRoom>;
 
 export interface NoticeDataState {
   noticeId: string;
@@ -64,7 +66,7 @@ export default handleActions<NoticeState, any>(
   {
     [NoticeActionType.SET_NOTICE_ROOM]: (
       state,
-      action: NoticeType.SetNoticeRoomAction
+      action: SetNoticeRoomAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;

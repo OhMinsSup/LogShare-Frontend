@@ -1,12 +1,6 @@
-import { noticeCreators, NoticeMessageState } from '../notice';
+import { NoticeMessageState } from '../notice';
 import { GenericResponseAction } from 'src/lib/common';
 
-export type SendMessagePayload = {
-  message: string;
-};
-export type SetNoticeRoomAction = ReturnType<
-  typeof noticeCreators.setNoticeRoom
->;
 export type CheckNoticeRoomAction = GenericResponseAction<
   {
     noticeId: string;

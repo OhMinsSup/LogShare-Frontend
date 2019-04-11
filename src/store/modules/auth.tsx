@@ -1,5 +1,6 @@
-import { createAction, handleActions } from 'redux-actions';
 import produce from 'immer';
+import { createAction, handleActions } from 'redux-actions';
+import { History } from 'history';
 import * as AuthType from './types/auth';
 
 export enum AuthActionType {
@@ -33,19 +34,19 @@ export const authCreators = {
   initial: createAction(AuthActionType.INITIAL),
   callbackSocial: createAction(
     AuthActionType.GET_PROVIDER_TOKEN_REQUEST,
-    (payload: AuthType.CallbackSocialPayload) => payload
+    (payload: { provider: string; next: string; history: History }) => payload
   ),
   changeInput: createAction(
     AuthActionType.CHANGE_INPUT,
-    (payload: AuthType.ChangeInputPayload) => payload
+    (payload: { form: string; name: string; value: string }) => payload
   ),
   autoCompleteRegisterForm: createAction(
     AuthActionType.AUTOCOMPLETE_REGISTER_FORM,
-    (payload: AuthType.AutoCompleteFormPayload) => payload
+    (payload: { email: string; username: string }) => payload
   ),
   setError: createAction(
     AuthActionType.SET_ERROR,
-    (payload: AuthType.ErrorPayload) => payload
+    (payload: { form: string; name: string; message: string | null }) => payload
   ),
   setNextUrl: createAction(
     AuthActionType.SET_NEXT_URL,
@@ -53,21 +54,33 @@ export const authCreators = {
   ),
   checkExists: createAction(
     AuthActionType.CHECK_EXISTS_REQUEST,
-    (payload: AuthType.CheckExistsPayload) => payload
+    (payload: { key: string; value: string }) => payload
   ),
   localRegister: createAction(
     AuthActionType.LOCAL_REGISTER_REQUEST,
-    (payload: AuthType.LocalRegisterPayload) => payload
+    (payload: { email: string; username: string; password: string }) => payload
   ),
   localLogin: createAction(
     AuthActionType.LOCAL_LOGIN_REQUEST,
-    (payload: AuthType.LocalLoginPayload) => payload
+    (payload: { email: string; password: string }) => payload
   ),
   socialRegister: createAction(
     AuthActionType.SOCIAL_REGISTER_REQUEST,
-    (payload: AuthType.SocialRegisterPayload) => payload
+    (payload: {
+      accessToken: string;
+      provider: string;
+      username: string;
+      history: History;
+    }) => payload
   ),
 };
+
+type ChangeInputAction = ReturnType<typeof authCreators.changeInput>;
+type SetErrorAction = ReturnType<typeof authCreators.setError>;
+type SetNextUrlAction = ReturnType<typeof authCreators.setNextUrl>;
+type AutoCompleteRegisterFormAction = ReturnType<
+  typeof authCreators.autoCompleteRegisterForm
+>;
 
 export interface LoginFormState {
   email: string;
@@ -203,7 +216,7 @@ export default handleActions<AuthState, any>(
     },
     [AuthActionType.AUTOCOMPLETE_REGISTER_FORM]: (
       state,
-      action: AuthType.AutoCompleteRegisterFormAction
+      action: AutoCompleteRegisterFormAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -212,25 +225,19 @@ export default handleActions<AuthState, any>(
         draft.isSocial = true;
       });
     },
-    [AuthActionType.CHANGE_INPUT]: (
-      state,
-      action: AuthType.ChangeInputAction
-    ) => {
+    [AuthActionType.CHANGE_INPUT]: (state, action: ChangeInputAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft[action.payload.form][action.payload.name] = action.payload.value;
       });
     },
-    [AuthActionType.SET_NEXT_URL]: (
-      state,
-      action: AuthType.SetNextUrlAction
-    ) => {
+    [AuthActionType.SET_NEXT_URL]: (state, action: SetNextUrlAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.nextUrl = action.payload;
       });
     },
-    [AuthActionType.SET_ERROR]: (state, action: AuthType.SetErrorAction) => {
+    [AuthActionType.SET_ERROR]: (state, action: SetErrorAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft[action.payload.form][action.payload.name] =

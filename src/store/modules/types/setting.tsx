@@ -1,15 +1,6 @@
 import { GenericResponseAction } from 'src/lib/common';
 import { ProfileState } from '../setting';
 
-export type UpdateProfileLinksPayload = {
-  github: string;
-  twitter: string;
-  facebook: string;
-};
-export type UpdateEmailPermissionsPayload = {
-  email_promotion: boolean;
-};
-
 export type GetProfileInfoAction = GenericResponseAction<
   {
     profile: ProfileState;

@@ -1,5 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import produce from 'immer';
+import { History } from 'history';
 import * as WriteType from './types/write';
 
 export enum WriteActionType {
@@ -56,29 +57,49 @@ export const writeCreators = {
   ),
   changeInput: createAction(
     WriteActionType.CHANGE_INPUT,
-    (payload: WriteType.ChangeInputPayload) => payload
+    (payload: { name: string; value: string }) => payload
   ),
   createUploadUrlPostThumbnail: createAction(
     WriteActionType.CREATE_UPLOAD_URL_POST_THUMBNAIL_REQUEST,
-    (payload: WriteType.CreateUploadUrlPostPayload) => payload
+    (payload: { file: File }) => payload
   ),
   createUploadUrlPostImage: createAction(
     WriteActionType.CREATE_UPLOAD_URL_POST_IMAGE_REQUEST,
-    (payload: WriteType.CreateUploadUrlPostPayload) => payload
+    (payload: { file: File }) => payload
   ),
   writeSubmit: createAction(
     WriteActionType.WRITE_SUBMIT_REQUEST,
-    (payload: WriteType.WriteSubmitPayload) => payload
+    (payload: {
+      title: string;
+      body: string;
+      post_thumbnail: string | null;
+      tags: string[];
+      history: History;
+    }) => payload
   ),
   editSubmit: createAction(
     WriteActionType.EDIT_SUBMIT_REQUEST,
-    (payload: WriteType.EditSubmitPayload) => payload
+    (payload: {
+      postId: string;
+      title: string;
+      body: string;
+      post_thumbnail: string | null;
+      tags: string[];
+      history: History;
+    }) => payload
   ),
   getPost: createAction(
     WriteActionType.GET_POST_REQUEST,
-    (payload: WriteType.GetPostPayload) => payload
+    (payload: { postId: string }) => payload
   ),
 };
+
+type ChangeInputAction = ReturnType<typeof writeCreators.changeInput>;
+type InsertTagAction = ReturnType<typeof writeCreators.insertTag>;
+type RemoveTagAction = ReturnType<typeof writeCreators.removeTag>;
+type ShowWriteSubmitAction = ReturnType<typeof writeCreators.showWriteSubmit>;
+type HideWriteSubmitAction = ReturnType<typeof writeCreators.hideWriteSubmit>;
+type SetUploadMaskAction = ReturnType<typeof writeCreators.setUploadMask>;
 
 export interface SubmitBoxState {
   open: boolean;
@@ -137,10 +158,7 @@ export default handleActions<WriteState, any>(
     [WriteActionType.INITIAL]: () => {
       return initialState;
     },
-    [WriteActionType.SET_UPLOAD_MASK]: (
-      state,
-      action: WriteType.SetUploadMaskAction
-    ) => {
+    [WriteActionType.SET_UPLOAD_MASK]: (state, action: SetUploadMaskAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.setting.mask = action.payload;
@@ -160,28 +178,19 @@ export default handleActions<WriteState, any>(
         draft.setting.insertText = action.payload.text;
       });
     },
-    [WriteActionType.CHANGE_INPUT]: (
-      state,
-      action: WriteType.ChangeInputAction
-    ) => {
+    [WriteActionType.CHANGE_INPUT]: (state, action: ChangeInputAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.editor[action.payload.name] = action.payload.value;
       });
     },
-    [WriteActionType.INSERT_TAG]: (
-      state,
-      action: WriteType.InsertTagAction
-    ) => {
+    [WriteActionType.INSERT_TAG]: (state, action: InsertTagAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.submitBox.tags.push(action.payload);
       });
     },
-    [WriteActionType.REMOVE_TAG]: (
-      state,
-      action: WriteType.RemoveTagAction
-    ) => {
+    [WriteActionType.REMOVE_TAG]: (state, action: RemoveTagAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.submitBox.tags = draft.submitBox.tags.filter(
@@ -200,7 +209,7 @@ export default handleActions<WriteState, any>(
     },
     [WriteActionType.SHOW_WRITE_SUBMIT]: (
       state,
-      action: WriteType.ShowWriteSubmitAction
+      action: ShowWriteSubmitAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -209,7 +218,7 @@ export default handleActions<WriteState, any>(
     },
     [WriteActionType.HIDE_WRITE_SUBMIT]: (
       state,
-      action: WriteType.HideWriteSubmitAction
+      action: HideWriteSubmitAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;

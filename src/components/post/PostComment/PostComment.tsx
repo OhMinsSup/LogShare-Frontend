@@ -213,8 +213,8 @@ class PostComment extends React.Component<Props, State> {
                     commentId={reply._id}
                     replyId={reply.reply}
                     subComments={subComments}
-                    username={reply.user.profile.username}
-                    thumbnail={reply.user.profile.thumbnail}
+                    username={reply.user.username}
+                    thumbnail={reply.user.thumbnail}
                     date={reply.createdAt}
                     postId={postId}
                     onReply={this.onReply}

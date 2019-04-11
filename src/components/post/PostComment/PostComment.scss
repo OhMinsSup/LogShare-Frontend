@@ -41,7 +41,19 @@
       button {
         border: none;
         user-select: none;
+        background: white;
         cursor: pointer;
+        text-decoration: none;
+        &.edit {
+          &:hover {
+            color: $oc-blue-7;
+          }
+        }
+        &.remove {
+          &:hover {
+            color: $oc-red-7;
+          }
+        }
         &:hover {
           color: $oc-gray-8;
           text-decoration: underline;

@@ -101,12 +101,8 @@ class PostViewer extends React.Component<Props> {
       match: { url },
       askModal,
     } = this.props;
-    console.log(url);
-
     const { onToggleLike, onAskRemove, onConfirm } = this;
-
     if (!post) return <FakePost />;
-
     return (
       <React.Fragment>
         <PostLeftSticker

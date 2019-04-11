@@ -27,30 +27,48 @@ export enum UserActionType {
 export const userCreators = {
   changeInput: createAction(
     UserActionType.CHANGE_INPUT,
-    (payload: UserType.ChangeInputPayload) => payload
+    (payload: { name: string; value: string }) => payload
   ),
   process: createAction(
     UserActionType.PROCESS,
-    (payload: UserType.ProcessPayload | null) => payload
+    (
+      payload: {
+        authResult: {
+          _id: string;
+          username: string;
+          thumbnail: string;
+          shortBio: string;
+          email: string;
+        };
+      } | null
+    ) => payload
   ),
   getUserProfile: createAction(
     UserActionType.GET_USER_PROFILE_INFO_REQUEST,
-    (payload: UserType.GetUserProfileInfoPayload) => payload
+    (payload: { username: string }) => payload
   ),
   createUploadUrlCommonUserThumbnail: createAction(
     UserActionType.CREATE_UPLOAD_URL_COMMON_USER_THUMBNAIL_REQUEST,
-    (payload: UserType.CreateUploadUserFilePayload) => payload
+    (payload: { file: File }) => payload
   ),
   createUploadUrlCoverBackGround: createAction(
     UserActionType.CREATE_UPLOAD_URL_COVER_BACKGROUND_REQUEST,
-    (payload: UserType.CreateUploadUserFilePayload) => payload
+    (payload: { file: File }) => payload
   ),
   editProfile: createAction(
     UserActionType.EDIT_PROFILE_SUBMIT_REQUEST,
-    (payload: UserType.EditProfilePayload) => payload
+    (payload: {
+      username: string;
+      shortBio: string;
+      thumbnail: string;
+      cover: string;
+    }) => payload
   ),
   logout: createAction(UserActionType.LOGOUT),
 };
+
+type ChangeInputAction = ReturnType<typeof userCreators.changeInput>;
+type ProcessAction = ReturnType<typeof userCreators.process>;
 
 export interface UserSubState {
   _id: string;
@@ -127,7 +145,7 @@ export default handleActions<UserState, any>(
         draft.user = action.payload.authResult;
       });
     },
-    [UserActionType.PROCESS]: (state, action: UserType.ProcessAction) => {
+    [UserActionType.PROCESS]: (state, action: ProcessAction) => {
       return produce(state, draft => {
         if (!action.payload || action.payload === null) {
           draft.user = null;
@@ -157,10 +175,7 @@ export default handleActions<UserState, any>(
         };
       });
     },
-    [UserActionType.CHANGE_INPUT]: (
-      state,
-      action: UserType.ChangeInputAction
-    ) => {
+    [UserActionType.CHANGE_INPUT]: (state, action: ChangeInputAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.edit_profile[action.payload.name] = action.payload.value;

@@ -30,6 +30,15 @@ export const baseCreators = {
   ),
 };
 
+export type SetWidthAction = ReturnType<typeof baseCreators.setWidth>;
+export type SetCommonMenuAction = ReturnType<typeof baseCreators.setCommonMenu>;
+export type SetProfileUpdateModalAction = ReturnType<
+  typeof baseCreators.setProfileUpdateModal
+>;
+export type SetCategoryMenuAction = ReturnType<
+  typeof baseCreators.setCategoryMenu
+>;
+
 export interface BaseState {
   user_menu: {
     visible: boolean;
@@ -90,16 +99,13 @@ export default handleActions<BaseState, any>(
         draft.user_menu.visible = false;
       });
     },
-    [BaseActionType.SET_WIDTH]: (state, action: BaseType.SetWidthAction) => {
+    [BaseActionType.SET_WIDTH]: (state, action: SetWidthAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.window.width = action.payload;
       });
     },
-    [BaseActionType.SET_COMMON_MENU]: (
-      state,
-      action: BaseType.SetCommonMenuAction
-    ) => {
+    [BaseActionType.SET_COMMON_MENU]: (state, action: SetCommonMenuAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         draft.common_menu.visible = action.payload;
@@ -107,7 +113,7 @@ export default handleActions<BaseState, any>(
     },
     [BaseActionType.SET_PROFILE_UPDATE_MODAL]: (
       state,
-      action: BaseType.SetProfileUpdateModalAction
+      action: SetProfileUpdateModalAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
@@ -116,7 +122,7 @@ export default handleActions<BaseState, any>(
     },
     [BaseActionType.SET_CATEGORY_MENU]: (
       state,
-      action: BaseType.SetCategoryMenuAction
+      action: SetCategoryMenuAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;

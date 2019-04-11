@@ -20,11 +20,11 @@ export const settingCreators = {
   getProfileInfo: createAction(SettingActionType.GET_PROFILE_INFO_REQUEST),
   updateProfileLinks: createAction(
     SettingActionType.UPDATE_PROFILE_LINKES_REQUEST,
-    (payload: SettingType.UpdateProfileLinksPayload) => payload
+    (payload: { github: string; twitter: string; facebook: string }) => payload
   ),
   updateEmailPermissions: createAction(
     SettingActionType.UPDATE_EMAIL_PERMISSIONS_REQUEST,
-    (payload: SettingType.UpdateEmailPermissionsPayload) => payload
+    (payload: { email_promotion: boolean }) => payload
   ),
   unregister: createAction(SettingActionType.UNREGISTER_REQUEST),
 };

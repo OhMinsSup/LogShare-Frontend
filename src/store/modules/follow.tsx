@@ -1,6 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
-import * as FollowType from './types/follow';
 import produce from 'immer';
+import { GenericResponseAction } from 'src/lib/common';
 
 export enum FollowActionType {
   FOLLOW_REQUEST = 'follow/FOLLOW_REQUEST',
@@ -20,17 +20,24 @@ export enum FollowActionType {
 export const followCreators = {
   follow: createAction(
     FollowActionType.FOLLOW_REQUEST,
-    (payload: FollowType.FollowPayload) => payload
+    (payload: { username: string }) => payload
   ),
   unfollow: createAction(
     FollowActionType.UNFOLLOW_REQUEST,
-    (payload: FollowType.FollowPayload) => payload
+    (payload: { username: string }) => payload
   ),
   checkExistsUserFollow: createAction(
     FollowActionType.CHECK_EXISTS_USER_FOLLOW_REQUEST,
-    (payload: FollowType.FollowPayload) => payload
+    (payload: { username: string }) => payload
   ),
 };
+
+type FollowAction = GenericResponseAction<
+  {
+    follow: boolean;
+  },
+  string
+>;
 
 export interface FollowState {
   follow: boolean;
@@ -62,10 +69,7 @@ export default handleActions<FollowState, any>(
         draft.follow = true;
       });
     },
-    [FollowActionType.FOLLOW_SUCCESS]: (
-      state,
-      action: FollowType.FollowAction
-    ) => {
+    [FollowActionType.FOLLOW_SUCCESS]: (state, action: FollowAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         const {
@@ -75,10 +79,7 @@ export default handleActions<FollowState, any>(
         draft.follow = follow;
       });
     },
-    [FollowActionType.UNFOLLOW_SUCCESS]: (
-      state,
-      action: FollowType.FollowAction
-    ) => {
+    [FollowActionType.UNFOLLOW_SUCCESS]: (state, action: FollowAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         const {
@@ -90,7 +91,7 @@ export default handleActions<FollowState, any>(
     },
     [FollowActionType.CHECK_EXISTS_USER_FOLLOW_SUCCESS]: (
       state,
-      action: FollowType.FollowAction
+      action: FollowAction
     ) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;

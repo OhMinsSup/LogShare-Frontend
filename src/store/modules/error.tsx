@@ -1,10 +1,15 @@
 import { handleActions } from 'redux-actions';
 import produce from 'immer';
-import * as ErrorType from './types/error';
+import { GenericResponseAction } from 'src/lib/common';
 
 export enum ErrorActionType {
   ERROR = 'error/ERROR',
 }
+
+type ErrorAction = GenericResponseAction<
+  { error: boolean; status: number | null },
+  string
+>;
 
 export interface ErrorState {
   code: number | null;
@@ -18,7 +23,7 @@ const initialState: ErrorState = {
 
 export default handleActions<ErrorState, any>(
   {
-    [ErrorActionType.ERROR]: (state, action: ErrorType.ErrorAction) => {
+    [ErrorActionType.ERROR]: (state, action: ErrorAction) => {
       return produce(state, draft => {
         if (action.payload === undefined) return;
         const {

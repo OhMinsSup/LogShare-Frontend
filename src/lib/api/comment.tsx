@@ -20,7 +20,7 @@ type GetReplyPayload = {
 };
 
 export const writeComment = ({ postId, text, reply }: WriteCommentPayload) =>
-  axios.post(`/post/${postId}/comment`, { text, reply });
+  axios.post(`/post/${postId}/comment/`, { text, reply });
 
 export const updateComment = ({
   postId,
@@ -33,7 +33,7 @@ export const deleteComment = ({ postId, commentId }: DeleteCommentPayload) =>
   axios.delete(`/post/${postId}/comment/${commentId}`);
 
 export const getComment = (postId: string) =>
-  axios.get(`/post/${postId}/comment`);
+  axios.get(`/post/${postId}/comment/`);
 
 export const getReply = ({ postId, commentId }: GetReplyPayload) =>
   axios.get(`/post/${postId}/comment/${commentId}/reply`);

@@ -59,8 +59,8 @@ const PostComments: React.StatelessComponent<{
                 onEditComment={onEditComment}
                 onReply={onReply}
                 onReadReplices={onReadReplices}
-                username={comment.user.profile.username}
-                thumbnail={comment.user.profile.thumbnail}
+                username={comment.user.username}
+                thumbnail={comment.user.thumbnail}
               />
             );
           })}
