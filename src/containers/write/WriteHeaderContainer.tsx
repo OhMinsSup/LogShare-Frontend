@@ -23,6 +23,7 @@ class WriteHeaderContainer extends React.Component<Props> {
       url,
       NoticeActions,
       username,
+      logged
     } = this.props;
     const query = queryString.parse(this.props.location.search);
 
@@ -33,7 +34,7 @@ class WriteHeaderContainer extends React.Component<Props> {
         post_thumbnail: url === '' ? null : url,
         body: editor.body,
         history,
-        tags,
+        tags
       });
       return;
     }
@@ -43,12 +44,14 @@ class WriteHeaderContainer extends React.Component<Props> {
       post_thumbnail: url === '' ? null : url,
       body: editor.body,
       history,
-      tags,
+      tags
     });
 
-    NoticeActions.sendMessage({
-      message: `${username}님이 새로운 포스트를 작성하였습니다`,
-    });
+    if (logged) {
+      NoticeActions.sendMessage({
+        message: `${username}님이 새로운 포스트를 작성하였습니다`
+      });
+    }
   };
 
   public getPost = (editId: string) => {
@@ -117,12 +120,13 @@ const mapStateToProps = ({ write, user }: StoreState) => ({
   tags: write.submitBox.tags,
   url: write.upload.url,
   postId: write.postId,
-  username: user.user && user.user.username,
+  logged: !!user.user,
+  username: user.user && user.user.username
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   WriteActions: bindActionCreators(writeCreators, dispatch),
-  NoticeActions: bindActionCreators(noticeCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

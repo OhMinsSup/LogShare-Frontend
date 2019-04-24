@@ -67,11 +67,11 @@ const mapStateToProps = ({ list }: StoreState) => ({
   messages: list.notices.notices.message,
   prefetched: list.notices.notices.prefetched,
   next: list.notices.notices.next,
-  loading: list.notices.notices.loading,
+  loading: list.notices.notices.loading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ListActions: bindActionCreators(noticesCreators, dispatch),
+  ListActions: bindActionCreators(noticesCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps>(

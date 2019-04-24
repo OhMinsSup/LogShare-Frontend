@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/koa": "^2.0.48",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
     "babel-jest": "20.0.3",
@@ -23,12 +24,14 @@
     "immer": "^1.7.4",
     "include-media": "^1.4.9",
     "jest": "20.0.4",
+    "koa": "^2.7.0",
     "lodash": "^4.17.11",
     "marked": "^0.5.1",
     "moment": "^2.22.2",
     "node-sass": "^4.9.4",
     "object-assign": "4.1.1",
     "open-color": "^1.6.3",
+    "pnp-webpack-plugin": "^1.4.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "prismjs": "^1.15.0",
@@ -73,7 +76,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "build:ssr": "node scripts/build.server.js",
+    "build:ssr": "node scripts/build.ssr.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "devDependencies": {

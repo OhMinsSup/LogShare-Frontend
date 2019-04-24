@@ -32,21 +32,13 @@ class PostCommentsContainer extends React.Component<Props> {
     PostActions.deleteComment({ postId, commentId: removeComment.commentId });
   };
 
-  public onReadReplices = (
-    commentId: string,
-    postId: string,
-    parentId: string | null
-  ) => {
+  public onReadReplices = (commentId: string, postId: string, parentId: string | null) => {
     const { PostActions } = this.props;
 
     PostActions.readSubcomments({ commentId, postId, parentId });
   };
 
-  public onEditComment = (
-    commentId: string,
-    reply: string | null,
-    text: string
-  ) => {
+  public onEditComment = (commentId: string, reply: string | null, text: string) => {
     const { postId, PostActions } = this.props;
     if (!postId) return;
     PostActions.editComment({ postId, commentId, text });
@@ -59,21 +51,24 @@ class PostCommentsContainer extends React.Component<Props> {
       NoticeActions,
       postUsername,
       currentUsername,
+      logged
     } = this.props;
     if (!postId) return;
 
     PostActions.writeComment({ text, reply, postId });
-    NoticeActions.sendMessage({
-      message: `${postUsername}님이 작성하신 포스트에 ${currentUsername}님이 댓글을 작성 하였습니다.`,
-    });
+    if (logged) {
+      NoticeActions.sendMessage({
+        message: `${postUsername}님이 작성하신 포스트에 ${currentUsername}님이 댓글을 작성 하였습니다.`
+      });
+    }
   };
 
   public initialize = () => {
     const {
       match: {
-        params: { id },
+        params: { id }
       },
-      PostActions,
+      PostActions
     } = this.props;
 
     PostActions.readComments({ postId: id });
@@ -97,19 +92,14 @@ class PostCommentsContainer extends React.Component<Props> {
       subComments,
       postId,
       commentCount,
-      comments,
+      comments
     } = this.props;
 
     return (
       <React.Fragment>
         <PostComments
           commentInput={
-            logged && (
-              <PostCommentInput
-                reply={null}
-                onWriteComment={this.onWriteComment}
-              />
-            )
+            logged && <PostCommentInput reply={null} onWriteComment={this.onWriteComment} />
           }
           subComments={subComments}
           postId={postId as string}
@@ -145,12 +135,12 @@ const mapStateToProps = ({ user, post }: StoreState) => ({
   removeComment: post.removeComment,
   subComments: post.subComment,
   comments: post.comments,
-  commentCount: post.postData && post.postData.info.comments,
+  commentCount: post.postData && post.postData.info.comments
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   PostActions: bindActionCreators(postCreators, dispatch),
-  NoticeActions: bindActionCreators(noticeCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

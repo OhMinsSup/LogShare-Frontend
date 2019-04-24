@@ -20,23 +20,27 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class PostViewer extends React.Component<Props> {
   public onToggleLike = () => {
-    const { post, PostActions, NoticeActions, currentUsername } = this.props;
+    const { post, PostActions, NoticeActions, currentUsername, logged } = this.props;
     if (!post) return;
 
     if (post.liked) {
       PostActions.unlike({ postId: post.postId });
-      NoticeActions.sendMessage({
-        message: `${
-          post.user.username
-        }님이 작성하신 포스트에 ${currentUsername}님이 unlike를 하였습니다.`,
-      });
+      if (logged) {
+        NoticeActions.sendMessage({
+          message: `${
+            post.user.username
+          }님이 작성하신 포스트에 ${currentUsername}님이 unlike를 하였습니다.`
+        });
+      }
     } else {
       PostActions.like({ postId: post.postId });
-      NoticeActions.sendMessage({
-        message: `${
-          post.user.username
-        }님이 작성하신 포스트에 ${currentUsername}님이 like를 하였습니다.`,
-      });
+      if (logged) {
+        NoticeActions.sendMessage({
+          message: `${
+            post.user.username
+          }님이 작성하신 포스트에 ${currentUsername}님이 like를 하였습니다.`
+        });
+      }
     }
   };
 
@@ -59,9 +63,9 @@ class PostViewer extends React.Component<Props> {
 
     const {
       match: {
-        params: { id },
+        params: { id }
       },
-      PostActions,
+      PostActions
     } = this.props;
 
     if (!id) return;
@@ -72,9 +76,9 @@ class PostViewer extends React.Component<Props> {
   public onConfirm = () => {
     const {
       match: {
-        params: { id },
+        params: { id }
       },
-      PostActions,
+      PostActions
     } = this.props;
     PostActions.setModal(false);
     PostActions.deletePost({ postId: id });
@@ -99,7 +103,7 @@ class PostViewer extends React.Component<Props> {
       logged,
       currentUsername,
       match: { url },
-      askModal,
+      askModal
     } = this.props;
     const { onToggleLike, onAskRemove, onConfirm } = this;
     if (!post) return <FakePost />;
@@ -146,12 +150,12 @@ const mapStateToProps = ({ post, user }: StoreState) => ({
   post: post.postData,
   askModal: post.askModal,
   logged: !!user.user,
-  currentUsername: user.user && user.user.username,
+  currentUsername: user.user && user.user.username
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   PostActions: bindActionCreators(postCreators, dispatch),
-  NoticeActions: bindActionCreators(noticeCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

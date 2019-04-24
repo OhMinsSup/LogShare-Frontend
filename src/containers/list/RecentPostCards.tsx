@@ -8,9 +8,10 @@ import { StoreState } from 'src/store/modules';
 import { getScrollBottom } from 'src/lib/common';
 import FakePostCards from 'src/components/common/FakePostCards';
 
+type OwnProps = {};
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps & OwnProps;
 
 class RecentPostCards extends React.Component<Props> {
   public prev: string | null = null;
@@ -77,7 +78,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ListActions: bindActionCreators(postsCreators, dispatch),
 });
 
-export default connect<StateProps, DispatchProps>(
+export default connect<StateProps, DispatchProps, OwnProps, StoreState>(
   mapStateToProps,
   mapDispatchToProps
 )(RecentPostCards);
