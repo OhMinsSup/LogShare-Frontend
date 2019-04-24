@@ -13,15 +13,12 @@ type Props = StateProps & DispatchProps & OwnProps;
 class CommonMenuContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-
     const { BaseActions } = this.props;
-
     BaseActions.setCommonMenu(false);
   }
 
   public onClick = () => {
     const { BaseActions } = this.props;
-
     BaseActions.setCommonMenu(false);
   };
 
@@ -29,24 +26,18 @@ class CommonMenuContainer extends React.Component<Props> {
     const { menu, nextUrl, resize } = this.props;
     if (!menu) return null;
 
-    return (
-      <CommonMenu
-        visible={nextUrl ? 'visible' : ''}
-        resize={resize}
-        onClick={this.onClick}
-      />
-    );
+    return <CommonMenu visible={nextUrl ? 'visible' : ''} resize={resize} onClick={this.onClick} />;
   }
 }
 
 const mapStateToProps = ({ base, auth }: StoreState) => ({
   width: base.window.width,
   menu: base.common_menu.visible,
-  nextUrl: auth.nextUrl,
+  nextUrl: auth.nextUrl
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  BaseActions: bindActionCreators(baseCreators, dispatch),
+  BaseActions: bindActionCreators(baseCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

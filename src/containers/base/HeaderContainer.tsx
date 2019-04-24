@@ -25,7 +25,6 @@ class HeaderContainer extends React.Component<Props> {
 
   public onNotice = () => {
     const { NoticeActions, visible } = this.props;
-
     if (visible) {
       NoticeActions.setNoticeRoom(false);
     } else {
@@ -60,9 +59,7 @@ class HeaderContainer extends React.Component<Props> {
         count={count.length}
         menu={<UserMenuContainer />}
         commonMenu={
-          <CommonMenuContainer
-            resize={match.path === '/video/viewer/:id' ? true : false}
-          />
+          <CommonMenuContainer resize={match.path === '/video/viewer/:id' ? true : false} />
         }
         notice={<NoticeModalContainer />}
         onMenu={onMenu}
@@ -79,12 +76,12 @@ const mapStateToProps = ({ user, base, notice }: StoreState) => ({
   user: user.user && user.user,
   commonMenu: base.common_menu.visible,
   visible: notice.notice_modal.visible,
-  count: notice.noticeMessage,
+  count: notice.noticeMessage
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   BaseActions: bindActionCreators(baseCreators, dispatch),
-  NoticeActions: bindActionCreators(noticeCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

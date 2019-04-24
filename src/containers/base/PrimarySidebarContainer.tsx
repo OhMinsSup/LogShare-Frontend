@@ -31,9 +31,11 @@ class PrimarySidebarContainer extends React.Component<Props> {
   };
 
   public initialize = () => {
-    const { FeedsActions } = this.props;
-    FeedsActions.getFeedsPost();
-    FeedsActions.getFeedsUser();
+    const { FeedsActions, logged } = this.props;
+    if (logged) {
+      FeedsActions.getFeedsPost();
+      FeedsActions.getFeedsUser();
+    }
   };
 
   public componentDidMount() {
@@ -46,11 +48,7 @@ class PrimarySidebarContainer extends React.Component<Props> {
       <React.Fragment>
         <FeedUsers user={users} />
         <FeedPosts post={posts} />
-        <HomeInfo
-          onRss={this.onRss}
-          onFacebook={this.onFacebook}
-          onGithub={this.onGithub}
-        />
+        <HomeInfo onRss={this.onRss} onFacebook={this.onFacebook} onGithub={this.onGithub} />
       </React.Fragment>
     );
   }
@@ -59,11 +57,11 @@ class PrimarySidebarContainer extends React.Component<Props> {
 const mapStateToProps = ({ user, list }: StoreState) => ({
   users: list.feeds.users,
   posts: list.feeds.posts,
-  logged: !!user.user,
+  logged: !!user.user
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  FeedsActions: bindActionCreators(feedsCreators, dispatch),
+  FeedsActions: bindActionCreators(feedsCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps>(

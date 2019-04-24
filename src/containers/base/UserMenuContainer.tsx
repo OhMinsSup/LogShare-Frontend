@@ -13,8 +13,6 @@ type Props = StateProps & DispatchProps;
 class UserMenuContainer extends React.Component<Props> {
   public onLogout = () => {
     const { UserActions } = this.props;
-    console.log('dsd');
-
     UserActions.logout();
   };
 
@@ -29,12 +27,12 @@ class UserMenuContainer extends React.Component<Props> {
 
 const mapStateToProps = ({ base, user }: StoreState) => ({
   username: user.user && user.user.username,
-  userMenu: base.user_menu.visible,
+  userMenu: base.user_menu.visible
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   UserActions: bindActionCreators(userCreators, dispatch),
-  BaseActions: bindActionCreators(baseCreators, dispatch),
+  BaseActions: bindActionCreators(baseCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps>(

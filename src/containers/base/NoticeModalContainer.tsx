@@ -21,8 +21,8 @@ class NoticeModalContainer extends React.Component<Props> {
   };
 
   public initialize = () => {
-    const { NoticeActions } = this.props;
-    NoticeActions.alreadyMessageList();
+    const { NoticeActions, logged } = this.props;
+    if (logged) NoticeActions.alreadyMessageList();
   };
 
   public componentDidMount() {
@@ -39,13 +39,7 @@ class NoticeModalContainer extends React.Component<Props> {
     const { visible, noticeMessage, username } = this.props;
     if (!visible) return null;
 
-    return (
-      <NoticeModal
-        username={username}
-        notices={noticeMessage}
-        onNotice={this.onNotice}
-      />
-    );
+    return <NoticeModal username={username} notices={noticeMessage} onNotice={this.onNotice} />;
   }
 }
 
@@ -53,11 +47,11 @@ const mapStateToProps = ({ notice, user }: StoreState) => ({
   username: user.user && user.user.username,
   logged: !!user.user,
   visible: notice.notice_modal.visible,
-  noticeMessage: notice.noticeMessage,
+  noticeMessage: notice.noticeMessage
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  NoticeActions: bindActionCreators(noticeCreators, dispatch),
+  NoticeActions: bindActionCreators(noticeCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps>(

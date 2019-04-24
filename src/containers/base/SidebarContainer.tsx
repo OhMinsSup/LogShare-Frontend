@@ -18,20 +18,19 @@ type Props = StateProps & DispatchProps & OwnProps;
 class SidebarContainer extends React.Component<Props> {
   public render() {
     const {
-      match: { url },
+      match: { url }
     } = this.props;
-
     return <Sidebar url={url} />;
   }
 }
 
 const mapStateToProps = ({ base, user }: StoreState) => ({
   username: user.user && user.user.username,
-  width: base.window.width,
+  width: base.window.width
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  BaseActions: bindActionCreators(baseCreators, dispatch),
+  BaseActions: bindActionCreators(baseCreators, dispatch)
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
