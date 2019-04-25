@@ -38,6 +38,12 @@ class PrimarySidebarContainer extends React.Component<Props> {
     }
   };
 
+  public componentDidUpdate(preProps: Props) {
+    if (preProps.logged !== this.props.logged) {
+      this.initialize();
+    }
+  }
+
   public componentDidMount() {
     this.initialize();
   }
